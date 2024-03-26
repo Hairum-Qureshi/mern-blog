@@ -1,0 +1,42 @@
+body {
+	background: rgb(5, 5, 27);
+	background: linear-gradient(
+		90deg,
+		rgba(5, 5, 27, 1) 0%,
+		rgba(10, 27, 92, 1) 100%
+	);
+
+	/* background: rgb(3, 3, 41);
+	background: linear-gradient(
+		90deg,
+		rgba(3, 3, 41, 1) 0%,
+		rgba(40, 51, 94, 1) 100%
+	); */
+
+	/* background: rgb(3, 3, 41);
+	background: linear-gradient(
+		90deg,
+		rgba(3, 3, 41, 1) 0%,
+		rgba(9, 28, 108, 1) 100%
+	); */
+
+	/* background: rgb(3, 3, 41);
+	background: linear-gradient(
+		90deg,
+		rgba(3, 3, 41, 1) 0%,
+		rgba(6, 29, 122, 1) 100%
+	); */
+
+	/* background: rgb(1, 1, 101);
+	background: linear-gradient(
+		90deg,
+		rgba(1, 1, 101, 1) 0%,
+		rgba(24, 26, 34, 1) 100%
+	); */
+	color: white;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+	text-align: center;
+}
