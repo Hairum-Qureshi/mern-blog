@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Old+South+Arabian&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap");
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.navbar {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+	display: table;
+	background-color: rgb(0, 26, 61);
+	font-family: "Noto Sans Old South Arabian", sans-serif;
+}
+
+.navbar h2 {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.navbar ul {
+	float: right;
+	display: inline-flex;
+	list-style-type: none;
+}
+
+.navbar ul li a {
+	color: rgb(60, 193, 255);
+	text-decoration: none;
+	font-family: "Cabin", sans-serif;
+	font-size: 16px;
+}
+
+.navbar ul li a:hover {
+	color: rgb(0, 217, 255);
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.navbar ul li a:active {
+	color: rgb(0, 149, 255);
+}
+
+.navbar ul li {
+	margin: 10px;
+}
