@@ -27,7 +27,7 @@
 }
 
 .navbar ul li a {
-	color: rgb(60, 193, 255);
+	color: rgb(1, 108, 157);
 	text-decoration: none;
 	font-family: "Cabin", sans-serif;
 	font-size: 16px;
@@ -36,7 +36,7 @@
 .navbar ul li a:hover {
 	color: rgb(0, 217, 255);
 	cursor: pointer;
-	font-weight: bold;
+	transition: 0.5s;
 }
 
 .navbar ul li a:active {

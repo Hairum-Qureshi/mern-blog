@@ -1,21 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
 import auth_page_css from "../css/authpage.module.css";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
+import useAuth from "../hooks/useAuth";
 
 export default function UserAuthentication() {
 	const url_params = ["/sign-in", "/sign-up", "/forgot-password"];
 	const current_path = useLocation().pathname;
+	const { loginWithGoogle, userData } = useAuth();
 
-	const login = useGoogleLogin({
-		onSuccess: credentialResponse => {
-			console.log(credentialResponse);
-		},
-		onError: () => {
-			console.log("Login Failed");
-		}
-	});
+	console.log(userData);
 
 	return current_path == url_params[0] ? (
 		<>
@@ -25,7 +19,7 @@ export default function UserAuthentication() {
 					<div className={auth_page_css.form}>
 						<h2>LOGIN</h2> <br />
 						<div className={auth_page_css.googleContainer}>
-							<button onClick={() => login()}>
+							<button onClick={() => loginWithGoogle()}>
 								<span>
 									<FontAwesomeIcon icon={faGoogle} />
 								</span>
@@ -57,7 +51,7 @@ export default function UserAuthentication() {
 				<div className={auth_page_css.form}>
 					<h2>CREATE AN ACCOUNT</h2> <br />
 					<div className={auth_page_css.googleContainer}>
-						<button onClick={() => login()}>
+						<button onClick={() => loginWithGoogle()}>
 							<span>
 								<FontAwesomeIcon icon={faGoogle} />
 							</span>
