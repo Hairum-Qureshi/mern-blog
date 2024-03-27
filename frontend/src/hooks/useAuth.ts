@@ -38,13 +38,21 @@ export default function useAuth(): AuthTypes {
 							console.log(response.data);
 						})
 						.catch(error => {
-							setErrorHandler({
-								noEmail: false,
-								noPassword: false,
-								message:
-									`Server Error: ${error.response.statusText}` ||
-									"Error logging in with Google"
-							});
+							if (
+								error.response.data === "A user already exists with this email"
+							) {
+								setErrorHandler({
+									noEmail: true,
+									noPassword: false,
+									message: error.response.data || "Error logging in with Google"
+								});
+							} else {
+								setErrorHandler({
+									noEmail: false,
+									noPassword: false,
+									message: error.response.data || "Error logging in with Google"
+								});
+							}
 						});
 				})
 				.catch(error => {
@@ -107,7 +115,7 @@ export default function useAuth(): AuthTypes {
 					setErrorHandler({
 						noEmail: false,
 						noPassword: false,
-						message: `Server Error: ${error.response.statusText}`
+						message: error.response.data
 					});
 				});
 		}
@@ -137,9 +145,9 @@ export default function useAuth(): AuthTypes {
 			});
 		} else {
 			setErrorHandler({
-				noFirstName: !firstName,
-				noLastName: !lastName,
-				noEmail: !email,
+				noFirstName: !firstName.trim(),
+				noLastName: !lastName.trim(),
+				noEmail: !email.trim(),
 				noPassword: !password,
 				message: "Please be sure to fill out all required fields"
 			});
@@ -148,28 +156,28 @@ export default function useAuth(): AuthTypes {
 		if (firstName.trim() && lastName.trim() && email.trim() && password) {
 			axios
 				.post("http://localhost:4000/api/user/create-user", {
-					firstName: firstName.trim(),
-					lastName: lastName.trim(),
+					first_name: firstName.trim(),
+					last_name: lastName.trim(),
 					email: email.toLowerCase().trim(),
 					password
 				})
 				.then(response => {
 					console.log(response.data);
-					setErrorHandler({
-						noFirstName: false,
-						noLastName: false,
-						noEmail: false,
-						noPassword: false,
-						message: ""
-					});
 				})
 				.catch(error => {
 					setErrorHandler({
 						noEmail: false,
 						noPassword: false,
-						message: `Server Error: ${error.response.statusText}`
+						message: `${error.response.data}`
 					});
 				});
+			setErrorHandler({
+				noFirstName: false,
+				noLastName: false,
+				noEmail: false,
+				noPassword: false,
+				message: ""
+			});
 		}
 	}
 
@@ -203,7 +211,7 @@ export default function useAuth(): AuthTypes {
 					setErrorHandler({
 						noEmail: false,
 						noPassword: false,
-						message: `Server Error: ${error.response.statusText}`
+						message: `Server Error: ${error.response.data}`
 					});
 				});
 		}

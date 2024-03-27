@@ -16,6 +16,9 @@ const userSchema = new Schema({
 	full_name: {
 		type: String
 	},
+	password: {
+		type: String
+	},
 	profile_picture: {
 		type: String,
 		default:

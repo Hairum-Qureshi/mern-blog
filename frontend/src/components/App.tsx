@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Landing from "./Landing";
 import UserAuthentication from "./UserAuthentication";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import client_id from "../";
+import NotFound from "./NotFound";
 
 function App() {
 	return (
@@ -22,7 +22,7 @@ function App() {
 					{/* <Route path="/sign-up" element={<SignUp />} />
 					<Route path="/sign-in" element={<SignIn />} /> */}
 
-					{/* <Route path="*" element={<NotFound />} /> */}
+					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</GoogleOAuthProvider>
 
