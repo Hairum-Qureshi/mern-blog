@@ -1,0 +1,181 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+body {
+	margin: 0;
+	padding: 0;
+	overflow-y: hidden;
+}
+
+.mainContainer {
+	display: flex;
+}
+
+.mainContainer .left,
+.mainContainer .right {
+	flex: 1;
+	height: 100vh;
+	padding: 5px;
+	margin: 0 5px; /* Add margin to the left and right sides */
+	border-bottom: none;
+	text-align: center;
+}
+
+.mainContainer .left {
+	background-image: url("https://wallpapers.com/images/high/ocean-waves-aesthetic-dark-blue-hd-vbuuoui5ngk06duc.webp");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.mainContainer .right {
+	background-color: rgba(255, 255, 255, 0.958);
+}
+
+.mainContainer .right .form {
+	color: black;
+	width: 90%;
+	margin: 10% auto;
+}
+
+.mainContainer .right .form input {
+	width: 50%;
+	margin-top: 30px;
+	padding: 15px;
+	font-size: 15px;
+	outline: none;
+	border: 0.5px solid navy;
+	border-radius: 5px;
+	font-family: "Archivo", sans-serif;
+}
+
+.mainContainer .right .form label::after {
+	content: " *";
+	color: red;
+}
+
+.mainContainer .right input:first-of-type {
+	margin-top: 10px;
+}
+
+.mainContainer .right .authButton {
+	width: 55%;
+	text-align: center;
+	padding: 15px;
+	font-size: 15px;
+	margin-top: 25px;
+	border-radius: 5px;
+	background-color: rgb(10, 49, 96);
+	border: 2px solid rgb(11, 11, 147);
+	color: white;
+	transition: 0.3s;
+	font-family: "Prompt", sans-serif;
+	font-weight: 400;
+}
+
+.mainContainer .right .authButton:hover {
+	cursor: pointer;
+	background-color: rgb(11, 66, 133);
+	opacity: 1;
+}
+
+.mainContainer .right .authButton:active {
+	background-color: rgb(11, 87, 179);
+	opacity: 1;
+}
+
+.mainContainer .right .form h2 {
+	margin-bottom: -10px;
+	font-family: "Kanit", sans-serif;
+	font-weight: light;
+	letter-spacing: 2px;
+	color: rgb(6, 41, 87);
+}
+
+.mainContainer .right .form label {
+	display: block;
+	font-size: 15px;
+	text-align: left;
+	margin: 20px 0 -15px 140px;
+	font-family: "Ubuntu", sans-serif;
+}
+
+.mainContainer .right .form span {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: bold;
+}
+
+.mainContainer .right .form span a {
+	color: rgb(6, 43, 87);
+	font-weight: bolder;
+}
+
+.mainContainer .right .form span a:active {
+	color: rgb(16, 16, 165);
+}
+
+.mainContainer .right .form .separator {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	width: 50%;
+	margin: 10px auto;
+}
+
+.mainContainer .right .form .separator::before,
+.mainContainer .right .form .separator::after {
+	content: "";
+	flex: 1;
+	border-bottom: 1px solid #182355;
+}
+
+.mainContainer .right .form .separator:not(:empty)::before {
+	margin-right: 0.25em;
+}
+
+.mainContainer .right .form .separator:not(:empty)::after {
+	margin-left: 0.25em;
+}
+
+.mainContainer .right .form .googleContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.mainContainer .right .form .googleContainer button {
+	padding: 10px;
+	background-color: rgb(12, 51, 99);
+	color: white;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 50%;
+	outline: none;
+	border-radius: 5px;
+	transition: 0.3s;
+	font-family: "Prompt", sans-serif;
+	font-weight: 400;
+}
+
+.mainContainer .right .form .googleContainer button:hover {
+	cursor: pointer;
+	background-color: #222c64;
+	opacity: 1;
+}
+
+.mainContainer .right .form .googleContainer button:active {
+	background-color: rgb(6, 70, 147);
+	opacity: 1;
+}
+
+.mainContainer .right .form .googleContainer button > span:nth-child(1) {
+	font-size: 20px;
+	margin: 0 10px;
+}
