@@ -6,7 +6,23 @@ export interface Google_User_Interface {
 	profile_picture: string;
 }
 
+export interface ErrorHandler {
+	noFirstName?: boolean;
+	noLastName?: boolean;
+	noEmail?: boolean;
+	noPassword?: boolean;
+	message: string;
+}
+
 export interface AuthTypes {
 	loginWithGoogle: () => void;
-	userData: Google_User_Interface | undefined;
+	login: (email: string, password: string) => void;
+	createAccount: (
+		firstName: string,
+		lastName: string,
+		email: string,
+		password: string
+	) => void;
+	sendEmail: (email: string) => void;
+	errorHandler: ErrorHandler;
 }

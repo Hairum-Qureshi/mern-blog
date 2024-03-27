@@ -1,12 +1,19 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { AuthTypes, ErrorHandler } from "../interfaces";
 import { useState } from "react";
-import { Google_User_Interface, AuthTypes } from "../interfaces";
 
 export default function useAuth(): AuthTypes {
-	const [userData, setUserData] = useState<Google_User_Interface | undefined>(
-		undefined
-	);
+	const [errorHandler, setErrorHandler] = useState<ErrorHandler>({
+		noFirstName: false,
+		noLastName: false,
+		noEmail: false,
+		noPassword: false,
+		message: ""
+	});
+
+	const emailRegex: RegExp =
+		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	const loginWithGoogle = useGoogleLogin({
 		onSuccess: credentialResponse => {
@@ -19,22 +26,188 @@ export default function useAuth(): AuthTypes {
 				.then(response => {
 					const { email, family_name, given_name, name, picture } =
 						response.data;
-					setUserData({
-						email,
-						family_name,
-						given_name,
-						name,
-						profile_picture: picture
-					});
+					axios
+						.post("http://localhost:4000/api/user/google-login", {
+							email,
+							first_name: given_name,
+							last_name: family_name,
+							full_name: name,
+							profile_picture: picture
+						})
+						.then(response => {
+							console.log(response.data);
+						})
+						.catch(error => {
+							setErrorHandler({
+								noEmail: false,
+								noPassword: false,
+								message:
+									`Server Error: ${error.response.statusText}` ||
+									"Error logging in with Google"
+							});
+						});
 				})
 				.catch(error => {
 					console.error("Error:", error);
 				});
 		},
 		onError: () => {
-			console.log("Login Failed");
+			setErrorHandler({
+				message: "There was an error signing in with Google"
+			});
 		}
 	});
 
-	return { loginWithGoogle, userData };
+	function login(email: string, password: string) {
+		if (!email.trim() && !password) {
+			setErrorHandler({
+				noEmail: true,
+				noPassword: true,
+				message: "Please fill out all required fields"
+			});
+		} else if (!email.trim().toLowerCase().match(emailRegex) && !password) {
+			setErrorHandler({
+				noEmail: false,
+				noPassword: false,
+				message: "Incorrect email format and missing password"
+			});
+		} else if (!email.trim().toLowerCase().match(emailRegex)) {
+			setErrorHandler({
+				noEmail: true,
+				noPassword: false,
+				message: "Incorrect email format"
+			});
+		} else {
+			setErrorHandler({
+				noEmail: !email,
+				noPassword: !password,
+				message: !email.trim()
+					? "Please provide your email"
+					: !password
+					? "Please provide your password"
+					: ""
+			});
+		}
+
+		if (email.trim() && password) {
+			axios
+				.post("http://localhost:4000/api/user/login", {
+					email: email.toLowerCase().trim(),
+					password
+				})
+				.then(response => {
+					console.log(response.data);
+					setErrorHandler({
+						noEmail: false,
+						noPassword: false,
+						message: ""
+					});
+				})
+				.catch(error => {
+					setErrorHandler({
+						noEmail: false,
+						noPassword: false,
+						message: `Server Error: ${error.response.statusText}`
+					});
+				});
+		}
+	}
+
+	function createAccount(
+		firstName: string,
+		lastName: string,
+		email: string,
+		password: string
+	) {
+		if (!firstName.trim() && !lastName.trim() && !email.trim() && !password) {
+			setErrorHandler({
+				noFirstName: true,
+				noLastName: true,
+				noEmail: true,
+				noPassword: true,
+				message: "Please fill out all required fields"
+			});
+		} else if (!email.trim().toLowerCase().match(emailRegex)) {
+			setErrorHandler({
+				noFirstName: false,
+				noLastName: false,
+				noEmail: true,
+				noPassword: false,
+				message: "Incorrect email format"
+			});
+		} else {
+			setErrorHandler({
+				noFirstName: !firstName,
+				noLastName: !lastName,
+				noEmail: !email,
+				noPassword: !password,
+				message: "Please be sure to fill out all required fields"
+			});
+		}
+
+		if (firstName.trim() && lastName.trim() && email.trim() && password) {
+			axios
+				.post("http://localhost:4000/api/user/create-user", {
+					firstName: firstName.trim(),
+					lastName: lastName.trim(),
+					email: email.toLowerCase().trim(),
+					password
+				})
+				.then(response => {
+					console.log(response.data);
+					setErrorHandler({
+						noFirstName: false,
+						noLastName: false,
+						noEmail: false,
+						noPassword: false,
+						message: ""
+					});
+				})
+				.catch(error => {
+					setErrorHandler({
+						noEmail: false,
+						noPassword: false,
+						message: `Server Error: ${error.response.statusText}`
+					});
+				});
+		}
+	}
+
+	function sendEmail(email: string) {
+		if (!email) {
+			setErrorHandler({
+				noEmail: !email,
+				message: "Please provide your email"
+			});
+		} else if (!email.trim().toLowerCase().match(emailRegex)) {
+			setErrorHandler({
+				noEmail: false,
+				noPassword: true,
+				message: "Incorrect email format"
+			});
+		} else {
+			axios
+				.post("http://localhost:4000/api/user/forgot-password", {
+					email: email.toLowerCase().trim()
+				})
+				.then(response => {
+					console.log(response.data);
+					setErrorHandler({
+						noEmail: false,
+						noPassword: false,
+						message: ""
+					});
+				})
+				.catch(error => {
+					console.log(error);
+					setErrorHandler({
+						noEmail: false,
+						noPassword: false,
+						message: `Server Error: ${error.response.statusText}`
+					});
+				});
+		}
+	}
+
+	return { loginWithGoogle, login, createAccount, sendEmail, errorHandler };
 }

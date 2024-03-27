@@ -3,13 +3,19 @@ import auth_page_css from "../css/authpage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
 import useAuth from "../hooks/useAuth";
+import { useEffect, useState } from "react";
 
 export default function UserAuthentication() {
 	const url_params = ["/sign-in", "/sign-up", "/forgot-password"];
 	const current_path = useLocation().pathname;
-	const { loginWithGoogle, userData } = useAuth();
 
-	console.log(userData);
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
+	const { loginWithGoogle, login, createAccount, sendEmail, errorHandler } =
+		useAuth();
 
 	return current_path == url_params[0] ? (
 		<>
@@ -33,13 +39,39 @@ export default function UserAuthentication() {
 							<br />
 							<Link to="/forgot-password">Forgot Password?</Link>
 						</span>
+						<br />
+						<br />
+						<span style={{ color: "red" }}>
+							{errorHandler && errorHandler.message ? errorHandler.message : ""}
+						</span>
 						<label htmlFor="Email" style={{ marginBottom: "5px" }}>
 							Email
 						</label>
-						<input type="email" placeholder="Email" name="Email" />
+						<input
+							type="email"
+							placeholder="Email"
+							name="Email"
+							value={email}
+							onChange={e => setEmail(e.target.value)}
+							style={{ border: errorHandler.noEmail ? "1px solid red" : "" }}
+						/>
 						<label htmlFor="Password">Password</label>
-						<input type="password" placeholder="Password" name="Password" />
-						<button className={auth_page_css.authButton}>LOGIN</button>
+						<input
+							type="password"
+							placeholder="Password"
+							name="Password"
+							value={password}
+							onChange={e => setPassword(e.target.value)}
+							style={{
+								border: errorHandler.noPassword ? "1px solid red" : ""
+							}}
+						/>
+						<button
+							className={auth_page_css.authButton}
+							onClick={() => login(email, password)}
+						>
+							LOGIN
+						</button>
 					</div>
 				</div>
 			</div>
@@ -62,15 +94,53 @@ export default function UserAuthentication() {
 					<span>
 						Already have an account? <Link to="/sign-in">Sign in!</Link>
 					</span>
+					<br />
+					<br />
+					<span style={{ color: "red" }}>
+						{errorHandler && errorHandler.message ? errorHandler.message : ""}
+					</span>
 					<label htmlFor="First Name">First Name</label> <br />
-					<input type="text" placeholder="First Name" name="First Name" />
+					<input
+						type="text"
+						placeholder="First Name"
+						name="First Name"
+						value={firstName}
+						onChange={e => setFirstName(e.target.value)}
+						style={{ border: errorHandler.noFirstName ? "1px solid red" : "" }}
+					/>
 					<label htmlFor="First Name">Last Name</label>
-					<input type="text" placeholder="Last Name" name="Last Name" />
+					<input
+						type="text"
+						placeholder="Last Name"
+						name="Last Name"
+						value={lastName}
+						onChange={e => setLastName(e.target.value)}
+						style={{ border: errorHandler.noLastName ? "1px solid red" : "" }}
+					/>
 					<label htmlFor="Email">Email</label>
-					<input type="email" placeholder="Email" name="Email" />
+					<input
+						type="email"
+						placeholder="Email"
+						name="Email"
+						value={email}
+						onChange={e => setEmail(e.target.value)}
+						style={{ border: errorHandler.noEmail ? "1px solid red" : "" }}
+					/>
 					<label htmlFor="Password">Password</label>
-					<input type="password" placeholder="Password" name="Password" />
-					<button className={auth_page_css.authButton}>JOIN</button>
+					<input
+						type="password"
+						placeholder="Password"
+						name="Password"
+						value={password}
+						onChange={e => setPassword(e.target.value)}
+						style={{ border: errorHandler.noPassword ? "1px solid red" : "" }}
+					/>
+					<button
+						className={auth_page_css.authButton}
+						onClick={() => createAccount(firstName, lastName, email, password)}
+					>
+						JOIN
+					</button>
 				</div>
 			</div>
 		</div>
@@ -86,11 +156,28 @@ export default function UserAuthentication() {
 							<br /> <br />
 							Don't have an account? <Link to="/sign-up">Create one!</Link>
 						</span>
+						<br />
+						<br />
+						<span style={{ color: "red" }}>
+							{errorHandler && errorHandler.message ? errorHandler.message : ""}
+						</span>
 						<label htmlFor="Email" style={{ marginBottom: "5px" }}>
 							Email
 						</label>
-						<input type="email" placeholder="Email" name="Email" />
-						<button className={auth_page_css.authButton}>SEND EMAIL</button>
+						<input
+							type="email"
+							placeholder="Email"
+							name="Email"
+							value={email}
+							onChange={e => setEmail(e.target.value)}
+							style={{ border: errorHandler.noEmail ? "1px solid red" : "" }}
+						/>
+						<button
+							className={auth_page_css.authButton}
+							onClick={() => sendEmail(email)}
+						>
+							SEND EMAIL
+						</button>
 					</div>
 				</div>
 			</div>

@@ -22,7 +22,11 @@
 		"typescript": "^5.4.3"
 	},
 	"dependencies": {
+		"@types/cookie-parser": "^1.4.7",
+		"cookie-parser": "^1.4.6",
+		"install": "^0.13.0",
 		"mongodb": "^6.5.0",
-		"mongoose": "^8.2.3"
+		"mongoose": "^8.2.3",
+		"npm": "^10.5.0"
 	}
 }
