@@ -1,5 +1,7 @@
+import mongoose from "mongoose";
+
 export interface User_Interface {
-	_id: string;
+	_id: mongoose.Types.ObjectId;
 	email: string;
 	first_name: string;
 	last_name: string;

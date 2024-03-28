@@ -3,6 +3,8 @@ import User from "../models/user";
 import bcrypt from "bcrypt";
 import { User_Interface } from "../interfaces";
 import { sendVerificationEmail } from "../nodemailer_files/nodemailer";
+import jwt from "jsonwebtoken";
+import Token from "../models/token";
 
 async function findUser(email: string): Promise<User_Interface | undefined> {
 	try {
@@ -10,9 +12,7 @@ async function findUser(email: string): Promise<User_Interface | undefined> {
 			email
 		});
 
-		if (!user) {
-			return undefined;
-		}
+		if (!user) return undefined;
 
 		return user;
 	} catch (error) {
@@ -47,6 +47,13 @@ const login_google = async (req: Request, res: Response) => {
 	}
 };
 
+function generateUniqueToken(): string {
+	const timestamp: number = new Date().getTime();
+	const randomString: string = Math.random().toString(36).substring(2);
+	const token: string = timestamp.toString() + randomString;
+	return token;
+}
+
 const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 	const user: User_Interface | undefined = await findUser(email);
@@ -56,7 +63,17 @@ const login = async (req: Request, res: Response) => {
 			const match = await bcrypt.compare(password, db_password);
 			if (match) {
 				if (!user.verified) {
-					sendVerificationEmail(user.email, user.first_name);
+					const token = await Token.create({
+						token: generateUniqueToken()
+					});
+
+					sendVerificationEmail(
+						user.email,
+						user.first_name,
+						user._id,
+						token.token,
+						token._id
+					);
 					res
 						.status(500)
 						.send("A verification email has been sent to your inbox");
@@ -92,7 +109,26 @@ const register = async (req: Request, res: Response) => {
 			verified: false
 		});
 
-		sendVerificationEmail(user.email, user.first_name);
+		const token = await Token.create({
+			token: generateUniqueToken()
+		});
+
+		// const token = jwt.sign(user.toObject(), generateUniqueToken(), {
+		// 	expiresIn: Math.floor(Date.now() / 1000) + 5 * 60 // 5 minutes
+		// });
+
+		sendVerificationEmail(
+			user.email,
+			user.first_name,
+			user._id,
+			token.token,
+			token._id
+		);
+
+		setTimeout(() =>
+			// Include logic to delete the token
+
+			{}, 300000); // will delete in 5 minutes
 
 		res
 			.status(201)

@@ -1,4 +1,9 @@
-const HTML = (first_name: string) => {
+const HTML = (
+	first_name: string,
+	user_id: string,
+	token: string,
+	token_id: string
+) => {
 	return `<!DOCTYPE html>
 <html>
 <head>
@@ -71,7 +76,7 @@ const HTML = (first_name: string) => {
     <h2 style = "color: white">Digital Dialogue</h2>
 </div>
 <div class="content">
-    <h4>Hi, ${first_name}! Thank you for creating an account at Digital Dialogue. Click the link below to verify your account! <br /><br /> <a href = "#" style = "font-size: 17px; text-align: center;">VERIFY ACCOUNT</a></h4>
+    <h4>Hi, ${first_name}! Thank you for creating an account at Digital Dialogue. This link will expire in 5 minutes. Click the link below to verify your account! <br /><br /> <a href = "http://localhost:4000/api/user/verify/${token_id}?token=${token}&uid=${user_id}" style = "font-size: 17px; text-align: center;">VERIFY ACCOUNT</a></h4>
 </div>
 </body>
 </html>`;
