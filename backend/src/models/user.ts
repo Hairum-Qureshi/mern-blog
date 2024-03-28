@@ -29,6 +29,10 @@ const userSchema = new Schema({
 	},
 	num_blogs: {
 		type: Number
+	},
+	verified: {
+		type: Boolean,
+		required: true
 	}
 });
 

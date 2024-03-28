@@ -12,8 +12,11 @@ export default function useAuth(): AuthTypes {
 		message: ""
 	});
 
-	const emailRegex: RegExp =
-		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	// TODO - Need to improve email validation + need to send user a verification email!
+
+	const emailRegex: RegExp = new RegExp(
+		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/
+	);
 
 	const loginWithGoogle = useGoogleLogin({
 		onSuccess: credentialResponse => {

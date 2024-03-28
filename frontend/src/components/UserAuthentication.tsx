@@ -3,7 +3,7 @@ import auth_page_css from "../css/authpage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
 import useAuth from "../hooks/useAuth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function UserAuthentication() {
 	const url_params = ["/sign-in", "/sign-up", "/forgot-password"];

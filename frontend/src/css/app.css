@@ -45,12 +45,15 @@ body {
 	align-items: center;
 	height: 80vh;
 	font-family: "Noto Sans", sans-serif;
-	font-weight: 300;
-	color: rgb(96, 222, 244);
+	color: rgb(124, 226, 244);
+}
+
+.notFoundContainer h1:first-child {
+	color: white;
 }
 
 .notFoundContainer div {
 	height: 50px;
 	border: 1.5px solid rgb(37, 70, 126);
-	margin-right: 10px;
+	margin: 0 10px 0 10px;
 }
