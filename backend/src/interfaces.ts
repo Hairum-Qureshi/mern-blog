@@ -12,3 +12,9 @@ export interface User_Interface {
 	num_blogs: number;
 	verified: boolean;
 }
+
+export interface Token_Interface {
+	_id: mongoose.Types.ObjectId;
+	token: string;
+	user_id: string;
+}

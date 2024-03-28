@@ -8,7 +8,7 @@ async function sendVerificationEmail(
 	user_id: mongoose.Types.ObjectId,
 	token: string,
 	token_id: mongoose.Types.ObjectId
-) {
+): Promise<number> {
 	try {
 		const transporter = nodemailer.createTransport({
 			host: "smtp.gmail.com",
@@ -26,9 +26,10 @@ async function sendVerificationEmail(
 			html: HTML(first_name, user_id.toString(), token, token_id.toString())
 		});
 
-		console.log("Successfully sent email!");
+		return 200;
 	} catch (error) {
 		console.log("<nodemailer.ts> [21] ERROR", error);
+		return 500;
 	}
 }
 

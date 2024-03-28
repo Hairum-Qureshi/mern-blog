@@ -1,5 +1,10 @@
 import express from "express";
-import { login_google, login, register } from "../controllers/auth_controller";
+import {
+	login_google,
+	login,
+	register,
+	verification
+} from "../controllers/auth_controller";
 
 const router = express.Router();
 
@@ -7,6 +12,6 @@ const router = express.Router();
 router.post("/google-login", login_google);
 router.post("/login", login);
 router.post("/create-user", register);
-router.get("/verify/:id?token=:token&:user_id");
+router.get("/verify/:token_id", verification);
 
 export default router;

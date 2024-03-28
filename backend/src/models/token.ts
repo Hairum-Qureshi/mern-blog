@@ -4,6 +4,10 @@ const tokenSchema = new Schema({
 	token: {
 		type: String,
 		required: true
+	},
+	user_id: {
+		type: String,
+		required: true
 	}
 });
 

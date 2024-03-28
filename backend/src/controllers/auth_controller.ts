@@ -1,16 +1,29 @@
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 import User from "../models/user";
 import bcrypt from "bcrypt";
-import { User_Interface } from "../interfaces";
+import { Token_Interface, User_Interface } from "../interfaces";
 import { sendVerificationEmail } from "../nodemailer_files/nodemailer";
 import jwt from "jsonwebtoken";
 import Token from "../models/token";
+import mongoose from "mongoose";
 
-async function findUser(email: string): Promise<User_Interface | undefined> {
+async function findUser(
+	email: string,
+	user_id?: string
+): Promise<User_Interface | undefined> {
+	// TODO - *MIGHT* need to add a check to make sure the user ID being passed in is in a valid MongoDB format
 	try {
-		const user: User_Interface | undefined | null = await User.findOne({
-			email
-		});
+		let user: User_Interface | undefined | null;
+		if (email) {
+			user = await User.findOne({
+				email
+			});
+		}
+		if (user_id) {
+			user = await User.findOne({
+				_id: user_id
+			});
+		}
 
 		if (!user) return undefined;
 
@@ -63,10 +76,11 @@ const login = async (req: Request, res: Response) => {
 			const match = await bcrypt.compare(password, db_password);
 			if (match) {
 				if (!user.verified) {
+					// TODO - Consider first checking if there are any old tokens with the same user id. If they are, delete those (even though they would be deleted 5 minutes later)
 					const token = await Token.create({
-						token: generateUniqueToken()
+						token: generateUniqueToken(),
+						user_id: user._id
 					});
-
 					sendVerificationEmail(
 						user.email,
 						user.first_name,
@@ -91,6 +105,22 @@ const login = async (req: Request, res: Response) => {
 	}
 };
 
+function deleteToken(token_id: mongoose.Types.ObjectId) {
+	if (mongoose.isValidObjectId(token_id)) {
+		setTimeout(async () => {
+			await Token.deleteOne({
+				_id: token_id
+			});
+
+			console.log("1");
+		}, 300000); // will delete in 5 minutes
+	} else {
+		console.log(
+			"<auth_controller.ts> [159] (not an error) - ID is not in valid MongoDB format"
+		);
+	}
+}
+
 const register = async (req: Request, res: Response) => {
 	// Send an account verification email to the user
 	const { first_name, last_name, email, password } = req.body;
@@ -110,14 +140,15 @@ const register = async (req: Request, res: Response) => {
 		});
 
 		const token = await Token.create({
-			token: generateUniqueToken()
+			token: generateUniqueToken(),
+			user_id: user._id
 		});
 
 		// const token = jwt.sign(user.toObject(), generateUniqueToken(), {
 		// 	expiresIn: Math.floor(Date.now() / 1000) + 5 * 60 // 5 minutes
 		// });
 
-		sendVerificationEmail(
+		const status_code: number = await sendVerificationEmail(
 			user.email,
 			user.first_name,
 			user._id,
@@ -125,17 +156,49 @@ const register = async (req: Request, res: Response) => {
 			token._id
 		);
 
-		setTimeout(() =>
-			// Include logic to delete the token
+		if (status_code === 200) deleteToken(token._id);
 
-			{}, 300000); // will delete in 5 minutes
-
-		res
-			.status(201)
-			.send(`An verification email has been sent to ${user.email}`);
+		res.status(201).send(`A verification email has been sent to ${user.email}`);
 	} else {
 		res.status(409).send("A user already exists with this email");
 	}
 };
 
-export { login_google, login, register };
+const verification = async (req: Request, res: Response) => {
+	const token = req.params.token_id; // this is just a randomly generated token
+	const queryToken = req.query.token; // this is the token (ID) to use in database querying
+	const user_id = req.query.uid;
+
+	// First need to check if token_id and user_id are valid MongoDB IDs
+	// Second need to check if token is an actual existing token and matches the one in the DB
+	// Third need to update the user's verified status
+
+	if (
+		mongoose.isValidObjectId(queryToken) &&
+		mongoose.isValidObjectId(user_id)
+	) {
+		const db_token: Token_Interface | null = await Token.findOne({
+			_id: queryToken,
+			token
+		});
+
+		if (db_token) {
+			if (db_token.token === token && db_token.user_id === user_id) {
+				console.log("valid");
+				deleteToken(db_token._id);
+				res.render("index.html");
+			} else {
+				console.log("Not valid");
+				res.render("error.html");
+			}
+		} else {
+			console.log("This token might have expired or does not exist");
+			res.render("error.html");
+		}
+	} else {
+		console.log("Error");
+		res.render("error.html");
+	}
+};
+
+export { login_google, login, register, verification };

@@ -18,12 +18,8 @@ app.use(cookieParser());
 
 app.use("/api/user", auth_routes);
 
-app.set("view options", { layout: false }); // Used to render HTML page
-app.use(express.static(__dirname + "/public")); // Used to render HTML page
-
-app.get("/", function (req, res) {
-	res.render("index.html");
-});
+app.engine("html", require("ejs").renderFile);
+app.use(express.static("public"));
 
 mongoose
 	.connect(MONGO_URI)
