@@ -19,7 +19,7 @@ async function sendVerificationEmail(email: string, first_name: string) {
 			html: HTML(first_name)
 		});
 
-		console.log("Success");
+		console.log("Successfully sent email!");
 	} catch (error) {
 		console.log("<nodemailer.ts> [21] ERROR", error);
 	}

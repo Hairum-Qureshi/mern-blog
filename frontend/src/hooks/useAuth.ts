@@ -166,6 +166,13 @@ export default function useAuth(): AuthTypes {
 				})
 				.then(response => {
 					console.log(response.data);
+					setErrorHandler({
+						noFirstName: false,
+						noLastName: false,
+						noEmail: false,
+						noPassword: false,
+						message: response.data || ""
+					});
 				})
 				.catch(error => {
 					setErrorHandler({

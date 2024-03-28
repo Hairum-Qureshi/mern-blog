@@ -2,12 +2,6 @@ const HTML = (first_name: string) => {
 	return `<!DOCTYPE html>
 <html>
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
     .header {
         width: 100%;
@@ -21,7 +15,7 @@ const HTML = (first_name: string) => {
         background-repeat: no-repeat;
         color: white;
         text-align: center;
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Trebuchet MS', sans-serif;
         border-top-right-radius: 5px;
         border-top-left-radius: 5px;
     }
@@ -36,10 +30,10 @@ const HTML = (first_name: string) => {
         background: rgb(10,27,92);
         background: linear-gradient(0deg, rgba(10,27,92,1) 0%, rgba(5,5,27,1) 100%);
         color: white;
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Trebuchet MS', sans-serif;
     }
 
-    .content h3 {
+    .content h4 {
         color: white;
         text-align: center;
         margin: 30px;
@@ -55,8 +49,7 @@ const HTML = (first_name: string) => {
         border: 1px solid #07368E;
         border-radius: 5px;
         color: white;
-        font-family: "Amaranth", sans-serif;
-
+        font-family: 'Trebuchet MS', sans-serif;
     }
     
     .content button:hover {
@@ -75,13 +68,11 @@ const HTML = (first_name: string) => {
 <body>
 
 <div class="header">
-    <h2>Digital Dialogue</h2>
+    <h2 style = "color: white">Digital Dialogue</h2>
 </div>
 <div class="content">
-    <h3>Hi, ${first_name}! Thank you for creating an account at Digital Dialogue. Click the button below to verify your account!</h3>
-    <button>VERIFY ACCOUNT</button>
+    <h4>Hi, ${first_name}! Thank you for creating an account at Digital Dialogue. Click the link below to verify your account! <br /><br /> <a href = "#" style = "font-size: 17px; text-align: center;">VERIFY ACCOUNT</a></h4>
 </div>
-
 </body>
 </html>`;
 };

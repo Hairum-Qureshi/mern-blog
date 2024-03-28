@@ -48,7 +48,6 @@ const login_google = async (req: Request, res: Response) => {
 };
 
 const login = async (req: Request, res: Response) => {
-	// Also needs to check if the user's account is verified or not. If it's not, resend a new verification email
 	const { email, password } = req.body;
 	const user: User_Interface | undefined = await findUser(email);
 	if (user !== undefined) {
@@ -60,9 +59,7 @@ const login = async (req: Request, res: Response) => {
 					sendVerificationEmail(user.email, user.first_name);
 					res
 						.status(500)
-						.send(
-							"Your account needs to be verified. Please check your inbox for a verification email"
-						);
+						.send("A verification email has been sent to your inbox");
 				} else {
 					console.log(user);
 				}
@@ -95,7 +92,11 @@ const register = async (req: Request, res: Response) => {
 			verified: false
 		});
 
-		res.status(201).json(user);
+		sendVerificationEmail(user.email, user.first_name);
+
+		res
+			.status(201)
+			.send(`An verification email has been sent to ${user.email}`);
 	} else {
 		res.status(409).send("A user already exists with this email");
 	}
