@@ -77,7 +77,7 @@ const HTML = (
     <h2 style = "color: white">Digital Dialogue</h2>
 </div>
 <h4>
-<div class="content">Click the link below to verify your account! <br /><br /> <a href="http://localhost:4000/api/user/verify/${token}?token=${token_id}&uid=${user_id}" style="font-size: 17px; text-align: center;">VERIFY ACCOUNT</a> <br /> <br /> This link will expire in 5 minutes.
+<div class="content">Hello ${first_name}, thanks for creating an account! Click the link below to verify your account! <br /><br /> <a href="http://localhost:4000/api/user/verify/${token}?token=${token_id}&uid=${user_id}" style="font-size: 17px; text-align: center;">VERIFY ACCOUNT</a> <br /> <br /> This link will expire in 5 minutes.
     </h4>
 </div>
 </body>

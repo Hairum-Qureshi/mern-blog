@@ -159,7 +159,7 @@ const register = async (req: Request, res: Response) => {
 			token._id
 		);
 
-		if (status_code === 200) deleteToken(token._id);
+		// if (status_code === 200) deleteToken(token._id);
 
 		res.status(201).send(`A verification email has been sent to ${user.email}`);
 	} else {
@@ -172,7 +172,6 @@ const verification = async (req: Request, res: Response) => {
 	const queryToken = req.query.token; // this is the token (ID) to use in database querying
 	const user_id = req.query.uid;
 	let token_deleted = false;
-
 	// First need to check if token_id and user_id are valid MongoDB IDs
 	// Second need to check if token is an actual existing token and matches the one in the DB
 	// Third need to update the user's verified status
@@ -216,23 +215,31 @@ const verification = async (req: Request, res: Response) => {
 					token_deleted = true;
 				} else {
 					console.log(
-						"<auth_controller.ts> [204] (not an error) - user is not defined"
+						"<auth_controller.ts> [219] (not an error) - user is not defined"
 					);
 				}
 
 				if (!token_deleted) deleteToken(db_token._id);
-				res.render("index.html");
+				res.render("index.ejs", {
+					status:
+						"Account verified! Click <a href = 'http://localhost:5173/sign-in'>here</a> to sign in!"
+				});
 			} else {
-				console.log("Not valid");
-				res.render("error.html");
+				// console.log("Not valid");
+				res.render("index.ejs", { status: "There was an error" });
 			}
 		} else {
-			console.log("This token might have expired or does not exist");
-			res.render("error.html");
+			// console.log("This token might have expired or does not exist");
+			res.render("index.ejs", {
+				status:
+					"This token might have expired or does not exist. Click <a href = 'http://localhost:5173/'>here</a> to head back home"
+			});
 		}
 	} else {
-		console.log("Error");
-		res.render("error.html");
+		// console.log("Error");
+		res.render("index.ejs", {
+			status: "404"
+		});
 	}
 };
 
