@@ -3,12 +3,19 @@ import axios from "axios";
 import { AuthTypes, ErrorHandler } from "../interfaces";
 import { useState } from "react";
 
+// TODO - need to add criteria of making passwords
+/*
+	-Passwords must be at least 10 characters long
+	-Maybe add a "password is too weak" checker?
+*/
+
 export default function useAuth(): AuthTypes {
 	const [errorHandler, setErrorHandler] = useState<ErrorHandler>({
 		noFirstName: false,
 		noLastName: false,
 		noEmail: false,
 		noPassword: false,
+		noDuplicatePassword: false,
 		message: ""
 	});
 
@@ -196,40 +203,52 @@ export default function useAuth(): AuthTypes {
 		password: string,
 		duplicatePassword: string
 	) {
-		console.log(email, password, duplicatePassword);
-		// if (!email) {
-		// 	setErrorHandler({
-		// 		noEmail: !email,
-		// 		message: "Please provide your email"
-		// 	});
-		// } else if (!email.trim().toLowerCase().match(emailRegex)) {
-		// 	setErrorHandler({
-		// 		noEmail: false,
-		// 		noPassword: true,
-		// 		message: "Incorrect email format"
-		// 	});
-		// } else {
-		// 	axios
-		// 		.post("http://localhost:4000/api/user/forgot-password", {
-		// 			email: email.toLowerCase().trim()
-		// 		})
-		// 		.then(response => {
-		// 			console.log(response.data);
-		// 			setErrorHandler({
-		// 				noEmail: false,
-		// 				noPassword: false,
-		// 				message: response.data || ""
-		// 			});
-		// 		})
-		// 		.catch(error => {
-		// 			console.log(error);
-		// 			setErrorHandler({
-		// 				noEmail: false,
-		// 				noPassword: false,
-		// 				message: error.response.data
-		// 			});
-		// 		});
-		// }
+		if (!email && !password && !duplicatePassword) {
+			setErrorHandler({
+				noEmail: true,
+				noPassword: true,
+				noDuplicatePassword: true,
+				message: "Please fill in all the required fields"
+			});
+		} else if (email && password && duplicatePassword) {
+			axios
+				.post("http://localhost:4000/api/user/forgot-password", {
+					email: email.toLowerCase().trim(),
+					duplicatePassword
+				})
+				.then(response => {
+					console.log(response.data);
+					setErrorHandler({
+						noEmail: false,
+						noPassword: false,
+						noDuplicatePassword: false,
+						message: response.data || ""
+					});
+				})
+				.catch(error => {
+					console.log(error);
+					setErrorHandler({
+						noEmail: false,
+						noPassword: false,
+						noDuplicatePassword: false,
+						message: error.response.data
+					});
+				});
+		} else if (email && duplicatePassword !== password) {
+			setErrorHandler({
+				noEmail: false,
+				noPassword: true,
+				noDuplicatePassword: true,
+				message: "Passwords do not match"
+			});
+		} else {
+			setErrorHandler({
+				noEmail: !email,
+				noPassword: !password,
+				noDuplicatePassword: !duplicatePassword,
+				message: "Please fill in all the required fields"
+			});
+		}
 	}
 
 	return { loginWithGoogle, login, createAccount, resetPassword, errorHandler };

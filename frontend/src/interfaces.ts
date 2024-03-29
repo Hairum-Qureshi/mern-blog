@@ -11,6 +11,7 @@ export interface ErrorHandler {
 	noLastName?: boolean;
 	noEmail?: boolean;
 	noPassword?: boolean;
+	noDuplicatePassword?: boolean;
 	message: string;
 }
 

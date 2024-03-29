@@ -17,4 +17,5 @@ export interface Token_Interface {
 	_id: mongoose.Types.ObjectId;
 	token: string;
 	user_id: string;
+	new_password?: string;
 }

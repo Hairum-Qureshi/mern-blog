@@ -8,6 +8,10 @@ const tokenSchema = new Schema({
 	user_id: {
 		type: String,
 		required: true
+	},
+	new_password: {
+		type: String,
+		required: false
 	}
 });
 

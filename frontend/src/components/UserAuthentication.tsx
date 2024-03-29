@@ -185,7 +185,7 @@ export default function UserAuthentication() {
 							name="New Password"
 							value={password}
 							onChange={e => setPassword(e.target.value)}
-							style={{ border: errorHandler.noEmail ? "1px solid red" : "" }}
+							style={{ border: errorHandler.noPassword ? "1px solid red" : "" }}
 						/>
 						<label htmlFor="Repeat New Password">Repeat New Password</label>
 						<input
@@ -194,7 +194,9 @@ export default function UserAuthentication() {
 							name="Repeat New Password"
 							value={duplicatePassword}
 							onChange={e => setDuplicatePassword(e.target.value)}
-							style={{ border: errorHandler.noEmail ? "1px solid red" : "" }}
+							style={{
+								border: errorHandler.noDuplicatePassword ? "1px solid red" : ""
+							}}
 						/>
 						<button
 							className={auth_page_css.authButton}

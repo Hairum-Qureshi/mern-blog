@@ -1,8 +1,11 @@
 import nodemailer from "nodemailer";
-import EMAIL_HTML from "./nodemailerHTML";
+import {
+	ACCOUNT_VERIFICATION_HTML,
+	PASSWORD_VERIFICATION_HTML
+} from "./nodemailerHTML";
 import mongoose from "mongoose";
 
-async function sendVerificationEmail(
+async function sendAccountVerificationEmail(
 	email: string,
 	first_name: string,
 	user_id: mongoose.Types.ObjectId,
@@ -23,7 +26,7 @@ async function sendVerificationEmail(
 			from: process.env.EMAIL,
 			to: email,
 			subject: "Digital Dialogue Account Verification",
-			html: EMAIL_HTML(
+			html: ACCOUNT_VERIFICATION_HTML(
 				first_name,
 				user_id.toString(),
 				token,
@@ -33,9 +36,45 @@ async function sendVerificationEmail(
 
 		return 200;
 	} catch (error) {
-		console.log("<nodemailer.ts> [31] ERROR", error);
+		console.log("<nodemailer.ts> [36] ERROR", error);
 		return 500;
 	}
 }
 
-export default sendVerificationEmail;
+async function sendPassVerificationEmail(
+	first_name: string,
+	email: string,
+	user_id: mongoose.Types.ObjectId,
+	uniqueToken: string,
+	dbTokenID: mongoose.Types.ObjectId // ID of the token from Mongo
+): Promise<number> {
+	try {
+		const transporter = nodemailer.createTransport({
+			host: "smtp.gmail.com",
+			port: 587,
+			secure: false,
+			auth: {
+				user: process.env.EMAIL,
+				pass: process.env.APP_PASS
+			}
+		});
+		await transporter.sendMail({
+			from: process.env.EMAIL,
+			to: email,
+			subject: "Digital Dialogue Password Reset Verification",
+			html: PASSWORD_VERIFICATION_HTML(
+				first_name,
+				user_id.toString(),
+				uniqueToken,
+				dbTokenID.toString()
+			)
+		});
+
+		return 200;
+	} catch (error) {
+		console.log("<nodemailer.ts> [61] ERROR", error);
+		return 500;
+	}
+}
+
+export { sendAccountVerificationEmail, sendPassVerificationEmail };

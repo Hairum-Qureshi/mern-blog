@@ -2,10 +2,15 @@ import { Request, Response } from "express";
 import User from "../models/user";
 import bcrypt from "bcrypt";
 import { Token_Interface, User_Interface } from "../interfaces";
-import sendVerificationEmail from "../nodemailer_files/nodemailer";
+import {
+	sendAccountVerificationEmail,
+	sendPassVerificationEmail
+} from "../nodemailer_files/nodemailer";
 import jwt from "jsonwebtoken";
 import Token from "../models/token";
 import mongoose from "mongoose";
+
+// TODO - move all similar/repeated code to new functions!
 
 async function findUser(
 	email?: string,
@@ -87,7 +92,7 @@ const login = async (req: Request, res: Response) => {
 						token: generateUniqueToken(),
 						user_id: user._id
 					});
-					sendVerificationEmail(
+					sendAccountVerificationEmail(
 						user.email,
 						user.first_name,
 						user._id,
@@ -98,7 +103,7 @@ const login = async (req: Request, res: Response) => {
 						.status(500)
 						.send("A verification email has been sent to your inbox");
 				} else {
-					console.log(user);
+					// TODO - add the functionality to create a cookie here for the user and sign them in because they are verified
 				}
 			} else {
 				res.status(500).send("Incorrect password");
@@ -151,7 +156,7 @@ const register = async (req: Request, res: Response) => {
 		// 	expiresIn: Math.floor(Date.now() / 1000) + 5 * 60 // 5 minutes
 		// });
 
-		const status_code: number = await sendVerificationEmail(
+		const status_code: number = await sendAccountVerificationEmail(
 			user.email,
 			user.first_name,
 			user._id,
@@ -159,7 +164,7 @@ const register = async (req: Request, res: Response) => {
 			token._id
 		);
 
-		// if (status_code === 200) deleteToken(token._id);
+		if (status_code === 200) deleteToken(token._id);
 
 		res.status(201).send(`A verification email has been sent to ${user.email}`);
 	} else {
@@ -172,6 +177,7 @@ const verification = async (req: Request, res: Response) => {
 	const queryToken = req.query.token; // this is the token (ID) to use in database querying
 	const user_id = req.query.uid;
 	let token_deleted = false;
+
 	// First need to check if token_id and user_id are valid MongoDB IDs
 	// Second need to check if token is an actual existing token and matches the one in the DB
 	// Third need to update the user's verified status
@@ -208,6 +214,7 @@ const verification = async (req: Request, res: Response) => {
 						}
 					);
 
+					// TODO - replace this with deleteToken(db_token._id):
 					await Token.deleteOne({
 						_id: queryToken
 					});
@@ -244,44 +251,80 @@ const verification = async (req: Request, res: Response) => {
 };
 
 const passwordReset = async (req: Request, res: Response) => {
-	const { email } = req.body;
+	// Send an email to the user to basically verify that they were the one to have requested a password reset email
+	// This will add a layer of security to prevent users from just guessing people's emails and changing their passwords
+	const { email, duplicatePassword: new_password } = req.body;
+
 	const user: User_Interface | undefined = await findUser(email);
 	if (user !== undefined) {
-		const first_name: string = user.first_name;
-		const user_id: string = user._id.toString();
-		// const status: number = await sendPasswordReset(email, first_name, user_id);
-		// if (status === 200) {
-		// 	res.status(200).send("Password reset email sent");
-		// } else {
-		// 	res
-		// 		.status(500)
-		// 		.send(
-		// 			"There was a problem sending a password reset email to your account"
-		// 		);
-		// }
+		const uniqueToken: string = generateUniqueToken();
+
+		const hashedPassword = await bcrypt.hash(new_password, 10);
+		const match = await bcrypt.compare(new_password, user.password!);
+
+		if (match) {
+			res
+				.send(409)
+				.send(
+					"Consider entering a new password that's different from your current one"
+				);
+		} else {
+			if (!user.verified) {
+				const token = await Token.create({
+					token: generateUniqueToken(),
+					user_id: user._id
+				});
+
+				const status: number = await sendAccountVerificationEmail(
+					user.email,
+					user.first_name,
+					user._id,
+					token.token,
+					token._id
+				);
+
+				if (status === 200) {
+					res
+						.status(200)
+						.send(
+							"Your account does not appear to be verified. Please check your inbox for an account verification email"
+						);
+				} else {
+					console.log("<auth_controller.ts> [291] ERROR sending email");
+					res.status(500).send("There was an issue sending an email");
+				}
+			} else {
+				const token = await Token.create({
+					token: uniqueToken,
+					user_id: user._id,
+					new_password: hashedPassword
+				});
+				const status: number = await sendPassVerificationEmail(
+					user.first_name,
+					email,
+					user._id,
+					uniqueToken,
+					token._id
+				);
+				if (status === 200) {
+					res
+						.status(200)
+						.send(
+							"Please check your inbox for a password reset verification email"
+						);
+
+					deleteToken(token._id);
+				} else {
+					console.log(
+						"<auth_controller.ts> [316] ERROR - there was an issue sending the user an email"
+					);
+					res.status(500).send("There was a problem sending an email");
+				}
+			}
+		}
 	} else {
 		res.status(404).send("No user exists with this email");
 	}
 };
 
-const updatePassword = async (req: Request, res: Response) => {
-	const { uid } = req.query;
-	const mongo_uid: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(
-		uid?.toString()
-	);
-	const user: User_Interface | undefined = await findUser(undefined, mongo_uid);
-	if (user) {
-		res.json(user);
-	} else {
-		res.json({ message: "user not found" });
-	}
-};
-
-export {
-	login_google,
-	login,
-	register,
-	verification,
-	passwordReset,
-	updatePassword
-};
+export { login_google, login, register, verification, passwordReset };
