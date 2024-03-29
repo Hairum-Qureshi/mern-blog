@@ -32,6 +32,7 @@ const HTML = (
         height: 35vh;
         box-sizing: border-box;
         padding: 10px;
+        text-align: center;
         background: rgb(10,27,92);
         background: linear-gradient(0deg, rgba(10,27,92,1) 0%, rgba(5,5,27,1) 100%);
         color: white;
@@ -59,7 +60,7 @@ const HTML = (
     
     .content button:hover {
     	cursor: pointer;
-    	background-color: #063CA1;
+        color: blue;
         border: 1px solid blue;
        	transition: 0.5s;
     }
@@ -75,8 +76,8 @@ const HTML = (
 <div class="header">
     <h2 style = "color: white">Digital Dialogue</h2>
 </div>
-<div class="content">
-    <h4>Hi, ${first_name}! Thank you for creating an account at Digital Dialogue. This link will expire in 5 minutes. Click the link below to verify your account! <br /><br /> <a href="http://localhost:4000/api/user/verify/${token}?token=${token_id}&uid=${user_id}" style="font-size: 17px; text-align: center;">VERIFY ACCOUNT</a>
+<h4>
+<div class="content">Click the link below to verify your account! <br /><br /> <a href="http://localhost:4000/api/user/verify/${token}?token=${token_id}&uid=${user_id}" style="font-size: 17px; text-align: center;">VERIFY ACCOUNT</a> <br /> <br /> This link will expire in 5 minutes.
     </h4>
 </div>
 </body>

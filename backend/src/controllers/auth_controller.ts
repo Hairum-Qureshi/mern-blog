@@ -8,8 +8,8 @@ import Token from "../models/token";
 import mongoose from "mongoose";
 
 async function findUser(
-	email: string,
-	user_id?: string
+	email?: string,
+	user_id?: mongoose.Types.ObjectId
 ): Promise<User_Interface | undefined> {
 	// TODO - *MIGHT* need to add a check to make sure the user ID being passed in is in a valid MongoDB format
 	try {
@@ -18,11 +18,17 @@ async function findUser(
 			user = await User.findOne({
 				email
 			});
-		}
-		if (user_id) {
-			user = await User.findOne({
-				_id: user_id
-			});
+		} else {
+			try {
+				if (user_id && mongoose.isValidObjectId(user_id)) {
+					user = await User.findOne({
+						_id: user_id
+					});
+				}
+			} catch (error) {
+				console.log("<auth_controller.ts> [29] ERROR:", error);
+				return undefined;
+			}
 		}
 
 		if (!user) return undefined;
@@ -111,8 +117,6 @@ function deleteToken(token_id: mongoose.Types.ObjectId) {
 			await Token.deleteOne({
 				_id: token_id
 			});
-
-			console.log("1");
 		}, 300000); // will delete in 5 minutes
 	} else {
 		console.log(
@@ -122,7 +126,6 @@ function deleteToken(token_id: mongoose.Types.ObjectId) {
 }
 
 const register = async (req: Request, res: Response) => {
-	// Send an account verification email to the user
 	const { first_name, last_name, email, password } = req.body;
 	const user: User_Interface | undefined = await findUser(email);
 	if (user === undefined) {
@@ -168,6 +171,7 @@ const verification = async (req: Request, res: Response) => {
 	const token = req.params.token_id; // this is just a randomly generated token
 	const queryToken = req.query.token; // this is the token (ID) to use in database querying
 	const user_id = req.query.uid;
+	let token_deleted = false;
 
 	// First need to check if token_id and user_id are valid MongoDB IDs
 	// Second need to check if token is an actual existing token and matches the one in the DB
@@ -184,8 +188,39 @@ const verification = async (req: Request, res: Response) => {
 
 		if (db_token) {
 			if (db_token.token === token && db_token.user_id === user_id) {
-				console.log("valid");
-				deleteToken(db_token._id);
+				// console.log("valid");
+
+				const mongo_uid: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(
+					user_id
+				);
+
+				const user: User_Interface | undefined = await findUser(
+					undefined,
+					mongo_uid
+				);
+
+				if (user !== undefined) {
+					await User.findByIdAndUpdate(
+						{
+							_id: user._id
+						},
+						{
+							verified: true
+						}
+					);
+
+					await Token.deleteOne({
+						_id: queryToken
+					});
+
+					token_deleted = true;
+				} else {
+					console.log(
+						"<auth_controller.ts> [204] (not an error) - user is not defined"
+					);
+				}
+
+				if (!token_deleted) deleteToken(db_token._id);
 				res.render("index.html");
 			} else {
 				console.log("Not valid");
