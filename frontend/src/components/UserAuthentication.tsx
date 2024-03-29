@@ -6,15 +6,21 @@ import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 
 export default function UserAuthentication() {
-	const url_params = ["/sign-in", "/sign-up", "/forgot-password"];
+	const url_params = [
+		"/sign-in",
+		"/sign-up",
+		"/forgot-password",
+		"new-password?"
+	];
 	const current_path = useLocation().pathname;
 
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [duplicatePassword, setDuplicatePassword] = useState("");
 
-	const { loginWithGoogle, login, createAccount, sendEmail, errorHandler } =
+	const { loginWithGoogle, login, createAccount, resetPassword, errorHandler } =
 		useAuth();
 
 	return current_path == url_params[0] ? (
@@ -172,9 +178,27 @@ export default function UserAuthentication() {
 							onChange={e => setEmail(e.target.value)}
 							style={{ border: errorHandler.noEmail ? "1px solid red" : "" }}
 						/>
+						<label htmlFor="New Password">New Password</label>
+						<input
+							type="password"
+							placeholder="New Password"
+							name="New Password"
+							value={password}
+							onChange={e => setPassword(e.target.value)}
+							style={{ border: errorHandler.noEmail ? "1px solid red" : "" }}
+						/>
+						<label htmlFor="Repeat New Password">Repeat New Password</label>
+						<input
+							type="password"
+							placeholder="Repeat New Password"
+							name="Repeat New Password"
+							value={duplicatePassword}
+							onChange={e => setDuplicatePassword(e.target.value)}
+							style={{ border: errorHandler.noEmail ? "1px solid red" : "" }}
+						/>
 						<button
 							className={auth_page_css.authButton}
-							onClick={() => sendEmail(email)}
+							onClick={() => resetPassword(email, password, duplicatePassword)}
 						>
 							SEND EMAIL
 						</button>

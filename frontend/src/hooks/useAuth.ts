@@ -191,41 +191,46 @@ export default function useAuth(): AuthTypes {
 		}
 	}
 
-	function sendEmail(email: string) {
-		if (!email) {
-			setErrorHandler({
-				noEmail: !email,
-				message: "Please provide your email"
-			});
-		} else if (!email.trim().toLowerCase().match(emailRegex)) {
-			setErrorHandler({
-				noEmail: false,
-				noPassword: true,
-				message: "Incorrect email format"
-			});
-		} else {
-			axios
-				.post("http://localhost:4000/api/user/forgot-password", {
-					email: email.toLowerCase().trim()
-				})
-				.then(response => {
-					console.log(response.data);
-					setErrorHandler({
-						noEmail: false,
-						noPassword: false,
-						message: ""
-					});
-				})
-				.catch(error => {
-					console.log(error);
-					setErrorHandler({
-						noEmail: false,
-						noPassword: false,
-						message: `Server Error: ${error.response.data}`
-					});
-				});
-		}
+	function resetPassword(
+		email: string,
+		password: string,
+		duplicatePassword: string
+	) {
+		console.log(email, password, duplicatePassword);
+		// if (!email) {
+		// 	setErrorHandler({
+		// 		noEmail: !email,
+		// 		message: "Please provide your email"
+		// 	});
+		// } else if (!email.trim().toLowerCase().match(emailRegex)) {
+		// 	setErrorHandler({
+		// 		noEmail: false,
+		// 		noPassword: true,
+		// 		message: "Incorrect email format"
+		// 	});
+		// } else {
+		// 	axios
+		// 		.post("http://localhost:4000/api/user/forgot-password", {
+		// 			email: email.toLowerCase().trim()
+		// 		})
+		// 		.then(response => {
+		// 			console.log(response.data);
+		// 			setErrorHandler({
+		// 				noEmail: false,
+		// 				noPassword: false,
+		// 				message: response.data || ""
+		// 			});
+		// 		})
+		// 		.catch(error => {
+		// 			console.log(error);
+		// 			setErrorHandler({
+		// 				noEmail: false,
+		// 				noPassword: false,
+		// 				message: error.response.data
+		// 			});
+		// 		});
+		// }
 	}
 
-	return { loginWithGoogle, login, createAccount, sendEmail, errorHandler };
+	return { loginWithGoogle, login, createAccount, resetPassword, errorHandler };
 }

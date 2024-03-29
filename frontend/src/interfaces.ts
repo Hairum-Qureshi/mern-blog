@@ -23,6 +23,10 @@ export interface AuthTypes {
 		email: string,
 		password: string
 	) => void;
-	sendEmail: (email: string) => void;
+	resetPassword: (
+		email: string,
+		password: string,
+		duplicatePassword: string
+	) => void;
 	errorHandler: ErrorHandler;
 }

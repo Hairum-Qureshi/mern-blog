@@ -2,10 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/user";
 import bcrypt from "bcrypt";
 import { Token_Interface, User_Interface } from "../interfaces";
-import {
-	sendPasswordReset,
-	sendVerificationEmail
-} from "../nodemailer_files/nodemailer";
+import sendVerificationEmail from "../nodemailer_files/nodemailer";
 import jwt from "jsonwebtoken";
 import Token from "../models/token";
 import mongoose from "mongoose";
@@ -252,19 +249,39 @@ const passwordReset = async (req: Request, res: Response) => {
 	if (user !== undefined) {
 		const first_name: string = user.first_name;
 		const user_id: string = user._id.toString();
-		const status: number = await sendPasswordReset(email, first_name, user_id);
-		if (status === 200) {
-			res.status(200).send("Password reset email sent");
-		} else {
-			res
-				.status(500)
-				.send(
-					"There was a problem sending a password reset email to your account"
-				);
-		}
+		// const status: number = await sendPasswordReset(email, first_name, user_id);
+		// if (status === 200) {
+		// 	res.status(200).send("Password reset email sent");
+		// } else {
+		// 	res
+		// 		.status(500)
+		// 		.send(
+		// 			"There was a problem sending a password reset email to your account"
+		// 		);
+		// }
 	} else {
 		res.status(404).send("No user exists with this email");
 	}
 };
 
-export { login_google, login, register, verification, passwordReset };
+const updatePassword = async (req: Request, res: Response) => {
+	const { uid } = req.query;
+	const mongo_uid: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(
+		uid?.toString()
+	);
+	const user: User_Interface | undefined = await findUser(undefined, mongo_uid);
+	if (user) {
+		res.json(user);
+	} else {
+		res.json({ message: "user not found" });
+	}
+};
+
+export {
+	login_google,
+	login,
+	register,
+	verification,
+	passwordReset,
+	updatePassword
+};

@@ -11,8 +11,8 @@ dotenv.config();
 const app = express();
 
 const limit = rateLimit({
-	max: 500,
-	windowMs: 60 * 60 * 1000,
+	max: 500, // maximum requests
+	windowMs: 60 * 60 * 1000, // 1 hour in miliseconds
 	message: "Too many requests. Please try again in 1 hour."
 });
 
