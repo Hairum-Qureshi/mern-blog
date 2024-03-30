@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/user";
 import bcrypt from "bcrypt";
-import { Token_Interface, User_Interface } from "../interfaces";
+import { User_Interface } from "../interfaces";
 import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import jwt from "jsonwebtoken";
 import Token from "../models/token";
@@ -9,7 +9,6 @@ import mongoose from "mongoose";
 
 // TODO - move all similar/repeated code to new functions!
 // TODO - add the logic to create the authentication cookie!
-// TODO - move the code involving verification to a new controller file and then for both files, create separate functions that handle shared logic to reduce redundancy
 
 export async function findUser(
 	email?: string,
