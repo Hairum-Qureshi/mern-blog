@@ -158,7 +158,7 @@ const verifyNewPassword = async (req: Request, res: Response) => {
 	const token_data = await Token.findOne({ _id: token_id });
 	if (!token_data) {
 		return res.render("newPassword_verification.ejs", {
-			message: "This token is either invalid or expired"
+			message: "This token is either invalid or has expired"
 		});
 	}
 

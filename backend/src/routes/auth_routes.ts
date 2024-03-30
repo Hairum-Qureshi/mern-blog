@@ -1,12 +1,5 @@
 import express from "express";
-import {
-	login_google,
-	login,
-	register
-	// verification,
-	// passwordReset,
-	// verifyNewPassword
-} from "../controllers/auth_controller";
+import { login_google, login, register } from "../controllers/auth_controller";
 import {
 	verification,
 	passwordReset,
