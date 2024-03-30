@@ -2,11 +2,16 @@ import express from "express";
 import {
 	login_google,
 	login,
-	register,
+	register
+	// verification,
+	// passwordReset,
+	// verifyNewPassword
+} from "../controllers/auth_controller";
+import {
 	verification,
 	passwordReset,
 	verifyNewPassword
-} from "../controllers/auth_controller";
+} from "../controllers/verification_controller";
 
 const router = express.Router();
 

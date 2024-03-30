@@ -2,17 +2,16 @@ import { Request, Response } from "express";
 import User from "../models/user";
 import bcrypt from "bcrypt";
 import { Token_Interface, User_Interface } from "../interfaces";
-import {
-	sendAccountVerificationEmail,
-	sendPassVerificationEmail
-} from "../nodemailer_files/nodemailer";
+import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import jwt from "jsonwebtoken";
 import Token from "../models/token";
 import mongoose from "mongoose";
 
 // TODO - move all similar/repeated code to new functions!
+// TODO - add the logic to create the authentication cookie!
+// TODO - move the code involving verification to a new controller file and then for both files, create separate functions that handle shared logic to reduce redundancy
 
-async function findUser(
+export async function findUser(
 	email?: string,
 	user_id?: mongoose.Types.ObjectId
 ): Promise<User_Interface | undefined> {
@@ -71,7 +70,7 @@ const login_google = async (req: Request, res: Response) => {
 	}
 };
 
-function generateUniqueToken(): string {
+export function generateUniqueToken(): string {
 	const timestamp: number = new Date().getTime();
 	const randomString: string = Math.random().toString(36).substring(2);
 	const token: string = timestamp.toString() + randomString;
@@ -82,7 +81,8 @@ const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 	const user: User_Interface | undefined = await findUser(email);
 	if (user !== undefined) {
-		const db_password = user.password; // not all accounts will have the password property (if the user signs in with Google)
+		// Not all accounts will have the password property (if the user signs in with Google)
+		const db_password = user.password;
 		if (db_password) {
 			const match = await bcrypt.compare(password, db_password);
 			if (match) {
@@ -124,7 +124,7 @@ const login = async (req: Request, res: Response) => {
 	}
 };
 
-function deleteToken(token_id: mongoose.Types.ObjectId) {
+export function deleteToken(token_id: mongoose.Types.ObjectId) {
 	if (mongoose.isValidObjectId(token_id)) {
 		setTimeout(async () => {
 			await Token.deleteOne({
@@ -133,7 +133,7 @@ function deleteToken(token_id: mongoose.Types.ObjectId) {
 		}, 300000); // will delete in 5 minutes
 	} else {
 		console.log(
-			"<auth_controller.ts> [136] (not an error) - ID is not in valid MongoDB format"
+			"<auth_controller.ts> [138] (not an error) - ID is not in valid MongoDB format"
 		);
 	}
 }
@@ -141,6 +141,8 @@ function deleteToken(token_id: mongoose.Types.ObjectId) {
 const register = async (req: Request, res: Response) => {
 	const { first_name, last_name, email, password } = req.body;
 	const user: User_Interface | undefined = await findUser(email);
+	let http_statusCode: number = 409;
+	let message = "A user already exists with this email";
 	if (user === undefined) {
 		const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -172,246 +174,27 @@ const register = async (req: Request, res: Response) => {
 			token._id
 		);
 
-		if (status_code === 200) deleteToken(token._id);
-		else if (status_code === 500)
-			res
-				.status(500)
-				.send(
-					"There was a problem sending an email. Please check your email format"
-				);
-		else {
-			res
-				.status(201)
-				.send(`A verification email has been sent to ${user.email}`);
+		if (status_code === 200) {
+			http_statusCode = 201;
+			message = `A verification email has been sent to ${user.email}`;
+			// res
+			// 	.status(201)
+			// 	.send(`A verification email has been sent to ${user.email}`);
+
+			deleteToken(token._id);
+		} else if (status_code === 500) {
+			// res
+			// 	.status(500)
+			// 	.send(
+			// 		"There was a problem sending an email. Please check your email format"
+			// 	);
+			http_statusCode = 500;
+			message =
+				"There was a problem sending an email. Please check your email format";
 		}
-	} else {
-		res.status(409).send("A user already exists with this email");
 	}
+	// res.status(409).send("A user already exists with this email");
+	res.status(http_statusCode).send(message);
 };
 
-const verification = async (req: Request, res: Response) => {
-	const token = req.params.token_id; // this is just a randomly generated token
-	const queryToken = req.query.token; // this is the token (ID) to use in database querying
-	const user_id = req.query.uid;
-	let token_deleted = false;
-
-	// First need to check if token_id and user_id are valid MongoDB IDs
-	// Second need to check if token is an actual existing token and matches the one in the DB
-	// Third need to update the user's verified status
-
-	if (
-		mongoose.isValidObjectId(queryToken) &&
-		mongoose.isValidObjectId(user_id)
-	) {
-		const db_token: Token_Interface | null = await Token.findOne({
-			_id: queryToken,
-			token
-		});
-
-		if (db_token) {
-			if (db_token.token === token && db_token.user_id === user_id) {
-				// console.log("valid");
-
-				const mongo_uid: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(
-					user_id
-				);
-
-				const user: User_Interface | undefined = await findUser(
-					undefined,
-					mongo_uid
-				);
-
-				if (user !== undefined) {
-					await User.findByIdAndUpdate(
-						{
-							_id: user._id
-						},
-						{
-							verified: true
-						}
-					);
-
-					// This needs to be here because once the verified status is updated, this can be deleted instantly; there's no point in having to still wait 5 minutes for an already verified user's token to be deleted from the DB
-					await Token.deleteOne({
-						_id: queryToken
-					});
-
-					token_deleted = true;
-				} else {
-					console.log(
-						"<auth_controller.ts> [221] (not an error) - user is not defined"
-					);
-				}
-
-				if (!token_deleted) deleteToken(db_token._id);
-				res.render("account_verification.ejs", {
-					status:
-						"Account verified! Click <a href = 'http://localhost:5173/sign-in'>here</a> to sign in!"
-				});
-			} else {
-				// console.log("Not valid");
-				res.render("account_verification.ejs", {
-					status: "There was an error"
-				});
-			}
-		} else {
-			// console.log("This token might have expired or does not exist");
-			res.render("account_verification.ejs", {
-				status:
-					"This token might have expired or does not exist. Click <a href = 'http://localhost:5173/'>here</a> to head back home"
-			});
-		}
-	} else {
-		// console.log("Error");
-		res.render("account_verification.ejs", {
-			status: "404"
-		});
-	}
-};
-
-const passwordReset = async (req: Request, res: Response) => {
-	// Send an email to the user to basically verify that they were the one to have requested a password reset email
-	// This will add a layer of security to prevent users from just guessing people's emails and changing their passwords
-	const { email, duplicatePassword: new_password } = req.body;
-
-	const user: User_Interface | undefined = await findUser(email);
-	if (user !== undefined) {
-		const uniqueToken: string = generateUniqueToken();
-
-		const hashedPassword = await bcrypt.hash(new_password, 10);
-		if (!user.password) {
-			res
-				.status(500)
-				.send(
-					"This account is tied to a Google account. Consider logging in through Google"
-				);
-		} else {
-			const match = await bcrypt.compare(new_password, user.password);
-			if (match) {
-				res
-					.send(409)
-					.send(
-						"Consider entering a new password that's different from your current one"
-					);
-			} else {
-				if (!user.verified) {
-					const token = await Token.create({
-						token: generateUniqueToken(),
-						user_id: user._id
-					});
-
-					const status: number = await sendAccountVerificationEmail(
-						user.email,
-						user.first_name,
-						user._id,
-						token.token,
-						token._id
-					);
-
-					if (status === 200) {
-						res
-							.status(200)
-							.send(
-								"Your account does not appear to be verified. Please check your inbox for a new account verification email"
-							);
-					} else {
-						console.log("<auth_controller.ts> [301] ERROR sending email");
-						res.status(500).send("There was an issue sending an email");
-					}
-				} else {
-					const token = await Token.create({
-						token: uniqueToken,
-						user_id: user._id,
-						new_password: hashedPassword
-					});
-					const status: number = await sendPassVerificationEmail(
-						user.first_name,
-						email,
-						user._id,
-						uniqueToken,
-						token._id
-					);
-					if (status === 200) {
-						res
-							.status(200)
-							.send(
-								"Please check your inbox for a password reset verification email"
-							);
-
-						deleteToken(token._id);
-					} else {
-						console.log(
-							"<auth_controller.ts> [327] ERROR - there was an issue sending the user an email"
-						);
-						res.status(500).send("There was a problem sending an email");
-					}
-				}
-			}
-		}
-	} else {
-		res.status(404).send("No user exists with this email");
-	}
-};
-
-const verifyNewPassword = async (req: Request, res: Response) => {
-	const token_id = req.params.token_id;
-
-	if (!mongoose.isValidObjectId(token_id)) {
-		return res.render("404.html");
-	}
-
-	const token_data = await Token.findOne({ _id: token_id });
-	if (!token_data) {
-		return res.render("newPassword_verification.ejs", {
-			message: "This token is either invalid or expired"
-		});
-	}
-
-	let mongo_ID_Format: mongoose.Types.ObjectId;
-	try {
-		mongo_ID_Format = new mongoose.Types.ObjectId(token_data.user_id);
-	} catch (error) {
-		return res.render("newPassword_verification.ejs", {
-			message: "Error processing token data"
-		});
-	}
-
-	const user: User_Interface | undefined = await findUser(
-		undefined,
-		mongo_ID_Format
-	);
-	if (!user) {
-		await deleteToken(mongo_ID_Format);
-		return res.render("newPassword_verification.ejs", {
-			message: "There doesn't appear to be a user with this ID"
-		});
-	}
-
-	try {
-		await User.findByIdAndUpdate(
-			{ _id: user._id },
-			{ password: token_data.new_password }
-		);
-
-		await Token.deleteOne({ _id: token_id });
-
-		return res.render("newPassword_verification.ejs", {
-			message:
-				"Password successfully updated! Click <a href = 'http://localhost:5173/sign-in'>here</a> to sign into your account with your new password!"
-		});
-	} catch (error) {
-		console.log("<auth_controller.ts> Error updating password:", error);
-		return res.render("newPassword_verification.ejs", {
-			message: "Error updating password"
-		});
-	}
-};
-
-export {
-	login_google,
-	login,
-	register,
-	verification,
-	passwordReset,
-	verifyNewPassword
-};
+export { login_google, login, register };
