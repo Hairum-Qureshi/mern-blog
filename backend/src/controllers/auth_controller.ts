@@ -92,16 +92,24 @@ const login = async (req: Request, res: Response) => {
 						token: generateUniqueToken(),
 						user_id: user._id
 					});
-					sendAccountVerificationEmail(
+					const status_code: number = await sendAccountVerificationEmail(
 						user.email,
 						user.first_name,
 						user._id,
 						token.token,
 						token._id
 					);
-					res
-						.status(500)
-						.send("A verification email has been sent to your inbox");
+					if (status_code === 200) {
+						res
+							.status(200)
+							.send("A verification email has been sent to your inbox");
+					} else {
+						res
+							.status(500)
+							.send(
+								"There was a problem sending an email. Please check your email format"
+							);
+					}
 				} else {
 					// TODO - add the functionality to create a cookie here for the user and sign them in because they are verified
 				}
@@ -109,7 +117,7 @@ const login = async (req: Request, res: Response) => {
 				res.status(500).send("Incorrect password");
 			}
 		} else {
-			res.status(409).send("Sign in with Google");
+			res.status(409).send("This account is tied to a Google account");
 		}
 	} else {
 		res.status(404).send("No user exists with this email");
@@ -125,7 +133,7 @@ function deleteToken(token_id: mongoose.Types.ObjectId) {
 		}, 300000); // will delete in 5 minutes
 	} else {
 		console.log(
-			"<auth_controller.ts> [159] (not an error) - ID is not in valid MongoDB format"
+			"<auth_controller.ts> [136] (not an error) - ID is not in valid MongoDB format"
 		);
 	}
 }
@@ -165,8 +173,17 @@ const register = async (req: Request, res: Response) => {
 		);
 
 		if (status_code === 200) deleteToken(token._id);
-
-		res.status(201).send(`A verification email has been sent to ${user.email}`);
+		else if (status_code === 500)
+			res
+				.status(500)
+				.send(
+					"There was a problem sending an email. Please check your email format"
+				);
+		else {
+			res
+				.status(201)
+				.send(`A verification email has been sent to ${user.email}`);
+		}
 	} else {
 		res.status(409).send("A user already exists with this email");
 	}
@@ -214,7 +231,7 @@ const verification = async (req: Request, res: Response) => {
 						}
 					);
 
-					// TODO - replace this with deleteToken(db_token._id):
+					// This needs to be here because once the verified status is updated, this can be deleted instantly; there's no point in having to still wait 5 minutes for an already verified user's token to be deleted from the DB
 					await Token.deleteOne({
 						_id: queryToken
 					});
@@ -263,7 +280,11 @@ const passwordReset = async (req: Request, res: Response) => {
 
 		const hashedPassword = await bcrypt.hash(new_password, 10);
 		if (!user.password) {
-			res.status(500).send("Please login with Google");
+			res
+				.status(500)
+				.send(
+					"This account is tied to a Google account. Consider logging in through Google"
+				);
 		} else {
 			const match = await bcrypt.compare(new_password, user.password);
 			if (match) {
@@ -291,10 +312,10 @@ const passwordReset = async (req: Request, res: Response) => {
 						res
 							.status(200)
 							.send(
-								"Your account does not appear to be verified. Please check your inbox for an account verification email"
+								"Your account does not appear to be verified. Please check your inbox for a new account verification email"
 							);
 					} else {
-						console.log("<auth_controller.ts> [291] ERROR sending email");
+						console.log("<auth_controller.ts> [301] ERROR sending email");
 						res.status(500).send("There was an issue sending an email");
 					}
 				} else {
@@ -320,7 +341,7 @@ const passwordReset = async (req: Request, res: Response) => {
 						deleteToken(token._id);
 					} else {
 						console.log(
-							"<auth_controller.ts> [316] ERROR - there was an issue sending the user an email"
+							"<auth_controller.ts> [327] ERROR - there was an issue sending the user an email"
 						);
 						res.status(500).send("There was a problem sending an email");
 					}
@@ -334,9 +355,56 @@ const passwordReset = async (req: Request, res: Response) => {
 
 const verifyNewPassword = async (req: Request, res: Response) => {
 	const token_id = req.params.token_id;
-	const { token, uid: user_id } = req.query;
 
-	res.render("newPassword_verification.ejs", { message: "" });
+	if (!mongoose.isValidObjectId(token_id)) {
+		return res.render("404.html");
+	}
+
+	const token_data = await Token.findOne({ _id: token_id });
+	if (!token_data) {
+		return res.render("newPassword_verification.ejs", {
+			message: "This token is either invalid or expired"
+		});
+	}
+
+	let mongo_ID_Format: mongoose.Types.ObjectId;
+	try {
+		mongo_ID_Format = new mongoose.Types.ObjectId(token_data.user_id);
+	} catch (error) {
+		return res.render("newPassword_verification.ejs", {
+			message: "Error processing token data"
+		});
+	}
+
+	const user: User_Interface | undefined = await findUser(
+		undefined,
+		mongo_ID_Format
+	);
+	if (!user) {
+		await deleteToken(mongo_ID_Format);
+		return res.render("newPassword_verification.ejs", {
+			message: "There doesn't appear to be a user with this ID"
+		});
+	}
+
+	try {
+		await User.findByIdAndUpdate(
+			{ _id: user._id },
+			{ password: token_data.new_password }
+		);
+
+		await Token.deleteOne({ _id: token_id });
+
+		return res.render("newPassword_verification.ejs", {
+			message:
+				"Password successfully updated! Click <a href = 'http://localhost:5173/sign-in'>here</a> to sign into your account with your new password!"
+		});
+	} catch (error) {
+		console.log("<auth_controller.ts> Error updating password:", error);
+		return res.render("newPassword_verification.ejs", {
+			message: "Error updating password"
+		});
+	}
 };
 
 export {

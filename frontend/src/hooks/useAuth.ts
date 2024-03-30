@@ -3,6 +3,8 @@ import axios from "axios";
 import { AuthTypes, ErrorHandler } from "../interfaces";
 import { useState } from "react";
 
+// TODO - fix the error handling for creating an account. Need to put more emphasis on making sure the email is the correct format. Currently, if you just put 1 letter or no @ sign, the form still deems this as a valid email which is incorrect
+
 // TODO - need to add criteria of making passwords
 /*
 	-Passwords must be at least 10 characters long
