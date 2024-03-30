@@ -4,7 +4,8 @@ import {
 	login,
 	register,
 	verification,
-	passwordReset
+	passwordReset,
+	verifyNewPassword
 } from "../controllers/auth_controller";
 
 const router = express.Router();
@@ -15,5 +16,6 @@ router.post("/login", login);
 router.post("/create-user", register);
 router.post("/forgot-password", passwordReset);
 router.get("/verify/:token_id", verification);
+router.get("/verify/reset-password/:token_id", verifyNewPassword);
 
 export default router;

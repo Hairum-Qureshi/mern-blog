@@ -227,24 +227,26 @@ const verification = async (req: Request, res: Response) => {
 				}
 
 				if (!token_deleted) deleteToken(db_token._id);
-				res.render("verification.ejs", {
+				res.render("account_verification.ejs", {
 					status:
 						"Account verified! Click <a href = 'http://localhost:5173/sign-in'>here</a> to sign in!"
 				});
 			} else {
 				// console.log("Not valid");
-				res.render("verification.ejs", { status: "There was an error" });
+				res.render("account_verification.ejs", {
+					status: "There was an error"
+				});
 			}
 		} else {
 			// console.log("This token might have expired or does not exist");
-			res.render("verification.ejs", {
+			res.render("account_verification.ejs", {
 				status:
 					"This token might have expired or does not exist. Click <a href = 'http://localhost:5173/'>here</a> to head back home"
 			});
 		}
 	} else {
 		// console.log("Error");
-		res.render("verification.ejs", {
+		res.render("account_verification.ejs", {
 			status: "404"
 		});
 	}
@@ -260,65 +262,68 @@ const passwordReset = async (req: Request, res: Response) => {
 		const uniqueToken: string = generateUniqueToken();
 
 		const hashedPassword = await bcrypt.hash(new_password, 10);
-		const match = await bcrypt.compare(new_password, user.password!);
-
-		if (match) {
-			res
-				.send(409)
-				.send(
-					"Consider entering a new password that's different from your current one"
-				);
+		if (!user.password) {
+			res.status(500).send("Please login with Google");
 		} else {
-			if (!user.verified) {
-				const token = await Token.create({
-					token: generateUniqueToken(),
-					user_id: user._id
-				});
-
-				const status: number = await sendAccountVerificationEmail(
-					user.email,
-					user.first_name,
-					user._id,
-					token.token,
-					token._id
-				);
-
-				if (status === 200) {
-					res
-						.status(200)
-						.send(
-							"Your account does not appear to be verified. Please check your inbox for an account verification email"
-						);
-				} else {
-					console.log("<auth_controller.ts> [291] ERROR sending email");
-					res.status(500).send("There was an issue sending an email");
-				}
-			} else {
-				const token = await Token.create({
-					token: uniqueToken,
-					user_id: user._id,
-					new_password: hashedPassword
-				});
-				const status: number = await sendPassVerificationEmail(
-					user.first_name,
-					email,
-					user._id,
-					uniqueToken,
-					token._id
-				);
-				if (status === 200) {
-					res
-						.status(200)
-						.send(
-							"Please check your inbox for a password reset verification email"
-						);
-
-					deleteToken(token._id);
-				} else {
-					console.log(
-						"<auth_controller.ts> [316] ERROR - there was an issue sending the user an email"
+			const match = await bcrypt.compare(new_password, user.password);
+			if (match) {
+				res
+					.send(409)
+					.send(
+						"Consider entering a new password that's different from your current one"
 					);
-					res.status(500).send("There was a problem sending an email");
+			} else {
+				if (!user.verified) {
+					const token = await Token.create({
+						token: generateUniqueToken(),
+						user_id: user._id
+					});
+
+					const status: number = await sendAccountVerificationEmail(
+						user.email,
+						user.first_name,
+						user._id,
+						token.token,
+						token._id
+					);
+
+					if (status === 200) {
+						res
+							.status(200)
+							.send(
+								"Your account does not appear to be verified. Please check your inbox for an account verification email"
+							);
+					} else {
+						console.log("<auth_controller.ts> [291] ERROR sending email");
+						res.status(500).send("There was an issue sending an email");
+					}
+				} else {
+					const token = await Token.create({
+						token: uniqueToken,
+						user_id: user._id,
+						new_password: hashedPassword
+					});
+					const status: number = await sendPassVerificationEmail(
+						user.first_name,
+						email,
+						user._id,
+						uniqueToken,
+						token._id
+					);
+					if (status === 200) {
+						res
+							.status(200)
+							.send(
+								"Please check your inbox for a password reset verification email"
+							);
+
+						deleteToken(token._id);
+					} else {
+						console.log(
+							"<auth_controller.ts> [316] ERROR - there was an issue sending the user an email"
+						);
+						res.status(500).send("There was a problem sending an email");
+					}
 				}
 			}
 		}
@@ -327,4 +332,18 @@ const passwordReset = async (req: Request, res: Response) => {
 	}
 };
 
-export { login_google, login, register, verification, passwordReset };
+const verifyNewPassword = async (req: Request, res: Response) => {
+	const token_id = req.params.token_id;
+	const { token, uid: user_id } = req.query;
+
+	res.render("newPassword_verification.ejs", { message: "" });
+};
+
+export {
+	login_google,
+	login,
+	register,
+	verification,
+	passwordReset,
+	verifyNewPassword
+};
