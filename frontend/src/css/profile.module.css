@@ -1,0 +1,241 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	min-height: 100vh;
+	font-family: "Poppins", sans-serif;
+	overflow-y: auto;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	color: white;
+	align-items: center;
+}
+
+a {
+	text-decoration: none;
+}
+
+.headerWrapper header {
+	width: 100%;
+	background: url("https://wallpapers.com/images/hd/blue-mountain-03x28faoww0g6fpm.jpg")
+		no-repeat 50% 50% / cover;
+	object-fit: contain;
+	min-height: calc(100px + 15vw);
+}
+
+.headerWrapper .colsContainer .leftCol {
+	padding: 25px 20px;
+	text-align: center;
+	max-width: 350px;
+	position: relative;
+	margin: 0 auto;
+}
+
+.headerWrapper .colsContainer .leftCol .imgContainer {
+	position: absolute;
+	top: -110px;
+	left: 52%;
+	transform: translateX(-50%);
+}
+
+.headerWrapper .colsContainer .leftCol .imgContainer img {
+	width: 180px;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 100%;
+	display: block;
+	box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.18);
+}
+
+.headerWrapper .colsContainer .leftCol .imgContainer span {
+	position: absolute;
+	background: #2afa6a;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	bottom: 3px;
+	right: 11px;
+	border: 2px solid #fff;
+}
+
+.headerWrapper .colsContainer .leftCol h2 {
+	margin-top: 60px;
+	font-weight: 600;
+	font-size: 22px;
+	margin-bottom: 5px;
+}
+
+.headerWrapper .colsContainer .leftCol p {
+	font-size: 0.9rem;
+	color: white;
+	margin: 0;
+}
+
+.headerWrapper .colsContainer .leftCol .about {
+	justify-content: space-between;
+	position: relative;
+	margin: 35px 0;
+	color: white;
+}
+
+.headerWrapper .colsContainer .leftCol .about li {
+	display: flex;
+	flex-direction: column;
+	color: white;
+	font-size: 0.9rem;
+}
+
+.headerWrapper .colsContainer .leftCol .about li span {
+	color: white;
+	font-weight: 600;
+}
+
+.headerWrapper .colsContainer .leftCol .about:after {
+	position: absolute;
+	content: "";
+	bottom: -16px;
+	display: block;
+	background: #cccccc;
+	height: 1px;
+	width: 100%;
+}
+
+.headerWrapper .colsContainer .content p {
+	font-size: 1rem;
+	color: white;
+	line-height: 1.8em;
+}
+
+.headerWrapper .colsContainer .content ul {
+	gap: 30px;
+	justify-content: center;
+	align-items: center;
+	margin-top: 25px;
+}
+
+.headerWrapper .colsContainer .content ul li {
+	display: flex;
+}
+
+.headerWrapper .colsContainer .content ul i {
+	font-size: 1.3rem;
+}
+
+.headerWrapper .colsContainer .rightCol nav {
+	display: flex;
+	align-items: center;
+	padding: 30px 0;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+.headerWrapper .colsContainer .rightCol nav ul {
+	display: flex;
+	gap: 20px;
+	flex-direction: column;
+}
+
+.headerWrapper .colsContainer .rightCol nav ul li a {
+	text-transform: uppercase;
+	color: white;
+	font-size: 30px;
+	border-bottom: 2px solid white;
+	font-family: "Archivo", sans-serif;
+	font-weight: 400;
+}
+
+.headerWrapper .colsContainer .rightCol nav ul li:nth-child(1) a {
+	color: white;
+	font-weight: 600;
+}
+
+.headerWrapper .colsContainer .rightCol nav button {
+	background: #0091ff;
+	color: white;
+	border: none;
+	padding: 10px 25px;
+	border-radius: 4px;
+	margin-top: 20px;
+}
+
+.headerWrapper .colsContainer .rightCol nav button:hover {
+	background: rgb(17, 139, 220);
+	cursor: pointer;
+}
+
+.headerWrapper .colsContainer .rightCol nav button:active {
+	background: rgb(2, 149, 248);
+}
+
+.headerWrapper .colsContainer .rightCol .blogs {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+	gap: 20px;
+}
+
+.headerWrapper .colsContainer .rightCol .blogs h4 {
+	text-align: center;
+	width: 220px;
+}
+
+.headerWrapper .colsContainer .rightCol .blogs img {
+	display: block;
+	height: 150px;
+	width: 230px;
+	object-fit: cover;
+}
+
+/* Responsiveness */
+
+@media (min-width: 868px) {
+	.headerWrapper .colsContainer {
+		max-width: 1200px;
+		margin: 0 auto;
+		width: 90%;
+		justify-content: space-between;
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+		gap: 50px;
+	}
+	.headerWrapper .colsContainer .leftCol {
+		padding: 25px 0px;
+	}
+	.headerWrapper .colsContainer .rightCol nav ul {
+		flex-direction: row;
+		gap: 30px;
+	}
+	.headerWrapper .colsContainer .rightCol .blogs {
+		height: 365px;
+		overflow: auto;
+		padding: 0 0 30px;
+	}
+}
+
+@media (min-width: 1017px) {
+	.headerWrapper .colsContainer .leftCol {
+		margin: 0;
+		margin-right: auto;
+	}
+	.headerWrapper .colsContainer .rightCol nav {
+		flex-direction: row;
+	}
+	.headerWrapper .colsContainer .rightCol nav button {
+		margin-top: 0;
+	}
+}
+
+/*
+
+Base CSS Code from https://github.com/programmercloud/responsive-profile-page 
+Modified by Hairum
+
+*/

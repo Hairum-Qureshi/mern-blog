@@ -6,12 +6,7 @@ import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 
 export default function UserAuthentication() {
-	const url_params = [
-		"/sign-in",
-		"/sign-up",
-		"/forgot-password",
-		"new-password?"
-	];
+	const url_params = ["/sign-in", "/sign-up", "/forgot-password"];
 	const current_path = useLocation().pathname;
 
 	const [firstName, setFirstName] = useState("");
