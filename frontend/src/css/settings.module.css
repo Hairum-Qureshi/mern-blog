@@ -88,6 +88,11 @@
 	color: rgb(54, 138, 198);
 }
 
+.settingsContainer .userSettings .inputContainer input:focus,
+.settingsContainer .userSettings .inputContainer textarea:focus {
+	border: 1px solid rgb(0, 170, 255);
+}
+
 .settingsContainer .userSettings .inputContainer .split input[type="text"] {
 	width: 40%;
 }
@@ -108,11 +113,16 @@
 	height: 430px;
 }
 
-.userSettings .inputContainer .socialIcons {
+.userSettings .inputContainer .iconsContainer .socialIcons {
 	font-size: 25px;
 	margin-right: 40px;
 }
 
-.userSettings .inputContainer .socialUsername {
-	width: 40%;
+.userSettings .inputContainer .iconsContainer tr td {
+	font-size: 25px;
+}
+
+.userSettings .inputContainer .iconsContainer tr td input {
+	margin-left: 20px;
+	width: 150%;
 }

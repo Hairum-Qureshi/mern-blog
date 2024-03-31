@@ -6,6 +6,8 @@ import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 
 export default function UserAuthentication() {
+	// TODO - need to fix margin for the error message; it's too close to the label
+
 	const url_params = ["/sign-in", "/sign-up", "/forgot-password"];
 	const current_path = useLocation().pathname;
 
@@ -45,7 +47,10 @@ export default function UserAuthentication() {
 						<span style={{ color: "red" }}>
 							{errorHandler && errorHandler.message ? errorHandler.message : ""}
 						</span>
-						<label htmlFor="Email" style={{ marginBottom: "5px" }}>
+						<label
+							htmlFor="Email"
+							style={{ marginTop: "15px", marginBottom: "5px" }}
+						>
 							Email
 						</label>
 						<input
