@@ -14,6 +14,7 @@ import ArchivedBlogs from "./settings/ArchivedBlogs";
 import BlockedList from "./settings/BlockedList";
 import Security from "./settings/Security";
 import Socials from "./settings/Socials";
+import NotFound from "./NotFound";
 
 export default function Settings() {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -85,7 +86,7 @@ export default function Settings() {
 				) : current === query_params[4] ? (
 					<BlockedList />
 				) : (
-					""
+					<NotFound />
 				)}
 			</div>
 		</div>

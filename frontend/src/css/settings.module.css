@@ -83,7 +83,8 @@
 	border: 2px solid rgb(14, 78, 139);
 }
 
-::placeholder {
+.settingsContainer .userSettings .inputContainer input::placeholder,
+.settingsContainer .userSettings .inputContainer textarea::placeholder {
 	color: rgb(54, 138, 198);
 }
 
@@ -105,4 +106,13 @@
 	outline: none;
 	border-radius: 5px;
 	height: 430px;
+}
+
+.userSettings .inputContainer .socialIcons {
+	font-size: 25px;
+	margin-right: 40px;
+}
+
+.userSettings .inputContainer .socialUsername {
+	width: 40%;
 }
