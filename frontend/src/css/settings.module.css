@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
+
+.main {
+	display: flex;
+}
+
+.navbar {
+	width: 180px;
+	height: 45em;
+	background-color: rgb(0, 26, 61);
+}
+
+.navbar h3 {
+	text-align: center;
+	margin: 0 0 10px 0;
+}
+
+.navbar ul {
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+
+.navbar ul li {
+	padding: 10px;
+	margin-top: 3px;
+	color: rgb(62, 143, 242);
+	background-color: rgb(13, 39, 70);
+	list-style: none;
+}
+
+.navbar ul li:hover {
+	background-color: rgb(15, 48, 89);
+	cursor: pointer;
+	color: rgb(124, 183, 255);
+}
+
+.navbar ul li:active {
+	background-color: rgb(3, 44, 95);
+	color: white;
+}
+
+.settingsContainer {
+	flex-grow: 1;
+	box-sizing: border-box;
+	margin: 0 10px;
+	padding: 10px;
+}
+
+.settingsContainer .userSettings {
+	/* border: 2px solid white; */
+	height: auto;
+	padding: 20px;
+	margin-top: -10px;
+}
+
+.settingsContainer .userSettings .inputContainer {
+	width: 100%;
+}
+
+.settingsContainer .userSettings .inputContainer p {
+	margin: 5px;
+	color: rgb(12, 213, 12);
+}
+
+.settingsContainer .userSettings .inputContainer input {
+	padding: 13px;
+	font-size: 16px;
+	outline: none;
+	margin: 5px;
+	border-radius: 5px;
+}
+
+.settingsContainer .userSettings .inputContainer .split input[type="text"] {
+	width: 40%;
+}
+
+.settingsContainer .userSettings .inputContainer .whole input[type="email"] {
+	width: 83.5%;
+}
+
+.settingsContainer .userSettings .inputContainer .whole textarea {
+	font-family: "Archivo", sans-serif;
+	width: 84%;
+	padding: 10px;
+	resize: none;
+	margin: 5px;
+	font-size: 17px;
+	outline: none;
+	border-radius: 5px;
+	height: 430px;
+}

@@ -29,7 +29,7 @@ export async function findUser(
 					});
 				}
 			} catch (error) {
-				console.log("<auth_controller.ts> [29] ERROR:", error);
+				console.log("<auth_controller.ts> [32] ERROR:", error);
 				return undefined;
 			}
 		}
@@ -38,7 +38,7 @@ export async function findUser(
 
 		return user;
 	} catch (error) {
-		console.log("<auth_controller.ts> [16] ERROR:", error);
+		console.log("<auth_controller.ts> [41] ERROR:", error);
 		return undefined;
 	}
 }
@@ -64,7 +64,7 @@ const login_google = async (req: Request, res: Response) => {
 			res.status(201).json(user); // 201 HTTP code means new resource created
 		}
 	} catch (error) {
-		console.log("<auth_controller.ts> [44] ERROR:", error);
+		console.log("<auth_controller.ts> [67] ERROR:", error);
 		res.status(500).send(error);
 	}
 };
@@ -132,7 +132,7 @@ export function deleteToken(token_id: mongoose.Types.ObjectId) {
 		}, 300000); // will delete in 5 minutes
 	} else {
 		console.log(
-			"<auth_controller.ts> [138] (not an error) - ID is not in valid MongoDB format"
+			"<auth_controller.ts> [135] (not an error) - ID is not in valid MongoDB format"
 		);
 	}
 }
@@ -140,7 +140,7 @@ export function deleteToken(token_id: mongoose.Types.ObjectId) {
 const register = async (req: Request, res: Response) => {
 	const { first_name, last_name, email, password } = req.body;
 	const user: User_Interface | undefined = await findUser(email);
-	let http_statusCode: number = 409;
+	let http_statusCode = 409;
 	let message = "A user already exists with this email";
 	if (user === undefined) {
 		const hashedPassword = await bcrypt.hash(password, 10);

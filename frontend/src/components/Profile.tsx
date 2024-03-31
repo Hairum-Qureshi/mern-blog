@@ -70,7 +70,7 @@ export default function Profile() {
 						<nav>
 							<ul>
 								<li>
-									<a href="?section=blogs">John Doe's Blogs</a>
+									<h3>John Doe's Blogs</h3>
 								</li>
 								{/* <li>
 									<a href="">galleries</a>

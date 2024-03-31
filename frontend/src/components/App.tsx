@@ -6,6 +6,7 @@ import UserAuthentication from "./UserAuthentication";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import NotFound from "./NotFound";
 import Profile from "./Profile";
+import Settings from "./Settings";
 
 function App() {
 	return (
@@ -19,6 +20,10 @@ function App() {
 					<Route path="/sign-in" element={<UserAuthentication />} />
 					<Route path="/forgot-password" element={<UserAuthentication />} />
 					<Route path="/user/:user_id/profile" element={<Profile />} />
+					<Route
+						path="/user/:user_id/profile/settings"
+						element={<Settings />}
+					/>
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</GoogleOAuthProvider>

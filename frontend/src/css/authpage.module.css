@@ -105,6 +105,10 @@ body {
 	font-family: "Ubuntu", sans-serif;
 }
 
+.mainContainer .right .form label:nth-of-type(1) {
+	margin-top: -5px;
+}
+
 .mainContainer .right .form span {
 	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;

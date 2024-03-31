@@ -20,9 +20,9 @@ ul {
 	align-items: center;
 }
 
-a {
+/* a {
 	text-decoration: none;
-}
+} */
 
 .headerWrapper header {
 	width: 100%;
@@ -144,7 +144,7 @@ a {
 	flex-direction: column;
 }
 
-.headerWrapper .colsContainer .rightCol nav ul li a {
+.headerWrapper .colsContainer .rightCol nav ul li h3 {
 	text-transform: uppercase;
 	color: white;
 	font-size: 30px;
@@ -153,10 +153,10 @@ a {
 	font-weight: 400;
 }
 
-.headerWrapper .colsContainer .rightCol nav ul li:nth-child(1) a {
+/* .headerWrapper .colsContainer .rightCol nav ul li:nth-child(1) h3 {
 	color: white;
 	font-weight: 600;
-}
+} */
 
 .headerWrapper .colsContainer .rightCol nav button {
 	background: #0091ff;

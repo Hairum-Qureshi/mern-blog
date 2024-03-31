@@ -185,8 +185,8 @@ export default function UserAuthentication() {
 						<label htmlFor="Repeat New Password">Repeat New Password</label>
 						<input
 							type="password"
-							placeholder="Repeat New Password"
-							name="Repeat New Password"
+							placeholder="Confirm New Password"
+							name="Confirm New Password"
 							value={duplicatePassword}
 							onChange={e => setDuplicatePassword(e.target.value)}
 							style={{
