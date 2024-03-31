@@ -21,10 +21,14 @@
 	margin: 0;
 }
 
+.navbar ul a {
+	color: rgb(62, 143, 242);
+	text-decoration: none;
+}
+
 .navbar ul li {
 	padding: 10px;
 	margin-top: 3px;
-	color: rgb(62, 143, 242);
 	background-color: rgb(13, 39, 70);
 	list-style: none;
 }
@@ -69,6 +73,18 @@
 	outline: none;
 	margin: 5px;
 	border-radius: 5px;
+}
+
+.settingsContainer .userSettings .inputContainer input,
+.settingsContainer .userSettings .inputContainer textarea {
+	color: white;
+	/* background-color: rgb(7, 43, 79); */
+	background-color: rgb(3, 51, 99);
+	border: 2px solid rgb(14, 78, 139);
+}
+
+::placeholder {
+	color: rgb(54, 138, 198);
 }
 
 .settingsContainer .userSettings .inputContainer .split input[type="text"] {
