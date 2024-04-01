@@ -3,7 +3,6 @@ import User from "../models/user";
 import bcrypt from "bcrypt";
 import { User_Interface } from "../interfaces";
 import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
-import jwt from "jsonwebtoken";
 import Token from "../models/token";
 import mongoose from "mongoose";
 
@@ -62,6 +61,7 @@ const login_google = async (req: Request, res: Response) => {
 			});
 
 			res.status(201).json(user); // 201 HTTP code means new resource created
+			req.session.user_id = user._id;
 		}
 	} catch (error) {
 		console.log("<auth_controller.ts> [67] ERROR:", error);
