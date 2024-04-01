@@ -6,6 +6,9 @@ import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import Token from "../models/token";
 import mongoose from "mongoose";
 
+// TODO - move all similar/repeated code to new functions!
+// TODO - add the logic to create the authentication cookie!
+
 export async function findUser(
 	email?: string,
 	user_id?: mongoose.Types.ObjectId
