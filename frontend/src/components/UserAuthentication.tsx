@@ -187,7 +187,7 @@ export default function UserAuthentication() {
 							onChange={e => setPassword(e.target.value)}
 							style={{ border: errorHandler.noPassword ? "1px solid red" : "" }}
 						/>
-						<label htmlFor="Repeat New Password">Repeat New Password</label>
+						<label htmlFor="Confirm New Password">Confirm New Password</label>
 						<input
 							type="password"
 							placeholder="Confirm New Password"
