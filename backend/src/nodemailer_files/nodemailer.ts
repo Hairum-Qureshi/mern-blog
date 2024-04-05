@@ -36,7 +36,7 @@ async function sendAccountVerificationEmail(
 
 		return 200;
 	} catch (error) {
-		console.log("<nodemailer.ts> [36] ERROR", error);
+		console.log("<nodemailer.ts> [39] ERROR", error);
 		return 500;
 	}
 }
@@ -72,7 +72,7 @@ async function sendPassVerificationEmail(
 
 		return 200;
 	} catch (error) {
-		console.log("<nodemailer.ts> [61] ERROR", error);
+		console.log("<nodemailer.ts> [75] ERROR", error);
 		return 500;
 	}
 }

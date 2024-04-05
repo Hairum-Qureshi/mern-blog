@@ -39,15 +39,29 @@ export default function useAuth(): AuthTypes {
 					const { email, family_name, given_name, name, picture } =
 						response.data;
 					axios
-						.post("http://localhost:4000/api/user/google-login", {
-							email,
-							first_name: given_name,
-							last_name: family_name,
-							full_name: name,
-							profile_picture: picture
-						})
+						.post(
+							"http://localhost:4000/api/user/google-login",
+							{
+								email,
+								first_name: given_name,
+								last_name: family_name,
+								full_name: name,
+								profile_picture: picture
+							},
+							{
+								withCredentials: true
+							}
+						)
 						.then(response => {
-							console.log(response.data);
+							if (response.status === 200) {
+								setErrorHandler({
+									noEmail: false,
+									noPassword: false,
+									message: ""
+								});
+
+								window.location.href = `http://localhost:5173/user/${response.data}/profile`;
+							}
 						})
 						.catch(error => {
 							if (
@@ -111,17 +125,26 @@ export default function useAuth(): AuthTypes {
 
 		if (email.trim() && password) {
 			axios
-				.post("http://localhost:4000/api/user/login", {
-					email: email.toLowerCase().trim(),
-					password
-				})
+				.post(
+					"http://localhost:4000/api/user/login",
+					{
+						email: email.toLowerCase().trim(),
+						password
+					},
+					{
+						withCredentials: true
+					}
+				)
 				.then(response => {
-					console.log(response.data);
-					setErrorHandler({
-						noEmail: false,
-						noPassword: false,
-						message: ""
-					});
+					if (response.status === 200) {
+						setErrorHandler({
+							noEmail: false,
+							noPassword: false,
+							message: ""
+						});
+
+						window.location.href = `http://localhost:5173/user/${response.data}/profile`;
+					}
 				})
 				.catch(error => {
 					setErrorHandler({
@@ -167,12 +190,18 @@ export default function useAuth(): AuthTypes {
 
 		if (firstName.trim() && lastName.trim() && email.trim() && password) {
 			axios
-				.post("http://localhost:4000/api/user/create-user", {
-					first_name: firstName.trim(),
-					last_name: lastName.trim(),
-					email: email.toLowerCase().trim(),
-					password
-				})
+				.post(
+					"http://localhost:4000/api/user/create-user",
+					{
+						first_name: firstName.trim(),
+						last_name: lastName.trim(),
+						email: email.toLowerCase().trim(),
+						password
+					},
+					{
+						withCredentials: true
+					}
+				)
 				.then(response => {
 					console.log(response.data);
 					setErrorHandler({
@@ -219,7 +248,6 @@ export default function useAuth(): AuthTypes {
 					duplicatePassword
 				})
 				.then(response => {
-					console.log(response.data);
 					setErrorHandler({
 						noEmail: false,
 						noPassword: false,

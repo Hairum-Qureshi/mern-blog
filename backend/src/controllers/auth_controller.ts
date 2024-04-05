@@ -37,17 +37,20 @@ export async function findUser(
 
 		return user;
 	} catch (error) {
-		console.log("<auth_controller.ts> [41] ERROR:", error);
+		console.log("<auth_controller.ts> [40] ERROR:", error);
 		return undefined;
 	}
 }
 
 const login_google = async (req: Request, res: Response) => {
 	const { email, first_name, last_name, full_name, profile_picture } = req.body;
+
 	try {
 		const user: User_Interface | undefined = await findUser(email);
 		if (user) {
-			res.status(409).send("A user already exists with this Google account"); // 409 HTTP code means duplicate data found
+			// res.status(409).send("A user already exists with this Google account"); // 409 HTTP code means duplicate data found
+			req.session.user_id = user._id;
+			res.status(200).send(user._id);
 		} else {
 			const user = await User.create({
 				email,
@@ -59,12 +62,12 @@ const login_google = async (req: Request, res: Response) => {
 				num_blogs: 0,
 				verified: true
 			});
-
-			res.status(201).json(user); // 201 HTTP code means new resource created
 			req.session.user_id = user._id;
+			res.status(200).send(user._id);
+			// res.status(201).json(user); // 201 HTTP code means new resource created
 		}
 	} catch (error) {
-		console.log("<auth_controller.ts> [67] ERROR:", error);
+		console.log("<auth_controller.ts> [70] ERROR:", error);
 		res.status(500).send(error);
 	}
 };
@@ -74,6 +77,20 @@ export function generateUniqueToken(): string {
 	const randomString: string = Math.random().toString(36).substring(2);
 	const token: string = timestamp.toString() + randomString;
 	return token;
+}
+
+export function deleteToken(token_id: mongoose.Types.ObjectId) {
+	if (mongoose.isValidObjectId(token_id)) {
+		setTimeout(async () => {
+			await Token.deleteOne({
+				_id: token_id
+			});
+		}, 300000); // will delete in 5 minutes
+	} else {
+		console.log(
+			"<auth_controller.ts> [91] (not an error) - ID is not in valid MongoDB format"
+		);
+	}
 }
 
 const login = async (req: Request, res: Response) => {
@@ -100,8 +117,9 @@ const login = async (req: Request, res: Response) => {
 					);
 					if (status_code === 200) {
 						res
-							.status(200)
+							.status(409) // *MIGHT* need to change this status code
 							.send("A verification email has been sent to your inbox");
+						deleteToken(token._id);
 					} else {
 						res
 							.status(500)
@@ -111,6 +129,8 @@ const login = async (req: Request, res: Response) => {
 					}
 				} else {
 					// TODO - add the functionality to create a cookie here for the user and sign them in because they are verified
+					req.session.user_id = user._id;
+					res.status(200).send(user._id); // this is important! Without it, the cookie will not set!
 				}
 			} else {
 				res.status(500).send("Incorrect password");
@@ -122,20 +142,6 @@ const login = async (req: Request, res: Response) => {
 		res.status(404).send("No user exists with this email");
 	}
 };
-
-export function deleteToken(token_id: mongoose.Types.ObjectId) {
-	if (mongoose.isValidObjectId(token_id)) {
-		setTimeout(async () => {
-			await Token.deleteOne({
-				_id: token_id
-			});
-		}, 300000); // will delete in 5 minutes
-	} else {
-		console.log(
-			"<auth_controller.ts> [135] (not an error) - ID is not in valid MongoDB format"
-		);
-	}
-}
 
 const register = async (req: Request, res: Response) => {
 	const { first_name, last_name, email, password } = req.body;

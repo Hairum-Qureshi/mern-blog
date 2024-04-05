@@ -67,6 +67,9 @@ const verification = async (req: Request, res: Response) => {
 const passwordReset = async (req: Request, res: Response) => {
 	// Send an email to the user to basically verify that they were the one to have requested a password reset email
 	// This will add a layer of security to prevent users from just guessing people's emails and changing their passwords
+
+	// TODO - resolve error: when the user enters a new password that's the same as their old one, there's a 'cannot send headers after they are sent to the client' error despite there being a check to see if the "new" password is the same as the old one
+
 	const { email, duplicatePassword: new_password } = req.body;
 
 	const user: User_Interface | undefined = await findUser(email);
@@ -110,7 +113,7 @@ const passwordReset = async (req: Request, res: Response) => {
 								"Your account does not appear to be verified. Please check your inbox for a new account verification email"
 							);
 					} else {
-						console.log("<auth_controller.ts> [113] ERROR sending email");
+						console.log("<auth_controller.ts> [116] ERROR sending email");
 						res.status(500).send("There was an issue sending an email");
 					}
 				} else {
@@ -136,7 +139,7 @@ const passwordReset = async (req: Request, res: Response) => {
 						deleteToken(token._id);
 					} else {
 						console.log(
-							"<auth_controller.ts> [139] ERROR - there was an issue sending the user an email"
+							"<auth_controller.ts> [142] ERROR - there was an issue sending the user an email"
 						);
 						res.status(500).send("There was a problem sending an email");
 					}
@@ -195,7 +198,7 @@ const verifyNewPassword = async (req: Request, res: Response) => {
 				"Password successfully updated! Click <a href = 'http://localhost:5173/sign-in'>here</a> to sign into your account with your new password!"
 		});
 	} catch (error) {
-		console.log("<auth_controller.ts> [198] - Error updating password:", error);
+		console.log("<auth_controller.ts> [201] - Error updating password:", error);
 		return res.render("newPassword_verification.ejs", {
 			message: "Error updating password"
 		});

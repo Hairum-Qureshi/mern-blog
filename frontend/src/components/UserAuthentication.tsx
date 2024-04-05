@@ -7,6 +7,7 @@ import { useState } from "react";
 
 export default function UserAuthentication() {
 	// TODO - need to fix margin for the error message; it's too close to the label
+	// TODO - make it so that whenever you click a link, it removes that error message you got from one page
 
 	const url_params = ["/sign-in", "/sign-up", "/forgot-password"];
 	const current_path = useLocation().pathname;
