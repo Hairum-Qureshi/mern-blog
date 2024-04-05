@@ -29,13 +29,6 @@ export default function UserAuthentication() {
 		loading
 	} = useAuth();
 
-	const [test, setTest] = useState<boolean>();
-
-	useEffect(() => {
-		setTest(loading);
-	}, [loading]);
-	console.log(test);
-
 	return current_path == url_params[0] ? (
 		<>
 			<div className={auth_page_css.mainContainer}>
