@@ -7,8 +7,13 @@ import {
 	faPinterest,
 	faXTwitter
 } from "@fortawesome/free-brands-svg-icons";
+import useAuth from "../contexts/authContext";
 
 export default function Profile() {
+	const { userData, error } = useAuth()!;
+
+	console.log(userData, error);
+
 	return (
 		<>
 			<div className={profile_css.headerWrapper}>

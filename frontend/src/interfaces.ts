@@ -31,3 +31,24 @@ export interface AuthTypes {
 	) => void;
 	errorHandler: ErrorHandler;
 }
+
+export interface ContextData {
+	userData: User | null;
+	error: string | null;
+	// signOut: () => Promise<void>;
+}
+
+export interface AuthProps {
+	children: React.ReactNode;
+}
+
+export interface User {
+	user_id: string;
+	email: string;
+	first_name: string;
+	last_name: string;
+	full_name: string;
+	profile_picture: string;
+	date_joined: string;
+	num_blogs: number;
+}
