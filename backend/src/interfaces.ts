@@ -8,9 +8,13 @@ export interface User_Interface {
 	full_name?: string;
 	password?: string;
 	profile_picture: string;
+	biography: string;
+	followers: number;
+	following: number;
 	date_joined?: string;
 	num_blogs: number;
 	verified: boolean;
+	show_email: boolean;
 }
 
 export interface Token_Interface {

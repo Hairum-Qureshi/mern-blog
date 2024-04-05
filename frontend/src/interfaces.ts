@@ -49,6 +49,10 @@ export interface User {
 	last_name: string;
 	full_name: string;
 	profile_picture: string;
+	biography: string;
+	followers: number;
+	following: number;
 	date_joined: string;
 	num_blogs: number;
+	show_email: boolean;
 }

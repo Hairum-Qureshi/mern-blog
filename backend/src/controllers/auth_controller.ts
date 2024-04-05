@@ -215,9 +215,14 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				last_name,
 				full_name,
 				profile_picture,
+				biography,
+				followers,
+				following,
 				date_joined,
-				num_blogs
+				num_blogs,
+				show_email
 			} = user;
+
 			res.json({
 				user_id,
 				email,
@@ -225,8 +230,12 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				last_name,
 				full_name,
 				profile_picture,
+				biography,
+				followers,
+				following,
 				date_joined,
-				num_blogs
+				num_blogs,
+				show_email
 			});
 		} else {
 			res.json({ message: "user does not exist" });

@@ -11,5 +11,3 @@
 - social media platforms
 - show_email (this will be toggled in the user settings - whether the user wants to make their email public or not)
 - biography
-
-4. Create the sign out functionality

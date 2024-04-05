@@ -24,6 +24,18 @@ const userSchema = new Schema({
 		default:
 			"https://i.pinimg.com/originals/bc/8f/29/bc8f29c4183345bcc63bd4a161e88c71.png"
 	},
+	biography: {
+		type: String,
+		default: "This user currently doesn't have a bio"
+	},
+	followers: {
+		type: Number,
+		default: 0
+	},
+	following: {
+		type: Number,
+		default: 0
+	},
 	date_joined: {
 		type: String
 	},
@@ -33,6 +45,10 @@ const userSchema = new Schema({
 	verified: {
 		type: Boolean,
 		required: true
+	},
+	show_email: {
+		type: Boolean,
+		default: false
 	}
 });
 

@@ -38,10 +38,9 @@ export const AuthProvider = ({ children }: AuthProps) => {
 					withCredentials: true
 				}
 			);
-			console.log(response.data);
-			// if (response.status === 200) {
-			//     setUserData(null);
-			// }
+			if (response.status === 200) {
+				setUserData(null);
+			}
 		} catch (error) {
 			console.error("There was an error", error);
 		}
