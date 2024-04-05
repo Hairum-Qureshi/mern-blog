@@ -30,20 +30,22 @@ export const AuthProvider = ({ children }: AuthProps) => {
 		getCurrUserData();
 	}, []);
 
-	const signOut = async (): Promise<void> => {
-		alert("Sign out called!");
+	const signOut = async () => {
+		try {
+			const response = await axios.get(
+				"http://localhost:4000/api/user/logout",
+				{
+					withCredentials: true
+				}
+			);
+			console.log(response.data);
+			// if (response.status === 200) {
+			//     setUserData(null);
+			// }
+		} catch (error) {
+			console.error("There was an error", error);
+		}
 	};
-
-	// const signOut = async (): Promise<void> => {
-	// 	try {
-	// 		await axios.get("http://localhost:4000/api/signOut", {
-	// 			withCredentials: true
-	// 		});
-	// 		setUserData(null);
-	// 	} catch (error) {
-	// 		console.error("There was an error", error);
-	// 	}
-	// };
 
 	const value: ContextData = {
 		userData,

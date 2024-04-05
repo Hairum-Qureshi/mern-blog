@@ -27,13 +27,13 @@ export default function Profile() {
 					<div className={profile_css.leftCol}>
 						<div className={profile_css.imgContainer}>
 							<img
-								src={(userData && userData.profile_picture) || ""}
+								src={userData.profile_picture || ""}
 								alt="User profile picture"
 							/>
 							{/* Used to show online/offline status circle: */}
 							{/* <span></span> */}
 						</div>
-						<h2>{userData && userData.full_name}</h2>
+						<h2>{userData.full_name}</h2>
 						<p>Activist Blogger</p>
 						<p>user@example.com</p>
 
@@ -45,7 +45,7 @@ export default function Profile() {
 								<span>0</span>Following
 							</li>
 							<li>
-								<span>{userData && userData.num_blogs}</span>Blog Posts
+								<span>{userData.num_blogs}</span>Blog Posts
 							</li>
 						</ul>
 
@@ -81,7 +81,11 @@ export default function Profile() {
 						<nav>
 							<ul>
 								<li>
-									<h3>{userData && userData.full_name}'s Blogs</h3>
+									<h3>
+										{userData.user_id === user_id
+											? "YOUR BLOGS:"
+											: `${userData.user_id === user_id}'s BLOGS`}
+									</h3>
 								</li>
 								{/* <li>
 								<a href="">galleries</a>
@@ -93,94 +97,44 @@ export default function Profile() {
 								<a href="">about</a>
 							</li> */}
 							</ul>
-							{userData && userData.user_id === user_id ? (
-								<button
-									onClick={() =>
-										navigate(
-											`/user/${userData.user_id}/profile/settings?section=account`
-										)
-									}
-								>
-									SETTINGS
-								</button>
+							{userData.user_id === user_id ? (
+								<>
+									<button
+										onClick={() =>
+											navigate(
+												`/user/${userData.user_id}/profile/settings?section=account`
+											)
+										}
+									>
+										SETTINGS
+									</button>
+									<button
+										onClick={() =>
+											navigate(`/user/${userData.user_id}/blogs/post`)
+										}
+									>
+										POST BLOGS
+									</button>
+								</>
 							) : (
 								<button>FOLLOW</button>
 							)}
 						</nav>
 
 						<div className={profile_css.blogs}>
-							<div>
-								<h4>Some Blog Title</h4>
+							{userData.num_blogs == 0 ? (
+								<h2>You currently don't have any blogs posted</h2>
+							) : (
+								// add logic to loop through and display all the blogs the user has created
+								<div>
+									<h4>Some Blog Title</h4>
 
-								<img
-									src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-									alt="Blog thumbnail"
-								/>
-							</div>
-							<div>
-								<h4>Some Blog Title</h4>
-
-								<img
-									src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-									alt="Blog thumbnail"
-								/>
-							</div>
-							<div>
-								<h4>Some Blog Title</h4>
-
-								<img
-									src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-									alt="Blog thumbnail"
-								/>
-							</div>
-							<div>
-								<h4>Some Blog Title</h4>
-
-								<img
-									src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-									alt="Blog thumbnail"
-								/>
-							</div>
-							<div>
-								<h4>Some Blog Title</h4>
-
-								<img
-									src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-									alt="Blog thumbnail"
-								/>
-							</div>
-							<div>
-								<h4>Some Blog Title</h4>
-
-								<img
-									src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-									alt="Blog thumbnail"
-								/>
-							</div>
-							<div>
-								<h4>Some Blog Title</h4>
-
-								<img
-									src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-									alt="Blog thumbnail"
-								/>
-							</div>
-							<div>
-								<h4>Some Blog Title</h4>
-
-								<img
-									src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-									alt="Blog thumbnail"
-								/>
-							</div>
-							<div>
-								<h4>Some Blog Title</h4>
-
-								<img
-									src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-									alt="Blog thumbnail"
-								/>
-							</div>
+									<img
+										src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
+										alt="Blog thumbnail"
+									/>
+								</div>
+							)}
 						</div>
 					</div>
 				</div>

@@ -1,0 +1,6 @@
+200 - success (OK)
+201 - new resource created
+403 - unauthorized; the server understands the request, but refuses to authorize it
+404 - not found
+409 - duplicate resource/conflict
+500 - internal server error

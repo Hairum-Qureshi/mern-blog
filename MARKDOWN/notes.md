@@ -21,3 +21,7 @@
 3. Make sure your express-session cookie object has `sameSite: "none"` commented out. If uncommented, it will delete the cookie on page reload **this applies to the backend**
 
 4. To rename your express-session cookie from "connect.sid", just add `name: "new-cookie-name",` in your session object **this applies to the backend**
+
+## In Express Session to delete a cookie:
+
+1. Make sure that your axios request in the frontend is a GET request

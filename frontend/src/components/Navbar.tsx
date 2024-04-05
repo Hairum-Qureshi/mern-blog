@@ -5,7 +5,6 @@ import useAuthContext from "../contexts/authContext";
 export default function Navbar() {
 	const location = useLocation();
 	const { userData, signOut } = useAuthContext()!;
-
 	return (
 		<>
 			{!(

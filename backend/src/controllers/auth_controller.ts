@@ -231,7 +231,24 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 		} else {
 			res.json({ message: "user does not exist" });
 		}
-	} else res.json({ message: "user isn't logged in" });
+	} else res.json({ message: "user is not logged in" });
 };
 
-export { login_google, login, register, handleAuthenticatedUser };
+const logoutUser = async (req: Request, res: Response) => {
+	try {
+		req.session.destroy(error => {
+			if (error) {
+				console.error("<auth_controller.ts> [241] ERROR", error);
+				res.status(500).send("Error destroying session");
+			} else {
+				res.clearCookie("auth-session");
+				res.status(200).send("Success");
+			}
+		});
+	} catch (error) {
+		console.error("<auth_controller.ts> [248] ERROR", error);
+		res.status(500).send("Error destroying session");
+	}
+};
+
+export { login_google, login, register, handleAuthenticatedUser, logoutUser };

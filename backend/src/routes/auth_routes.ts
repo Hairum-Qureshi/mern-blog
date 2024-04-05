@@ -3,7 +3,8 @@ import {
 	login_google,
 	login,
 	register,
-	handleAuthenticatedUser
+	handleAuthenticatedUser,
+	logoutUser
 } from "../controllers/auth_controller";
 import {
 	verification,
@@ -21,5 +22,6 @@ router.post("/forgot-password", passwordReset);
 router.get("/verify/:token_id", verification);
 router.get("/verify/reset-password/:token_id", verifyNewPassword);
 router.get("/current/logged-in", handleAuthenticatedUser);
+router.get("/logout", logoutUser);
 
 export default router;
