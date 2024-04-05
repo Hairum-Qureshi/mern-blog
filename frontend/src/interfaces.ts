@@ -30,6 +30,7 @@ export interface AuthTypes {
 		duplicatePassword: string
 	) => void;
 	errorHandler: ErrorHandler;
+	loading: boolean;
 }
 
 export interface ContextData {
@@ -40,6 +41,14 @@ export interface ContextData {
 
 export interface AuthProps {
 	children: React.ReactNode;
+}
+
+interface SocialMedia {
+	twitter_x: string;
+	instagram: string;
+	facebook: string;
+	pinterest: string;
+	discord: string;
 }
 
 export interface User {
@@ -55,4 +64,5 @@ export interface User {
 	date_joined: string;
 	num_blogs: number;
 	show_email: boolean;
+	social_media: SocialMedia;
 }

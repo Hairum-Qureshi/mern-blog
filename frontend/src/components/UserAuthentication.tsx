@@ -3,11 +3,13 @@ import auth_page_css from "../css/authpage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
 import useAuth from "../hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { tailspin } from "ldrs";
 
 export default function UserAuthentication() {
 	// TODO - need to fix margin for the error message; it's too close to the label
 	// TODO - make it so that whenever you click a link, it removes that error message you got from one page
+	tailspin.register();
 
 	const url_params = ["/sign-in", "/sign-up", "/forgot-password"];
 	const current_path = useLocation().pathname;
@@ -18,8 +20,21 @@ export default function UserAuthentication() {
 	const [password, setPassword] = useState("");
 	const [duplicatePassword, setDuplicatePassword] = useState("");
 
-	const { loginWithGoogle, login, createAccount, resetPassword, errorHandler } =
-		useAuth();
+	const {
+		loginWithGoogle,
+		login,
+		createAccount,
+		resetPassword,
+		errorHandler,
+		loading
+	} = useAuth();
+
+	const [test, setTest] = useState<boolean>();
+
+	useEffect(() => {
+		setTest(loading);
+	}, [loading]);
+	console.log(test);
 
 	return current_path == url_params[0] ? (
 		<>
@@ -145,13 +160,20 @@ export default function UserAuthentication() {
 					<button
 						className={auth_page_css.authButton}
 						onClick={() => createAccount(firstName, lastName, email, password)}
+						disabled={loading}
 					>
-						JOIN
+						{loading ? (
+							<l-tailspin size="30" stroke="3.5" speed="0.6" color="#5cdbfa" />
+						) : (
+							"JOIN"
+						)}
 					</button>
 				</div>
 			</div>
 		</div>
 	) : (
+		// Default values shown
+
 		<>
 			<div className={auth_page_css.mainContainer}>
 				<div className={auth_page_css.left}></div>

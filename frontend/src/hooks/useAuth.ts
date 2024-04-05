@@ -20,6 +20,7 @@ export default function useAuth(): AuthTypes {
 		noDuplicatePassword: false,
 		message: ""
 	});
+	const [loading, setLoading] = useState(false);
 
 	// TODO - Need to improve email validation + need to send user a verification email!
 
@@ -53,7 +54,7 @@ export default function useAuth(): AuthTypes {
 							}
 						)
 						.then(response => {
-							if (response.status === 200) {
+							if (response.status === 200 || response.status === 201) {
 								setErrorHandler({
 									noEmail: false,
 									noPassword: false,
@@ -189,6 +190,7 @@ export default function useAuth(): AuthTypes {
 		}
 
 		if (firstName.trim() && lastName.trim() && email.trim() && password) {
+			setLoading(true);
 			axios
 				.post(
 					"http://localhost:4000/api/user/create-user",
@@ -211,6 +213,7 @@ export default function useAuth(): AuthTypes {
 						noPassword: false,
 						message: response.data || ""
 					});
+					setLoading(false);
 				})
 				.catch(error => {
 					setErrorHandler({
@@ -218,7 +221,9 @@ export default function useAuth(): AuthTypes {
 						noPassword: false,
 						message: `${error.response.data}`
 					});
+					setLoading(false);
 				});
+
 			setErrorHandler({
 				noFirstName: false,
 				noLastName: false,
@@ -281,5 +286,12 @@ export default function useAuth(): AuthTypes {
 		}
 	}
 
-	return { loginWithGoogle, login, createAccount, resetPassword, errorHandler };
+	return {
+		loginWithGoogle,
+		login,
+		createAccount,
+		resetPassword,
+		errorHandler,
+		loading
+	};
 }

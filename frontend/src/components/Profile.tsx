@@ -18,6 +18,8 @@ export default function Profile() {
 	const { user_id } = useParams();
 	const navigate = useNavigate();
 
+	console.log(userData);
+
 	return userData ? (
 		<>
 			<div className={profile_css.headerWrapper}>
@@ -26,10 +28,7 @@ export default function Profile() {
 				<div className={profile_css.colsContainer}>
 					<div className={profile_css.leftCol}>
 						<div className={profile_css.imgContainer}>
-							<img
-								src={userData.profile_picture || ""}
-								alt="User profile picture"
-							/>
+							<img src={userData.profile_picture} alt="User profile picture" />
 							{/* Used to show online/offline status circle: */}
 							{/* <span></span> */}
 						</div>
