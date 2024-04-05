@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import nav_css from "../css/navbar.module.css";
+import useAuthContext from "../contexts/authContext";
 
 export default function Navbar() {
 	const location = useLocation();
+	const { userData, signOut } = useAuthContext()!;
 
 	return (
 		<>
@@ -17,12 +19,21 @@ export default function Navbar() {
 						<li>
 							<Link to="/about">ABOUT</Link>
 						</li>
-						<li>
-							<Link to="/sign-up">CREATE AN ACCOUNT</Link>
-						</li>
-						<li>
-							<Link to="/sign-in">LOGIN</Link>
-						</li>
+						{!userData ? (
+							<li>
+								<Link to="/sign-up">CREATE AN ACCOUNT</Link>
+							</li>
+						) : null}
+						{!userData ? (
+							<li>
+								<Link to="/sign-in">LOGIN</Link>
+							</li>
+						) : null}
+						{userData ? (
+							<li onClick={signOut}>
+								<Link to="/">LOGOUT</Link>
+							</li>
+						) : null}
 					</ul>
 				</div>
 			)}

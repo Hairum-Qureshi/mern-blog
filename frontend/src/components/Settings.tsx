@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import settings_css from "../css/settings.module.css";
 import {
+	faArrowLeft,
 	faBook,
 	faCircleCheck,
 	faCircleUser,
@@ -15,9 +16,11 @@ import BlockedList from "./settings/BlockedList";
 import Security from "./settings/Security";
 import Socials from "./settings/Socials";
 import NotFound from "./NotFound";
+import useAuthContext from "../contexts/authContext";
 
 export default function Settings() {
 	const [searchParams, setSearchParams] = useSearchParams();
+	const { userData } = useAuthContext()!;
 
 	const query_params = [
 		"account",
@@ -32,6 +35,14 @@ export default function Settings() {
 		<div className={settings_css.main}>
 			<div className={settings_css.navbar}>
 				<ul>
+					<Link to={`/user/${userData && userData.user_id}/profile`}>
+						<li>
+							<span>
+								<FontAwesomeIcon icon={faArrowLeft} />
+							</span>
+							&nbsp; GO BACK
+						</li>
+					</Link>
 					<Link to="?section=account">
 						<li>
 							<span>

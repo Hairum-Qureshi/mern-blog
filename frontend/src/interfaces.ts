@@ -35,7 +35,7 @@ export interface AuthTypes {
 export interface ContextData {
 	userData: User | null;
 	error: string | null;
-	// signOut: () => Promise<void>;
+	signOut: () => Promise<void>;
 }
 
 export interface AuthProps {

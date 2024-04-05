@@ -26,6 +26,10 @@ export const AuthProvider = ({ children }: AuthProps) => {
 		getCurrUserData();
 	}, []);
 
+	const signOut = async (): Promise<void> => {
+		alert("Sign out called!");
+	};
+
 	// const signOut = async (): Promise<void> => {
 	// 	try {
 	// 		await axios.get("http://localhost:4000/api/signOut", {
@@ -39,15 +43,15 @@ export const AuthProvider = ({ children }: AuthProps) => {
 
 	const value: ContextData = {
 		userData,
-		error
-		// signOut
+		error,
+		signOut
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-const useAuth = () => {
+const useAuthContext = () => {
 	return useContext(AuthContext);
 };
 
-export default useAuth;
+export default useAuthContext;

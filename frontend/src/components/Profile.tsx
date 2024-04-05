@@ -7,12 +7,15 @@ import {
 	faPinterest,
 	faXTwitter
 } from "@fortawesome/free-brands-svg-icons";
-import useAuth from "../contexts/authContext";
+import useAuthContext from "../contexts/authContext";
+import { useNavigate, useParams } from "react-router-dom";
+// import { useEffect, useState } from "react";
+// import { User } from "../interfaces";
 
 export default function Profile() {
-	const { userData, error } = useAuth()!;
-
-	console.log(userData, error);
+	const { userData } = useAuthContext()!;
+	const { user_id } = useParams();
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -22,24 +25,24 @@ export default function Profile() {
 					<div className={profile_css.leftCol}>
 						<div className={profile_css.imgContainer}>
 							<img
-								src="https://static.wikia.nocookie.net/d92f8304-34eb-4769-b050-47c68421cd9b/scale-to-width/370"
+								src={(userData && userData.profile_picture) || ""}
 								alt="User profile picture"
 							/>
 							{/* <span></span> */}
 						</div>
-						<h2>John Doe</h2>
+						<h2>{userData && userData.full_name}</h2>
 						<p>Activist Blogger</p>
 						<p>user@example.com</p>
 
 						<ul className={profile_css.about}>
 							<li>
-								<span>4,073</span>Followers
+								<span>0</span>Followers
 							</li>
 							<li>
-								<span>322</span>Following
+								<span>0</span>Following
 							</li>
 							<li>
-								<span>100</span>Blog Posts
+								<span>{userData && userData.num_blogs}</span>Blog Posts
 							</li>
 						</ul>
 
@@ -75,7 +78,7 @@ export default function Profile() {
 						<nav>
 							<ul>
 								<li>
-									<h3>John Doe's Blogs</h3>
+									<h3>{userData && userData.full_name}'s Blogs</h3>
 								</li>
 								{/* <li>
 									<a href="">galleries</a>
@@ -87,7 +90,19 @@ export default function Profile() {
 									<a href="">about</a>
 								</li> */}
 							</ul>
-							<button>FOLLOW</button>
+							{userData && userData.user_id === user_id ? (
+								<button
+									onClick={() =>
+										navigate(
+											`/user/${userData.user_id}/profile/settings?section=account`
+										)
+									}
+								>
+									SETTINGS
+								</button>
+							) : (
+								<button>FOLLOW</button>
+							)}
 						</nav>
 
 						<div className={profile_css.blogs}>
