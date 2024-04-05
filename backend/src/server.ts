@@ -1,4 +1,4 @@
-import express, { Request } from "express";
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -21,28 +21,12 @@ const limit = rateLimit({
 const PORT: string = process.env.PORT!;
 const MONGO_URI: string = process.env.MONGO_URI!;
 
-// app.use(
-// 	cors<Request>({
-// 		origin: "http://localhost:5173/",
-// 		credentials: true,
-// 		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"]
-// 	})
-// );
-
 const corsOptions = {
 	origin: "http://localhost:5173",
 	credentials: true,
 	optionSuccessStatus: 200
 };
 app.use(cors(corsOptions));
-
-// app.use(
-// 	cors({
-// 		origin: "http://localhost:5173",
-// 		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-// 		credentials: true
-// 	})
-// );
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -55,8 +39,7 @@ app.use(
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
-			// Leaving 'sameSite: none' uncommented will result in the cookie being deleted on page refresh
-			// sameSite: "none", // KEEP THIS COMMENTED OUT. This should be uncommented in production mode
+			// sameSite: "none", // This should be uncommented in production mode
 			httpOnly: true, // may need to change this to false upon production
 			secure: false, // change to true for https
 			maxAge: 345600000 // 4 days

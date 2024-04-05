@@ -5,6 +5,7 @@ import { User_Interface } from "../interfaces";
 import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import Token from "../models/token";
 import mongoose from "mongoose";
+import router from "../routes/auth_routes";
 
 // TODO - move all similar/repeated code to new functions!
 // TODO - add the logic to create the authentication cookie!
@@ -63,8 +64,7 @@ const login_google = async (req: Request, res: Response) => {
 				verified: true
 			});
 			req.session.user_id = user._id;
-			res.status(200).send(user._id);
-			// res.status(201).json(user); // 201 HTTP code means new resource created
+			res.status(201).send(user._id); // this is important! Without it, the cookie will not set!
 		}
 	} catch (error) {
 		console.log("<auth_controller.ts> [70] ERROR:", error);
@@ -88,7 +88,7 @@ export function deleteToken(token_id: mongoose.Types.ObjectId) {
 		}, 300000); // will delete in 5 minutes
 	} else {
 		console.log(
-			"<auth_controller.ts> [91] (not an error) - ID is not in valid MongoDB format"
+			"<auth_controller.ts> [90] (not an error) - ID is not in valid MongoDB format"
 		);
 	}
 }
@@ -117,7 +117,7 @@ const login = async (req: Request, res: Response) => {
 					);
 					if (status_code === 200) {
 						res
-							.status(409) // *MIGHT* need to change this status code
+							.status(403)
 							.send("A verification email has been sent to your inbox");
 						deleteToken(token._id);
 					} else {
@@ -130,6 +130,7 @@ const login = async (req: Request, res: Response) => {
 				} else {
 					// TODO - add the functionality to create a cookie here for the user and sign them in because they are verified
 					req.session.user_id = user._id;
+
 					res.status(200).send(user._id); // this is important! Without it, the cookie will not set!
 				}
 			} else {
@@ -202,4 +203,35 @@ const register = async (req: Request, res: Response) => {
 	res.status(http_statusCode).send(message);
 };
 
-export { login_google, login, register };
+const handleAuthenticatedUser = async (req: Request, res: Response) => {
+	const user_id: mongoose.Types.ObjectId | undefined = req.session.user_id;
+	if (user_id) {
+		const user: User_Interface | undefined = await findUser(undefined, user_id);
+		if (user) {
+			const {
+				_id: user_id,
+				email,
+				first_name,
+				last_name,
+				full_name,
+				profile_picture,
+				date_joined,
+				num_blogs
+			} = user;
+			res.json({
+				user_id,
+				email,
+				first_name,
+				last_name,
+				full_name,
+				profile_picture,
+				date_joined,
+				num_blogs
+			});
+		} else {
+			res.json({ message: "user does not exist" });
+		}
+	} else res.json({ message: "user isn't logged in" });
+};
+
+export { login_google, login, register, handleAuthenticatedUser };
