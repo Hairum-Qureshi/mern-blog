@@ -17,7 +17,11 @@ export const AuthProvider = ({ children }: AuthProps) => {
 						withCredentials: true
 					}
 				);
-				setUserData(userDataResponse.data);
+				if (userDataResponse.data.message === "user is not logged in") {
+					setUserData(null);
+				} else {
+					setUserData(userDataResponse.data);
+				}
 			} catch (error) {
 				console.error("There was an error", error);
 			}

@@ -14,7 +14,10 @@ export default function Navbar() {
 				location.pathname.includes("/forgot-password")
 			) && (
 				<div className={nav_css.navbar}>
-					<h2>Digital Dialogue</h2>
+					<Link to="/">
+						<h2>Digital Dialogue</h2>
+					</Link>
+
 					<ul>
 						<li>
 							<Link to="/about">ABOUT</Link>
@@ -27,6 +30,11 @@ export default function Navbar() {
 						{!userData ? (
 							<li>
 								<Link to="/sign-in">LOGIN</Link>
+							</li>
+						) : null}
+						{userData ? (
+							<li>
+								<Link to={`/user/${userData.user_id}/profile`}>PROFILE</Link>
 							</li>
 						) : null}
 						{userData ? (

@@ -15,10 +15,17 @@
 	font-family: "Noto Sans Old South Arabian", sans-serif;
 }
 
-.navbar h2 {
+.navbar a {
+	color: white;
+	text-decoration: none;
 	display: table-cell;
 	vertical-align: middle;
 }
+
+/* .navbar h2 {
+	display: table-cell;
+	vertical-align: middle;
+} */
 
 .navbar ul {
 	float: right;

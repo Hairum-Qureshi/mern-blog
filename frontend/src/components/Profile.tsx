@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import useAuthContext from "../contexts/authContext";
 import { useNavigate, useParams } from "react-router-dom";
+import NotFound from "./NotFound";
 // import { useEffect, useState } from "react";
 // import { User } from "../interfaces";
 
@@ -17,9 +18,10 @@ export default function Profile() {
 	const { user_id } = useParams();
 	const navigate = useNavigate();
 
-	return (
+	return userData ? (
 		<>
 			<div className={profile_css.headerWrapper}>
+				{/* DO NOT REMOVE: */}
 				<header></header>
 				<div className={profile_css.colsContainer}>
 					<div className={profile_css.leftCol}>
@@ -28,6 +30,7 @@ export default function Profile() {
 								src={(userData && userData.profile_picture) || ""}
 								alt="User profile picture"
 							/>
+							{/* Used to show online/offline status circle: */}
 							{/* <span></span> */}
 						</div>
 						<h2>{userData && userData.full_name}</h2>
@@ -81,14 +84,14 @@ export default function Profile() {
 									<h3>{userData && userData.full_name}'s Blogs</h3>
 								</li>
 								{/* <li>
-									<a href="">galleries</a>
-								</li>
-								<li>
-									<a href="">groups</a>
-								</li> */}
+								<a href="">galleries</a>
+							</li>
+							<li>
+								<a href="">groups</a>
+							</li> */}
 								{/* <li>
-									<a href="">about</a>
-								</li> */}
+								<a href="">about</a>
+							</li> */}
 							</ul>
 							{userData && userData.user_id === user_id ? (
 								<button
@@ -183,6 +186,8 @@ export default function Profile() {
 				</div>
 			</div>
 		</>
+	) : (
+		<NotFound />
 	);
 }
 
