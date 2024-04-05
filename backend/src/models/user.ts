@@ -49,6 +49,16 @@ const userSchema = new Schema({
 	show_email: {
 		type: Boolean,
 		default: false
+	},
+	social_media: {
+		type: Map,
+		default: {
+			twitter_x: "@",
+			instagram: "@",
+			facebook: "@",
+			pinterest: "@",
+			discord: "@"
+		}
 	}
 });
 

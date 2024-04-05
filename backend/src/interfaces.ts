@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
 
+interface SocialMedia {
+	twitter_x: string;
+	instagram: string;
+	facebook: string;
+	pinterest: string;
+	discord: string;
+}
+
 export interface User_Interface {
 	_id: mongoose.Types.ObjectId;
 	email: string;
@@ -15,6 +23,7 @@ export interface User_Interface {
 	num_blogs: number;
 	verified: boolean;
 	show_email: boolean;
+	social_media: SocialMedia;
 }
 
 export interface Token_Interface {

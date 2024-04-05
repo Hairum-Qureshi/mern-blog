@@ -4,10 +4,6 @@
 
 2. _MIGHT_ need to create a .env file for the clientID used in App.tsx
 
-3. Add the following database fields:
+3. Add the ability to see your password when typing it in the input fields for the registration forms
 
-- num_followers
-- num_following
-- social media platforms
-- show_email (this will be toggled in the user settings - whether the user wants to make their email public or not)
-- biography
+4. Maybe add loading feature to login button, forgot password, change password buttons too

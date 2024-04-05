@@ -64,7 +64,7 @@ const login_google = async (req: Request, res: Response) => {
 				verified: true
 			});
 			req.session.user_id = user._id;
-			res.status(201).send(user._id); // this is important! Without it, the cookie will not set!
+			res.status(201).send(user._id); // this is important! Without it, the cookie will not be set!
 		}
 	} catch (error) {
 		console.log("<auth_controller.ts> [70] ERROR:", error);
@@ -131,7 +131,7 @@ const login = async (req: Request, res: Response) => {
 					// TODO - add the functionality to create a cookie here for the user and sign them in because they are verified
 					req.session.user_id = user._id;
 
-					res.status(200).send(user._id); // this is important! Without it, the cookie will not set!
+					res.status(200).send(user._id); // this is important! Without it, the cookie will not be set!
 				}
 			} else {
 				res.status(500).send("Incorrect password");
@@ -220,7 +220,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				following,
 				date_joined,
 				num_blogs,
-				show_email
+				show_email,
+				social_media
 			} = user;
 
 			res.json({
@@ -235,7 +236,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				following,
 				date_joined,
 				num_blogs,
-				show_email
+				show_email,
+				social_media
 			});
 		} else {
 			res.json({ message: "user does not exist" });
