@@ -221,7 +221,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				date_joined,
 				num_blogs,
 				show_email,
-				social_media
+				social_media,
+				backdrop
 			} = user;
 
 			res.json({
@@ -237,7 +238,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				date_joined,
 				num_blogs,
 				show_email,
-				social_media
+				social_media,
+				backdrop
 			});
 		} else {
 			res.json({ message: "user does not exist" });

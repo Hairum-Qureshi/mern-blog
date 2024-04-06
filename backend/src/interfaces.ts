@@ -24,6 +24,7 @@ export interface User_Interface {
 	verified: boolean;
 	show_email: boolean;
 	social_media: SocialMedia;
+	backdrop: string;
 }
 
 export interface Token_Interface {
