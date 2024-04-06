@@ -24,7 +24,9 @@ export default function Profile() {
 		<>
 			<div className={profile_css.headerWrapper}>
 				{/* DO NOT REMOVE: */}
-				<header></header>
+				<header>
+					<img src={userData.backdrop} alt="User profile backdrop image" />
+				</header>
 				<div className={profile_css.colsContainer}>
 					<div className={profile_css.leftCol}>
 						<div className={profile_css.imgContainer}>
@@ -38,10 +40,10 @@ export default function Profile() {
 
 						<ul className={profile_css.about}>
 							<li>
-								<span>0</span>Followers
+								<span>{userData.followers}</span>Followers
 							</li>
 							<li>
-								<span>0</span>Following
+								<span>{userData.following}</span>Following
 							</li>
 							<li>
 								<span>{userData.num_blogs}</span>Blog Posts
@@ -49,13 +51,7 @@ export default function Profile() {
 						</ul>
 
 						<div className={profile_css.content}>
-							<p>
-								Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-								Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetur
-								adipisicing elit. Quisquam ex tempora consectetur impedit unde
-								consequatur voluptate eius laborum aliquam, minima est nam
-								facere praesentium. Facilis laboriosam totam hic odit cum!.
-							</p>
+							<p>{userData.biography}</p>
 
 							<ul>
 								<li>

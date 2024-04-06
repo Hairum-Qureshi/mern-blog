@@ -65,4 +65,5 @@ export interface User {
 	num_blogs: number;
 	show_email: boolean;
 	social_media: SocialMedia;
+	backdrop: string;
 }
