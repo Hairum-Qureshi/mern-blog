@@ -12,6 +12,9 @@ export default function Security() {
 					<h3>SECURITY - CHANGE ACCOUNT EMAIL AND PASSWORD</h3>
 				</div>
 				<div className={settings_css.section}>
+					<p>Some Warning Message Here</p>
+				</div>
+				<div className={settings_css.section}>
 					<input type="email" placeholder="Email" />
 				</div>
 				<div className={settings_css.section}>
