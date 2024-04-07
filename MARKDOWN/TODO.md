@@ -7,3 +7,5 @@
 3. Add the ability to see your password when typing it in the input fields for the registration forms
 
 4. Maybe add loading feature to login button, forgot password, change password buttons too
+
+5. It's a good idea to have a second set of validation on the server to check if the user's email is valid (they might have JavaScript disabled on the browser)

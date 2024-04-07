@@ -12,7 +12,8 @@ export interface ErrorHandler {
 	noEmail?: boolean;
 	noPassword?: boolean;
 	noDuplicatePassword?: boolean;
-	message: string;
+	noBiography?: boolean;
+	message?: string;
 }
 
 export interface AuthTypes {
@@ -66,4 +67,18 @@ export interface User {
 	show_email: boolean;
 	social_media: SocialMedia;
 	backdrop: string;
+}
+
+export interface useSettingsTypes {
+	autoSave: (
+		input_id: number,
+		firstName?: string,
+		lastName?: string,
+		email?: string
+	) => void;
+	saving: boolean;
+	error: string | null;
+	showSavingStatus: () => void;
+	errorHandler: ErrorHandler;
+	data: User | null;
 }

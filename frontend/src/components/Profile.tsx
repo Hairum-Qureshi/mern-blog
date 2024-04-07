@@ -18,8 +18,6 @@ export default function Profile() {
 	const { user_id } = useParams();
 	const navigate = useNavigate();
 
-	console.log(userData);
-
 	return userData ? (
 		<>
 			<div className={profile_css.headerWrapper}>

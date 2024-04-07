@@ -64,6 +64,21 @@
 	font-family: "Archivo", sans-serif;
 }
 
+.settingsContainer .header h3 {
+	width: 90%;
+	display: inline-flex;
+}
+
+.settingsContainer .header span {
+	float: right;
+	color: rgb(11, 170, 11);
+}
+
+.settingsContainer .header .error {
+	float: right;
+	color: rgb(208, 18, 18);
+}
+
 .settingsContainer .headerDanger {
 	background-color: rgb(101, 5, 5);
 	padding: 15px;
@@ -114,6 +129,10 @@
 	font-family: "Archivo", sans-serif;
 	color: white;
 	display: inline-flex;
+}
+
+.settingsContainer .section small {
+	float: right;
 }
 
 .settingsContainer .section textarea {

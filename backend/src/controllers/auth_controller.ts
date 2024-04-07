@@ -5,7 +5,6 @@ import { User_Interface } from "../interfaces";
 import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import Token from "../models/token";
 import mongoose from "mongoose";
-import router from "../routes/auth_routes";
 
 // TODO - move all similar/repeated code to new functions!
 // TODO - add the logic to create the authentication cookie!
