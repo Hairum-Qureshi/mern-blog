@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons/faCircleXmark";
 import { useSettings } from "../../hooks/useSettings";
 import toast, { Toaster } from "react-hot-toast";
+import MDEditor from "@uiw/react-md-editor";
+import rehypeSanitize from "rehype-sanitize";
 
 // TODO - need to make the bio word count (character count?) work
 
@@ -33,6 +35,7 @@ export default function Account() {
 			setFirstName(data.first_name);
 			setLastName(data.last_name);
 			setEmail(data.email);
+			setBiography(data.biography);
 		}
 	}, [data]);
 
@@ -60,9 +63,10 @@ export default function Account() {
 				}
 			}
 		}, 500);
-
 		return () => clearTimeout(delayDebounceFn);
 	}, [email]);
+
+	console.log(biography);
 
 	return userData ? (
 		<>
@@ -162,27 +166,40 @@ export default function Account() {
 				<div className={settings_css.header}>
 					<h3>BIOGRAPHY</h3>
 					{/* NEED TO HAVE A SEPARATE ONE FOR TEXTAREA */}
-					{/* {saving ? (
+					{saving ? (
 						<span>Saving...</span>
 					) : (
 						<span>
 							Saved <FontAwesomeIcon icon={faCircleCheck} />
 						</span>
-					)} */}
+					)}
 					{/* <span className={settings_css.error}>
 						<FontAwesomeIcon icon={faCircleXmark} /> Error
 					</span> */}
 				</div>
-				<div className={settings_css.section}>
-					<textarea
+				<div className={settings_css.section2}>
+					{/* <textarea
 						placeholder="Begin typing..."
 						value={biography!}
 						onChange={e => {
 							setBiography(e.target.value);
 							showSavingStatus();
 						}}
-						// onBlur={()}
-					></textarea>
+					></textarea> */}
+					<MDEditor
+						// style={{
+						// 	backgroundColor: "#0a2548"
+						// }}
+						value={biography!}
+						onChange={(value: string) => {
+							setBiography(value);
+							showSavingStatus();
+						}}
+						onBlur={() => autoSave(4, biography!)}
+						previewOptions={{
+							rehypePlugins: [[rehypeSanitize]]
+						}}
+					/>
 				</div>
 				<div className={settings_css.section}>
 					<small>{biography!.length}/2000 Words</small>
@@ -191,7 +208,7 @@ export default function Account() {
 					<h3>DANGER ZONE</h3>
 				</div>
 				<div className={settings_css.section}>
-					<button>DELETE ACCOUNT</button>
+					<button className={settings_css.deleteAccBtn}>DELETE ACCOUNT</button>
 				</div>
 			</div>
 		</>

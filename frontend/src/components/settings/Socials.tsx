@@ -21,6 +21,12 @@ export default function Socials() {
 					<h3>SOCIAL MEDIA</h3>
 				</div>
 				<div className={settings_css.section}>
+					<p>
+						<b>Note:</b> adding your usernames guarantees your social media
+						accounts will be made public on your profile.
+					</p>
+				</div>
+				<div className={settings_css.section}>
 					<span>
 						<FontAwesomeIcon icon={faXTwitter} />
 					</span>

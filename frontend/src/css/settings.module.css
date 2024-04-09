@@ -84,7 +84,7 @@
 	font-family: "Archivo", sans-serif;
 }
 
-.settingsContainer .section button {
+.settingsContainer .section .deleteAccBtn {
 	float: right;
 	padding: 10px;
 	font-family: "Archivo", sans-serif;
@@ -95,12 +95,12 @@
 	border: 2px solid rgb(171, 5, 5);
 }
 
-.settingsContainer .section button:hover {
+.settingsContainer .section .deleteAccBtn:hover {
 	background-color: rgb(198, 7, 7);
 	cursor: pointer;
 }
 
-.settingsContainer .section button:active {
+.settingsContainer .section .deleteAccBtn:active {
 	background-color: rgb(141, 4, 4);
 }
 
@@ -134,25 +134,24 @@
 	float: right;
 }
 
-.settingsContainer .section textarea {
+/* .settingsContainer .section textarea {
 	width: 100%;
 	box-sizing: border-box;
 	background-color: rgb(10, 37, 72);
 	resize: vertical;
 	font-size: 15px;
-	font-family: "Archivo", sans-serif;
 	color: white;
 	padding: 10px;
 	border: none;
 	outline: none;
 	height: 100px;
-}
+} */
 
 .settingsContainer .section2 {
 	border: 1px solid rgb(37, 52, 112);
-	width: 100%; /* Set child div width to 100% */
+	width: 100%;
 	box-sizing: border-box;
-	background-color: rgb(10, 37, 72);
+	font-family: "Archivo", sans-serif;
 }
 
 .settingsContainer .section2 .imagesContainer {

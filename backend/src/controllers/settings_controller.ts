@@ -87,6 +87,16 @@ const autosave = async (req: Request, res: Response) => {
 						res.status(500).send("There was a problem sending an email");
 					}
 					break;
+				case 4:
+					kind = "biography";
+					await User.findByIdAndUpdate(
+						{ _id: user_id },
+						{
+							biography: data
+						}
+					);
+
+					break;
 			}
 		}
 		res.status(200).send("Successfully saved!");

@@ -9,7 +9,7 @@ export default function Security() {
 		<>
 			<div className={settings_css.settingsContainer}>
 				<div className={settings_css.header}>
-					<h3>SECURITY - CHANGE ACCOUNT EMAIL AND PASSWORD</h3>
+					<h3>SECURITY - CHANGE ACCOUNT PASSWORD</h3>
 				</div>
 				<div className={settings_css.section}>
 					<p>Some Warning Message Here</p>
