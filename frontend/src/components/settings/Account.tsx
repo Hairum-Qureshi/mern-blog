@@ -203,10 +203,14 @@ export default function Account() {
 						previewOptions={{
 							rehypePlugins: [[rehypeSanitize]]
 						}}
+						textareaProps={{
+							placeholder: `Tell the world about yourself, ${data?.first_name}`,
+							maxLength: 1000
+						}}
 					/>
 				</div>
 				<div className={settings_css.section}>
-					<small>{biography!.length}/2000 Words</small>
+					<small>{biography!.length}/1000 Words</small>
 				</div>
 				<div className={settings_css.headerDanger}>
 					<h3>DANGER ZONE</h3>
