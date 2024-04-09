@@ -88,6 +88,16 @@ const autosave = async (req: Request, res: Response) => {
 					}
 					break;
 				case 4:
+					kind = "title";
+					await User.findByIdAndUpdate(
+						{ _id: user_id },
+						{
+							title: data || "Newbie"
+						}
+					);
+
+					break;
+				case 5:
 					kind = "biography";
 					await User.findByIdAndUpdate(
 						{ _id: user_id },

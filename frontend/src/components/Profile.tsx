@@ -10,6 +10,7 @@ import {
 import useAuthContext from "../contexts/authContext";
 import { useNavigate, useParams } from "react-router-dom";
 import NotFound from "./NotFound";
+import ReactMarkdown from "react-markdown";
 // import { useEffect, useState } from "react";
 // import { User } from "../interfaces";
 
@@ -33,8 +34,8 @@ export default function Profile() {
 							{/* <span></span> */}
 						</div>
 						<h2>{userData.full_name}</h2>
-						<p>Activist Blogger</p>
-						<p>user@example.com</p>
+						<p>{userData.title}</p>
+						<p>{userData.show_email ? userData.email : null}</p>
 
 						<ul className={profile_css.about}>
 							<li>
@@ -49,8 +50,7 @@ export default function Profile() {
 						</ul>
 
 						<div className={profile_css.content}>
-							<p>{userData.biography}</p>
-
+							<ReactMarkdown>{userData.biography}</ReactMarkdown>
 							<ul>
 								<li>
 									<FontAwesomeIcon icon={faXTwitter} />

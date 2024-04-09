@@ -65,6 +65,7 @@ export interface User {
 	date_joined: string;
 	num_blogs: number;
 	show_email: boolean;
+	title: string;
 	social_media: SocialMedia;
 	backdrop: string;
 }

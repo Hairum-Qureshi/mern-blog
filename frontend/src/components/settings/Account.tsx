@@ -26,16 +26,16 @@ export default function Account() {
 	const [firstName, setFirstName] = useState<string | null>("");
 	const [lastName, setLastName] = useState<string | null>("");
 	const [email, setEmail] = useState<string | null>("");
-	const [biography, setBiography] = useState<string | null>(
-		userData && userData.biography
-	);
+	const [biography, setBiography] = useState<string | null>("");
+	const [title, setTitle] = useState<string | null>("");
 
 	useEffect(() => {
 		if (data && userData) {
-			setFirstName(data.first_name);
-			setLastName(data.last_name);
-			setEmail(data.email);
-			setBiography(data.biography);
+			setFirstName(data.first_name); // 1
+			setLastName(data.last_name); // 2
+			setEmail(data.email); // 3
+			setTitle(data.title); // 4
+			setBiography(data.biography); // 5
 		}
 	}, [data]);
 
@@ -119,6 +119,18 @@ export default function Account() {
 						}}
 					/>
 				</div>
+				<div className={settings_css.section}>
+					<input
+						type="text"
+						placeholder="What kind of writer are you?"
+						value={title!}
+						onChange={e => {
+							setTitle(e.target.value);
+							showSavingStatus();
+						}}
+						onBlur={() => autoSave(4, title!)}
+					/>
+				</div>
 				<div className={settings_css.header}>
 					<h3>PRIVACY</h3>
 				</div>
@@ -178,14 +190,6 @@ export default function Account() {
 					</span> */}
 				</div>
 				<div className={settings_css.section2}>
-					{/* <textarea
-						placeholder="Begin typing..."
-						value={biography!}
-						onChange={e => {
-							setBiography(e.target.value);
-							showSavingStatus();
-						}}
-					></textarea> */}
 					<MDEditor
 						// style={{
 						// 	backgroundColor: "#0a2548"
@@ -195,7 +199,7 @@ export default function Account() {
 							setBiography(value);
 							showSavingStatus();
 						}}
-						onBlur={() => autoSave(4, biography!)}
+						onBlur={() => autoSave(5, biography!)}
 						previewOptions={{
 							rehypePlugins: [[rehypeSanitize]]
 						}}

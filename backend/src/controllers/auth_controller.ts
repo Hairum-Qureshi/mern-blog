@@ -221,6 +221,7 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				num_blogs,
 				show_email,
 				social_media,
+				title,
 				backdrop
 			} = user;
 
@@ -237,6 +238,7 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				date_joined,
 				num_blogs,
 				show_email,
+				title,
 				social_media,
 				backdrop
 			});

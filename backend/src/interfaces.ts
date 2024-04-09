@@ -23,6 +23,7 @@ export interface User_Interface {
 	num_blogs: number;
 	verified: boolean;
 	show_email: boolean;
+	title: string;
 	social_media: SocialMedia;
 	backdrop: string;
 }

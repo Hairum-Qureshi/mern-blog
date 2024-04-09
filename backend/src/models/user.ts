@@ -50,6 +50,10 @@ const userSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+	title: {
+		type: String,
+		default: "Newbie"
+	},
 	social_media: {
 		type: Map,
 		default: {
