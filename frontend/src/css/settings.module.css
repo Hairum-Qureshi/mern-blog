@@ -188,3 +188,15 @@
 	object-fit: cover;
 	margin: 0;
 }
+
+.settingsContainer .section input[type="radio"] {
+	height: 20px;
+	width: 20px;
+	margin-right: 10px;
+	vertical-align: middle;
+}
+
+.settingsContainer .section label {
+	display: flex;
+	align-items: center;
+}

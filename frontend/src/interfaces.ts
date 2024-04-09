@@ -77,8 +77,7 @@ export interface useSettingsTypes {
 		email?: string
 	) => void;
 	saving: boolean;
-	error: string | null;
 	showSavingStatus: () => void;
-	errorHandler: ErrorHandler;
 	data: User | null;
+	message: string;
 }

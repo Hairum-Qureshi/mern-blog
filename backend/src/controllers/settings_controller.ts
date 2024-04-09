@@ -1,11 +1,17 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import User from "../models/user";
-import { findUser } from "./auth_controller";
-import user from "../models/user";
+import Token from "../models/token";
+import { deleteToken, findUser, generateUniqueToken } from "./auth_controller";
+import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 
 const autosave = async (req: Request, res: Response) => {
-	// const { firstName, lastName, email } = req.body;
+	// When passing user ID to database, make sure you check it's in the correct MongoDB ObjectID form!
+	// Make sure to verify email format!
+	// => Send a response back to the client to...
+	//    - Alert the user that their email is not in the correct format and therefore hasn't been saved
+	//    - Alert the user that a verification email has been sent to their inbox
+
 	const { data, type } = req.body;
 
 	const user_id: mongoose.Types.ObjectId | undefined = req.session.user_id;
@@ -37,39 +43,46 @@ const autosave = async (req: Request, res: Response) => {
 					break;
 				case 3:
 					kind = "email";
-					await User.findByIdAndUpdate(
-						{ _id: user_id },
-						{
-							email: data
+
+					if (data) {
+						await User.findByIdAndUpdate(
+							{ _id: user_id },
+							{
+								email: data,
+								verified: false
+							}
+						);
+
+						const token: string = generateUniqueToken();
+						const db_token = await Token.create({
+							token: token,
+							user_id: user._id
+						});
+
+						if (user.email !== data) {
+							sendAccountVerificationEmail(
+								data,
+								user.first_name,
+								user._id,
+								token,
+								db_token._id
+							);
+
+							res
+								.status(200)
+								.send(
+									"Please check your inbox for an account verification email"
+								);
+							deleteToken(db_token._id);
 						}
-					);
+					} else {
+						res.status(500).send("There was a problem sending an email");
+					}
 					break;
 			}
 		}
-		res.status(200).send("GOOD");
+		// res.status(200).send("GOOD");
 	}
-
-	// if (user_id !== undefined) {
-	// 	// When passing user ID to database, make sure you check it's in the correct MongoDB ObjectID form!
-	// const user = await findUser(undefined, user_id);
-	// 	if (user) {
-	// const res = await User.findByIdAndUpdate(
-	// 	{ _id: user_id },
-	// 	{
-	// 		first_name: firstName || user.first_name,
-	// 		last_name: lastName || user.last_name,
-	// 		full_name: `${firstName || user.first_name} ${
-	// 			lastName || user.last_name
-	// 		}`,
-	// 		email: email || user.email
-	// 	}
-	// );
-	// 	}
-
-	// res.status(200).send("GOOD");
-	// } else {
-	// 	res.status(500).send("BAD");
-	// }
 };
 
 export { autosave };

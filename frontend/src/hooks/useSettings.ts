@@ -5,12 +5,8 @@ import { useEffect, useState } from "react";
 export function useSettings(): useSettingsTypes {
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const [errorHandler, setErrorHandler] = useState<ErrorHandler>({
-		noFirstName: false,
-		noLastName: false,
-		noEmail: false,
-		noBiography: false
-	});
+	const [message, setMessage] = useState<string>("");
+
 	const REGEX: RegExp =
 		/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -24,7 +20,7 @@ export function useSettings(): useSettingsTypes {
 			setSaving(true);
 
 			try {
-				await axios.post(
+				const response = await axios.post(
 					"http://localhost:4000/api/user/settings/autosave",
 					{
 						data: firstName || lastName || email,
@@ -32,6 +28,7 @@ export function useSettings(): useSettingsTypes {
 					},
 					{ withCredentials: true }
 				);
+				setMessage(response.data);
 			} catch (error) {
 				console.log(error);
 			} finally {
@@ -67,5 +64,5 @@ export function useSettings(): useSettingsTypes {
 		getCurrentUpdatedData();
 	}, []);
 
-	return { autoSave, saving, error, showSavingStatus, errorHandler, data };
+	return { autoSave, saving, showSavingStatus, data, message };
 }
