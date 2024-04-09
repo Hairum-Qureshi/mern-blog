@@ -100,6 +100,7 @@ export default function Account() {
 						value={lastName!}
 						onChange={e => {
 							setLastName(e.target.value);
+							showSavingStatus();
 						}}
 						onBlur={() => autoSave(2, lastName!)}
 					/>

@@ -31,6 +31,11 @@ export function useSettings(): useSettingsTypes {
 				setMessage(response.data);
 			} catch (error) {
 				console.log(error);
+				// TODO - Figure out how to display the error message form the server here:
+				setMessage(
+					"There was a problem sending an email. Please check your email format"
+				);
+				// setMessage(error.response.data);
 			} finally {
 				setSaving(false);
 			}
