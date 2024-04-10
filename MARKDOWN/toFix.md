@@ -7,3 +7,5 @@
 [] The "followers, following, num blogs" are squished together on the user profile page
 
 [] When trying to add a bullet list in the biography MD editor, it's not being displayed correctly; nor is it being displayed in a list in the profile page
+
+[] Deleting an account doesn't seem to delete your session and log you out

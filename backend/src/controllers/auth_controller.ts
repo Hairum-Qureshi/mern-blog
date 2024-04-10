@@ -61,7 +61,9 @@ const login_google = async (req: Request, res: Response) => {
 				date_joined: new Date().toLocaleDateString("en-US"),
 				num_blogs: 0,
 				verified: true,
-				isGoogleAccount: true
+				isGoogleAccount: true,
+				cloudinaryPfp_ID: "",
+				cloudinaryBackdrop_ID: ""
 			});
 			req.session.user_id = user._id;
 			res.status(201).send(user._id); // this is important! Without it, the cookie will not be set!
@@ -160,7 +162,9 @@ const register = async (req: Request, res: Response) => {
 			password: hashedPassword,
 			date_joined: new Date().toLocaleDateString("en-US"),
 			num_blogs: 0,
-			isGoogleAccount: false
+			isGoogleAccount: false,
+			cloudinaryPfp_ID: "",
+			cloudinaryBackdrop_ID: ""
 		});
 
 		const token = await Token.create({

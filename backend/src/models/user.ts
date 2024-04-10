@@ -71,6 +71,12 @@ const userSchema = new Schema({
 	},
 	isGoogleAccount: {
 		type: Boolean
+	},
+	cloudinaryPfp_ID: {
+		type: String
+	},
+	cloudinaryBackdrop_ID: {
+		type: String
 	}
 });
 

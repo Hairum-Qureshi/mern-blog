@@ -27,6 +27,8 @@ export interface User_Interface {
 	social_media: SocialMedia;
 	backdrop: string;
 	isGoogleAccount: boolean;
+	cloudinaryPfp_ID: string;
+	cloudinaryBackdrop_ID: string;
 }
 
 export interface Token_Interface {
