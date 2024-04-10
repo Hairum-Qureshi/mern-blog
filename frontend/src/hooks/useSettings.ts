@@ -84,10 +84,10 @@ export function useSettings(): useSettingsTypes {
 		getCurrentUpdatedData();
 	}, []);
 
-	async function uploadImage(imageFile: File) {
+	async function uploadImage(imageFile: File, image_type: string) {
 		const formData = new FormData();
 		formData.append("file", imageFile);
-
+		formData.append("image_type", image_type);
 		try {
 			const response = await axios.post(
 				"http://localhost:4000/api/user/settings/upload",

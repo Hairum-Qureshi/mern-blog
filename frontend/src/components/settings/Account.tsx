@@ -58,7 +58,7 @@ export default function Account() {
 	function handlePfpImageChange(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {
 			const file = event.target.files[0];
-			uploadImage(file);
+			uploadImage(file, "pfp");
 		}
 	}
 
