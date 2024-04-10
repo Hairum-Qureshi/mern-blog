@@ -4,7 +4,8 @@ import {
 	login,
 	register,
 	handleAuthenticatedUser,
-	logoutUser
+	logoutUser,
+	deleteAccount
 } from "../controllers/auth_controller";
 import {
 	verification,
@@ -23,5 +24,6 @@ router.get("/verify/:token_id", verification);
 router.get("/verify/reset-password/:token_id", verifyNewPassword);
 router.get("/current/logged-in", handleAuthenticatedUser);
 router.get("/logout", logoutUser);
+router.delete("/deleteAccount", deleteAccount);
 
 export default router;

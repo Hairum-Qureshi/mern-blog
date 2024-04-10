@@ -12,16 +12,15 @@ import rehypeSanitize from "rehype-sanitize";
 
 // TODO - need to make the bio word count (character count?) work
 
-// TODO - disabled code to update email data
-
 export default function Account() {
-	const { userData } = useAuthContext()!;
+	const { userData, signOut } = useAuthContext()!;
 	const [profileImage, setProfileImage] = useState(null);
 	const [backdropImage, setBackdropImage] = useState(null);
 	const inputRef_pfp = useRef<HTMLInputElement>(null);
 	const inputRef_backdrop = useRef<HTMLInputElement>(null);
 
-	const { autoSave, saving, showSavingStatus, data, message } = useSettings();
+	const { autoSave, saving, showSavingStatus, data, message, deleteAccount } =
+		useSettings();
 
 	const [firstName, setFirstName] = useState<string | null>("");
 	const [lastName, setLastName] = useState<string | null>("");
@@ -60,15 +59,23 @@ export default function Account() {
 							color: "#fff"
 						}
 					});
+
+					setTimeout(() => {
+						if (
+							message !==
+								"There was a problem sending an email. Please check if your email is correctly formatted or if you're not using a different email" &&
+							message !== "Email already exists"
+						) {
+							signOut();
+						}
+					}, 3000);
 				}
 			}
 		}, 500);
 		return () => clearTimeout(delayDebounceFn);
 	}, [email]);
 
-	console.log(biography);
-
-	return userData ? (
+	return userData && userData.message !== "user does not exist" ? (
 		<>
 			<Toaster />
 			<div className={settings_css.settingsContainer}>
@@ -191,9 +198,6 @@ export default function Account() {
 				</div>
 				<div className={settings_css.section2}>
 					<MDEditor
-						// style={{
-						// 	backgroundColor: "#0a2548"
-						// }}
 						value={biography!}
 						onChange={(value: string) => {
 							setBiography(value);
@@ -210,13 +214,15 @@ export default function Account() {
 					/>
 				</div>
 				<div className={settings_css.section}>
-					<small>{biography!.length}/1000 Words</small>
+					<small>{biography && biography.length}/1000 Words</small>
 				</div>
 				<div className={settings_css.headerDanger}>
-					<h3>DANGER ZONE</h3>
+					<h3>⚠️ DANGER ZONE ⚠️</h3>
 				</div>
 				<div className={settings_css.section}>
-					<button className={settings_css.deleteAccBtn}>DELETE ACCOUNT</button>
+					<button className={settings_css.deleteAccBtn} onClick={deleteAccount}>
+						DELETE ACCOUNT
+					</button>
 				</div>
 			</div>
 		</>

@@ -28,7 +28,7 @@ export async function findUser(
 					});
 				}
 			} catch (error) {
-				console.log("<auth_controller.ts> [32] ERROR:", error);
+				console.log("<auth_controller.ts> [31] ERROR:", error);
 				return undefined;
 			}
 		}
@@ -158,8 +158,7 @@ const register = async (req: Request, res: Response) => {
 			full_name: `${first_name} ${last_name}`,
 			password: hashedPassword,
 			date_joined: new Date().toLocaleDateString("en-US"),
-			num_blogs: 0,
-			verified: false
+			num_blogs: 0
 		});
 
 		const token = await Token.create({
@@ -252,7 +251,7 @@ const logoutUser = async (req: Request, res: Response) => {
 	try {
 		req.session.destroy(error => {
 			if (error) {
-				console.error("<auth_controller.ts> [241] ERROR", error);
+				console.error("<auth_controller.ts> [255] ERROR", error);
 				res.status(500).send("Error destroying session");
 			} else {
 				res.clearCookie("auth-session");
@@ -260,9 +259,37 @@ const logoutUser = async (req: Request, res: Response) => {
 			}
 		});
 	} catch (error) {
-		console.error("<auth_controller.ts> [248] ERROR", error);
+		console.error("<auth_controller.ts> [263] ERROR", error);
 		res.status(500).send("Error destroying session");
 	}
 };
 
-export { login_google, login, register, handleAuthenticatedUser, logoutUser };
+const deleteAccount = async (req: Request, res: Response) => {
+	const user_id: mongoose.Types.ObjectId | undefined = req.session.user_id;
+	if (user_id !== undefined) {
+		try {
+			await User.deleteOne({
+				_id: user_id
+			});
+
+			req.session.destroy(error => {
+				if (error) {
+					console.error("<auth_controller.ts> [278] ERROR", error);
+				} else {
+					res.clearCookie("auth-session");
+				}
+			});
+		} catch (error) {
+			console.log("<auth_controller> [277] ERROR", error);
+		}
+	}
+};
+
+export {
+	login_google,
+	login,
+	register,
+	handleAuthenticatedUser,
+	logoutUser,
+	deleteAccount
+};

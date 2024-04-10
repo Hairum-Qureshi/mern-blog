@@ -1,11 +1,13 @@
 import axios from "axios";
-import { ErrorHandler, User, useSettingsTypes } from "../interfaces";
+import { User, useSettingsTypes } from "../interfaces";
 import { useEffect, useState } from "react";
+import useAuthContext from "../contexts/authContext";
 
 export function useSettings(): useSettingsTypes {
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [message, setMessage] = useState<string>("");
+	const { signOut } = useAuthContext()!;
 
 	const REGEX: RegExp =
 		/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -42,6 +44,19 @@ export function useSettings(): useSettingsTypes {
 		}
 	}
 
+	function deleteAccount() {
+		const confirmation = confirm(
+			"Are you sure you would like to delete your account?"
+		);
+		if (confirmation) {
+			axios.delete(`http://localhost:4000/api/user/deleteAccount`, {
+				withCredentials: true
+			});
+
+			window.location.href = "http://localhost:5173/";
+		}
+	}
+
 	function showSavingStatus() {
 		setSaving(true);
 	}
@@ -69,5 +84,5 @@ export function useSettings(): useSettingsTypes {
 		getCurrentUpdatedData();
 	}, []);
 
-	return { autoSave, saving, showSavingStatus, data, message };
+	return { autoSave, saving, showSavingStatus, data, message, deleteAccount };
 }

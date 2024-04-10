@@ -19,7 +19,7 @@ export default function Profile() {
 	const { user_id } = useParams();
 	const navigate = useNavigate();
 
-	return userData ? (
+	return userData && userData.message !== "user does not exist" ? (
 		<>
 			<div className={profile_css.headerWrapper}>
 				{/* DO NOT REMOVE: */}

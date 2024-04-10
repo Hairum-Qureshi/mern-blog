@@ -31,7 +31,7 @@ export default function Settings() {
 	];
 	const current = searchParams.get("section");
 
-	return userData ? (
+	return userData && userData.message !== "user does not exist" ? (
 		<>
 			<div className={settings_css.main}>
 				<div className={settings_css.navbar}>

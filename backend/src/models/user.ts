@@ -44,7 +44,7 @@ const userSchema = new Schema({
 	},
 	verified: {
 		type: Boolean,
-		required: true
+		default: false
 	},
 	show_email: {
 		type: Boolean,

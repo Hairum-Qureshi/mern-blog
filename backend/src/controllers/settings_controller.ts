@@ -46,14 +46,6 @@ const autosave = async (req: Request, res: Response) => {
 					kind = "email";
 
 					if (data) {
-						await User.findByIdAndUpdate(
-							{ _id: user_id },
-							{
-								email: data,
-								verified: false
-							}
-						);
-
 						const token: string = generateUniqueToken();
 						const db_token = await Token.create({
 							token: token,
@@ -61,6 +53,13 @@ const autosave = async (req: Request, res: Response) => {
 						});
 
 						if (user.email !== data) {
+							await User.findByIdAndUpdate(
+								{ _id: user_id },
+								{
+									email: data,
+									verified: false
+								}
+							);
 							const status_code: number = await sendAccountVerificationEmail(
 								data,
 								user.first_name,
@@ -72,19 +71,34 @@ const autosave = async (req: Request, res: Response) => {
 								res
 									.status(200)
 									.send(
-										"Please check your inbox for an account verification email"
+										"Please check your inbox for an account verification email. You will need to re-verify your account and sign in again."
 									);
+								req.session.destroy(error => {
+									if (error) {
+										console.error("<settings_controller.ts> [80] ERROR", error);
+										res.status(500).send("Error destroying session");
+									} else {
+										res.clearCookie("auth-session");
+										res.status(200).send("Success");
+									}
+								});
+
 								deleteToken(db_token._id);
 							} else {
 								res
 									.status(500)
 									.send(
-										"There was a problem sending an email. Please check if your email is correctly formatted."
+										"There was a problem sending an email. Please check if your email is correctly formatted or if you're not using a different email"
 									);
 							}
+							return;
+						} else {
+							res.status(200).send("Email already exists");
+							return;
 						}
 					} else {
-						res.status(500).send("There was a problem sending an email");
+						res.status(500).send("Try using a different email");
+						return;
 					}
 					break;
 				case 4:
@@ -95,7 +109,6 @@ const autosave = async (req: Request, res: Response) => {
 							title: data || "Newbie"
 						}
 					);
-
 					break;
 				case 5:
 					kind = "biography";
@@ -105,11 +118,10 @@ const autosave = async (req: Request, res: Response) => {
 							biography: data
 						}
 					);
-
 					break;
 			}
+			res.status(200).send("Saved successfully!");
 		}
-		res.status(200).send("Successfully saved!");
 	}
 };
 

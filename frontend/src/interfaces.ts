@@ -68,6 +68,7 @@ export interface User {
 	title: string;
 	social_media: SocialMedia;
 	backdrop: string;
+	message?: string;
 }
 
 export interface useSettingsTypes {
@@ -81,4 +82,5 @@ export interface useSettingsTypes {
 	showSavingStatus: () => void;
 	data: User | null;
 	message: string;
+	deleteAccount: () => void;
 }
