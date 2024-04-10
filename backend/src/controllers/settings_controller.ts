@@ -7,11 +7,8 @@ import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import { User_Interface } from "../interfaces";
 
 const autosave = async (req: Request, res: Response) => {
-	// When passing user ID to database, make sure you check it's in the correct MongoDB ObjectID form!
-	// Make sure to verify email format!
-	// => Send a response back to the client to...
-	//    - [ ] Alert the user that their email is not in the correct format and therefore hasn't been saved
-	//    - [x] Alert the user that a verification email has been sent to their inbox
+	// TODO - When passing user ID to database, make sure you check it's in the correct MongoDB ObjectID form!
+	// TODO - Make sure to verify email format!
 
 	const { data, type } = req.body;
 
@@ -75,7 +72,7 @@ const autosave = async (req: Request, res: Response) => {
 									);
 								req.session.destroy(error => {
 									if (error) {
-										console.error("<settings_controller.ts> [80] ERROR", error);
+										console.error("<settings_controller.ts> [78] ERROR", error);
 										res.status(500).send("Error destroying session");
 									} else {
 										res.clearCookie("auth-session");

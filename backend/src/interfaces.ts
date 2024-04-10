@@ -26,6 +26,7 @@ export interface User_Interface {
 	title: string;
 	social_media: SocialMedia;
 	backdrop: string;
+	isGoogleAccount: boolean;
 }
 
 export interface Token_Interface {

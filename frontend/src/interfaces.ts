@@ -68,6 +68,7 @@ export interface User {
 	title: string;
 	social_media: SocialMedia;
 	backdrop: string;
+	isGoogleAccount: boolean;
 	message?: string;
 }
 
@@ -83,4 +84,6 @@ export interface useSettingsTypes {
 	data: User | null;
 	message: string;
 	deleteAccount: () => void;
+	uploading: boolean;
+	uploadImage: (imageFile: File) => void;
 }

@@ -60,7 +60,8 @@ const login_google = async (req: Request, res: Response) => {
 				profile_picture,
 				date_joined: new Date().toLocaleDateString("en-US"),
 				num_blogs: 0,
-				verified: true
+				verified: true,
+				isGoogleAccount: true
 			});
 			req.session.user_id = user._id;
 			res.status(201).send(user._id); // this is important! Without it, the cookie will not be set!
@@ -158,7 +159,8 @@ const register = async (req: Request, res: Response) => {
 			full_name: `${first_name} ${last_name}`,
 			password: hashedPassword,
 			date_joined: new Date().toLocaleDateString("en-US"),
-			num_blogs: 0
+			num_blogs: 0,
+			isGoogleAccount: false
 		});
 
 		const token = await Token.create({
@@ -221,7 +223,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				show_email,
 				social_media,
 				title,
-				backdrop
+				backdrop,
+				isGoogleAccount
 			} = user;
 
 			res.json({
@@ -239,7 +242,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				show_email,
 				title,
 				social_media,
-				backdrop
+				backdrop,
+				isGoogleAccount
 			});
 		} else {
 			res.json({ message: "user does not exist" });
@@ -274,13 +278,13 @@ const deleteAccount = async (req: Request, res: Response) => {
 
 			req.session.destroy(error => {
 				if (error) {
-					console.error("<auth_controller.ts> [278] ERROR", error);
+					console.error("<auth_controller.ts> [281] ERROR", error);
 				} else {
 					res.clearCookie("auth-session");
 				}
 			});
 		} catch (error) {
-			console.log("<auth_controller> [277] ERROR", error);
+			console.log("<auth_controller> [287] ERROR", error);
 		}
 	}
 };

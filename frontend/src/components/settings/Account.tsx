@@ -3,7 +3,7 @@ import settings_css from "./../../css/settings.module.css";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import useAuthContext from "../../contexts/authContext";
 import NotFound from "../NotFound";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons/faCircleXmark";
 import { useSettings } from "../../hooks/useSettings";
 import toast, { Toaster } from "react-hot-toast";
@@ -11,6 +11,9 @@ import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
 
 // TODO - need to make the bio word count (character count?) work
+// TODO - need to add middleware (?) to prevent other users to have access to the settings page if it's not their account
+// TODO - use the `faCircleXmark` icon to be displayed when there's an error saving
+// TODO - set the file inputs to ONLY accept images
 
 export default function Account() {
 	const { userData, signOut } = useAuthContext()!;
@@ -19,14 +22,23 @@ export default function Account() {
 	const inputRef_pfp = useRef<HTMLInputElement>(null);
 	const inputRef_backdrop = useRef<HTMLInputElement>(null);
 
-	const { autoSave, saving, showSavingStatus, data, message, deleteAccount } =
-		useSettings();
+	const {
+		autoSave,
+		saving,
+		showSavingStatus,
+		data,
+		message,
+		deleteAccount,
+		uploading,
+		uploadImage
+	} = useSettings();
 
 	const [firstName, setFirstName] = useState<string | null>("");
 	const [lastName, setLastName] = useState<string | null>("");
 	const [email, setEmail] = useState<string | null>("");
 	const [biography, setBiography] = useState<string | null>("");
 	const [title, setTitle] = useState<string | null>("");
+	const [showEmail, setShowEmail] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (data && userData) {
@@ -35,11 +47,19 @@ export default function Account() {
 			setEmail(data.email); // 3
 			setTitle(data.title); // 4
 			setBiography(data.biography); // 5
+			setShowEmail(data.show_email);
 		}
 	}, [data]);
 
 	function handlePfpImageUpload() {
 		if (inputRef_pfp.current) inputRef_pfp.current.click();
+	}
+
+	function handlePfpImageChange(event: ChangeEvent<HTMLInputElement>) {
+		if (event.target.files) {
+			const file = event.target.files[0];
+			uploadImage(file);
+		}
 	}
 
 	function handleBackdropImageUpload() {
@@ -92,6 +112,14 @@ export default function Account() {
 						<FontAwesomeIcon icon={faCircleXmark} /> Error
 					</span> */}
 				</div>
+				{userData.isGoogleAccount ? (
+					<div className={settings_css.section}>
+						<p>
+							<b>NOTE:</b> because you signed up through Google, you are unable
+							to change your email.
+						</p>
+					</div>
+				) : null}
 				<div className={settings_css.section}>
 					<input
 						type="text"
@@ -121,6 +149,7 @@ export default function Account() {
 						type="email"
 						placeholder="Email"
 						value={email!}
+						disabled={userData.isGoogleAccount}
 						onChange={e => {
 							setEmail(e.target.value);
 						}}
@@ -142,18 +171,34 @@ export default function Account() {
 					<h3>PRIVACY</h3>
 				</div>
 				<div className={settings_css.section}>
-					Would you like your email public?
+					Would you like your email public? (Currently, you have it set to
+					{data?.show_email.toString() === "false" ? " No" : " Yes"})
 					<label for="Yes">
-						<input type="radio" name="choice" />
+						<input
+							type="radio"
+							name="choice"
+							onChange={() => setShowEmail(true)}
+						/>
 						Yes
 					</label>
 					<label for="No">
-						<input type="radio" name="choice" />
+						<input
+							type="radio"
+							name="choice"
+							onChange={() => setShowEmail(false)}
+						/>
 						No
 					</label>
 				</div>
 				<div className={settings_css.header}>
 					<h3>IMAGES</h3>
+					{uploading ? (
+						<span>Updating image...</span>
+					) : (
+						<span>
+							Uploaded <FontAwesomeIcon icon={faCircleCheck} />
+						</span>
+					)}
 				</div>
 				<div className={settings_css.section2}>
 					<div className={settings_css.imagesContainer}>
@@ -165,6 +210,7 @@ export default function Account() {
 								type="file"
 								style={{ display: "none" }}
 								ref={inputRef_pfp}
+								onChange={handlePfpImageChange}
 							/>
 
 							<img src={userData.profile_picture} alt="User profile picture" />

@@ -68,6 +68,9 @@ const userSchema = new Schema({
 		type: String,
 		default:
 			"https://wallpapers.com/images/hd/blue-mountain-03x28faoww0g6fpm.jpg"
+	},
+	isGoogleAccount: {
+		type: Boolean
 	}
 });
 

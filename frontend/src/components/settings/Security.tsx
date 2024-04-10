@@ -5,6 +5,8 @@ import NotFound from "../NotFound";
 export default function Security() {
 	const { userData } = useAuthContext()!;
 
+	// TODO - if the user signed up with Google, have this disabled
+
 	return userData ? (
 		<>
 			<div className={settings_css.settingsContainer}>

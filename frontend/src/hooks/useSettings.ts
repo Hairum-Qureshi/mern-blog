@@ -5,9 +5,9 @@ import useAuthContext from "../contexts/authContext";
 
 export function useSettings(): useSettingsTypes {
 	const [saving, setSaving] = useState(false);
+	const [uploading, setUploading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [message, setMessage] = useState<string>("");
-	const { signOut } = useAuthContext()!;
 
 	const REGEX: RegExp =
 		/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -84,5 +84,33 @@ export function useSettings(): useSettingsTypes {
 		getCurrentUpdatedData();
 	}, []);
 
-	return { autoSave, saving, showSavingStatus, data, message, deleteAccount };
+	async function uploadImage(imageFile: File) {
+		const formData = new FormData();
+		formData.append("file", imageFile);
+
+		try {
+			const response = await axios.post(
+				"http://localhost:4000/api/user/settings/upload",
+				formData,
+				{
+					withCredentials: true
+				}
+			);
+
+			console.log(response.data);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	return {
+		autoSave,
+		saving,
+		showSavingStatus,
+		data,
+		message,
+		deleteAccount,
+		uploading,
+		uploadImage
+	};
 }
