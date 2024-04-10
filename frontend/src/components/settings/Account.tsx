@@ -116,7 +116,7 @@ export default function Account() {
 					<div className={settings_css.section}>
 						<p>
 							<b>NOTE:</b> because you signed up through Google, you are unable
-							to change your email.
+							to change your email
 						</p>
 					</div>
 				) : null}

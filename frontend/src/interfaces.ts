@@ -85,5 +85,5 @@ export interface useSettingsTypes {
 	message: string;
 	deleteAccount: () => void;
 	uploading: boolean;
-	uploadImage: (imageFile: File) => void;
+	uploadImage: (imageFile: File, image_type: string) => void;
 }
