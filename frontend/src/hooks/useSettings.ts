@@ -74,6 +74,7 @@ export function useSettings(): useSettingsTypes {
 				if (userDataResponse.data.message === "user is not logged in") {
 					setData(null);
 				} else {
+					console.log(userDataResponse.data.profile_picture);
 					setData(userDataResponse.data);
 				}
 			} catch (error) {
@@ -82,13 +83,15 @@ export function useSettings(): useSettingsTypes {
 		}
 
 		getCurrentUpdatedData();
-	}, []);
+	}, [uploading]);
 
 	async function uploadImage(imageFile: File, image_type: string) {
 		const formData = new FormData();
 		formData.append("file", imageFile);
 		formData.append("image_type", image_type);
 		try {
+			setUploading(true);
+
 			const response = await axios.post(
 				"http://localhost:4000/api/user/settings/upload",
 				formData,
@@ -97,7 +100,9 @@ export function useSettings(): useSettingsTypes {
 				}
 			);
 
-			console.log(response.data);
+			if (response.status === 200) {
+				setUploading(false);
+			}
 		} catch (error) {
 			console.log(error);
 		}

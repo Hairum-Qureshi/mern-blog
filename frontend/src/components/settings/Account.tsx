@@ -66,6 +66,13 @@ export default function Account() {
 		if (inputRef_backdrop.current) inputRef_backdrop.current.click();
 	}
 
+	function handleBackdropImageChange(event: ChangeEvent<HTMLInputElement>) {
+		if (event.target.files) {
+			const file = event.target.files[0];
+			uploadImage(file, "backdrop");
+		}
+	}
+
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
 			if (email) {
@@ -213,7 +220,7 @@ export default function Account() {
 								onChange={handlePfpImageChange}
 							/>
 
-							<img src={userData.profile_picture} alt="User profile picture" />
+							<img src={data?.profile_picture} alt="User profile picture" />
 						</div>
 						<div
 							className={settings_css.backdrop}
@@ -223,8 +230,9 @@ export default function Account() {
 								type="file"
 								style={{ display: "none" }}
 								ref={inputRef_backdrop}
+								onChange={handleBackdropImageChange}
 							/>
-							<img src={userData.backdrop} alt="User profile backdrop" />
+							<img src={data?.backdrop} alt="User profile backdrop" />
 						</div>
 					</div>
 				</div>

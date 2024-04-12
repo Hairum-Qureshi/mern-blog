@@ -21,7 +21,7 @@ export default function Security() {
 					{userData.isGoogleAccount ? (
 						<p>
 							<b>NOTE:</b> Because you signed up through Google, you are unable
-							to change your password or email
+							to change your password.
 						</p>
 					) : null}
 				</div>

@@ -40,7 +40,7 @@ async function handleImageData(
 	imageToDeletePath: string,
 	newImagePublicID: string,
 	image_type: string
-) {
+): Promise<number> {
 	try {
 		const user: User_Interface | undefined = await findUser(undefined, user_id);
 		if (user !== undefined) {
@@ -52,27 +52,44 @@ async function handleImageData(
 			// Deletes the image from the "temp_pfps" folder:
 			fs.unlink(imageToDeletePath, err => {
 				if (err) {
-					console.error("<settings_routes.ts> [54] Error deleting file:", err);
+					console.error("<settings_routes.ts> [55] Error deleting file:", err);
+					return 500;
 				} else {
 					console.log("Local file deleted successfully");
+					return 200;
 				}
 			});
 
 			if (image_type && image_type === "pfp") {
-				await User.findByIdAndUpdate(
-					{ _id: user_id },
-					{ profile_picture: newImageURL, cloudinaryPfp_ID: newImagePublicID }
-				);
+				try {
+					await User.findByIdAndUpdate(
+						{ _id: user_id },
+						{ profile_picture: newImageURL, cloudinaryPfp_ID: newImagePublicID }
+					);
+					return 200;
+				} catch (error) {
+					console.log("<settings_routes.ts> [71] ERROR", error);
+					return 500;
+				}
 			} else {
-				await User.findByIdAndUpdate(
-					{ _id: user_id },
-					{ backdrop: newImageURL, cloudinaryBackdrop_ID: newImagePublicID }
-				);
+				try {
+					await User.findByIdAndUpdate(
+						{ _id: user_id },
+						{ backdrop: newImageURL, cloudinaryBackdrop_ID: newImagePublicID }
+					);
+					return 200;
+				} catch (error) {
+					console.log("<settings_routes.ts> [82] ERROR", error);
+					return 500;
+				}
 			}
 		}
 	} catch (error) {
-		console.log("<settings_routes.ts> [66] ERROR", error);
+		console.log("<settings_routes.ts> [88] ERROR", error);
+		return 500;
 	}
+
+	return 200;
 }
 
 router.post("/upload", upload.single("file"), (req, res) => {
@@ -81,7 +98,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
 
 	fs.readdir(folderPath, (err, files) => {
 		if (err) {
-			console.error("<settings_routes.ts> [76] Error reading folder:", err);
+			console.error("<settings_routes.ts> [101] Error reading folder:", err);
 		} else {
 			const files_array: string[] = files;
 			const user_id: mongoose.Types.ObjectId | undefined = req.session.user_id;
@@ -91,24 +108,29 @@ router.post("/upload", upload.single("file"), (req, res) => {
 					const file_path = `${__dirname}/./temp_pfps/${files_array[i]}`;
 					cloudinary.uploader
 						.upload(file_path)
-						.then(result => {
-							handleImageData(
+						.then(async result => {
+							const status_code: number = await handleImageData(
 								user_id,
 								result.secure_url,
 								file_path,
 								result.public_id,
 								image_type
 							);
+
+							if (status_code === 200) {
+								res.status(status_code).send("Success");
+							} else {
+								res.status(status_code).send("Error");
+							}
 						})
 						.catch(error => {
-							console.log("<settings_routes.ts> [95] ERROR", error);
+							console.log("<settings_routes.ts> [127] ERROR", error);
 						});
 				}
 			}
 		}
 	});
-
-	res.send("Successfully uploaded!");
+	// res.status(200).send("Successfully uploaded!");
 });
 
 export default router;

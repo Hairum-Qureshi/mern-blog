@@ -6,9 +6,6 @@ import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import Token from "../models/token";
 import mongoose from "mongoose";
 
-// TODO - move all similar/repeated code to new functions!
-// TODO - add the logic to create the authentication cookie!
-
 export async function findUser(
 	email?: string,
 	user_id?: mongoose.Types.ObjectId
@@ -28,7 +25,7 @@ export async function findUser(
 					});
 				}
 			} catch (error) {
-				console.log("<auth_controller.ts> [31] ERROR:", error);
+				console.log("<auth_controller.ts> [28] ERROR:", error);
 				return undefined;
 			}
 		}
@@ -37,7 +34,7 @@ export async function findUser(
 
 		return user;
 	} catch (error) {
-		console.log("<auth_controller.ts> [40] ERROR:", error);
+		console.log("<auth_controller.ts> [37] ERROR:", error);
 		return undefined;
 	}
 }
@@ -69,7 +66,7 @@ const login_google = async (req: Request, res: Response) => {
 			res.status(201).send(user._id); // this is important! Without it, the cookie will not be set!
 		}
 	} catch (error) {
-		console.log("<auth_controller.ts> [70] ERROR:", error);
+		console.log("<auth_controller.ts> [69] ERROR:", error);
 		res.status(500).send(error);
 	}
 };
