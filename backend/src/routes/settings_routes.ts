@@ -55,7 +55,7 @@ async function handleImageData(
 					console.error("<settings_routes.ts> [55] Error deleting file:", err);
 					return 500;
 				} else {
-					console.log("Local file deleted successfully");
+					// console.log("Local file deleted successfully");
 					return 200;
 				}
 			});
