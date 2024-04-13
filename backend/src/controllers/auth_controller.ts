@@ -5,6 +5,7 @@ import { User_Interface } from "../interfaces";
 import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import Token from "../models/token";
 import mongoose from "mongoose";
+import { v2 as cloudinary } from "cloudinary";
 
 export async function findUser(
 	email?: string,
@@ -225,7 +226,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				social_media,
 				title,
 				backdrop,
-				isGoogleAccount
+				isGoogleAccount,
+				blocked_users
 			} = user;
 
 			res.json({
@@ -244,7 +246,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				title,
 				social_media,
 				backdrop,
-				isGoogleAccount
+				isGoogleAccount,
+				blocked_users
 			});
 		} else {
 			res.json({ message: "user does not exist" });
@@ -271,8 +274,21 @@ const logoutUser = async (req: Request, res: Response) => {
 
 const deleteAccount = async (req: Request, res: Response) => {
 	const user_id: mongoose.Types.ObjectId | undefined = req.session.user_id;
-	if (user_id !== undefined) {
+	const user: User_Interface | undefined = await findUser(undefined, user_id);
+	if (user_id !== undefined && user !== undefined) {
 		try {
+			const oldImagePublicID: string = user.cloudinaryPfp_ID;
+			const oldBackdropPublicID: string = user.cloudinaryBackdrop_ID;
+
+			if (oldImagePublicID) {
+				cloudinary.uploader.destroy(oldImagePublicID);
+			}
+			if (oldBackdropPublicID) {
+				cloudinary.uploader.destroy(oldBackdropPublicID);
+			}
+
+			// Deletes the old image from Cloudinary:
+
 			await User.deleteOne({
 				_id: user_id
 			});

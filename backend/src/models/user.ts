@@ -77,6 +77,10 @@ const userSchema = new Schema({
 	},
 	cloudinaryBackdrop_ID: {
 		type: String
+	},
+	blocked_users: {
+		type: [String],
+		default: []
 	}
 });
 

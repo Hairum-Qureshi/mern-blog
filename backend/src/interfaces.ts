@@ -29,6 +29,7 @@ export interface User_Interface {
 	isGoogleAccount: boolean;
 	cloudinaryPfp_ID: string;
 	cloudinaryBackdrop_ID: string;
+	blocked_users: string[];
 }
 
 export interface Token_Interface {
