@@ -1,7 +1,6 @@
 import axios from "axios";
 import { User, useSettingsTypes } from "../interfaces";
 import { useEffect, useState } from "react";
-import useAuthContext from "../contexts/authContext";
 
 export function useSettings(): useSettingsTypes {
 	const [saving, setSaving] = useState(false);

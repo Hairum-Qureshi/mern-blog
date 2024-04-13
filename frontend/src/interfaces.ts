@@ -70,6 +70,7 @@ export interface User {
 	backdrop: string;
 	isGoogleAccount: boolean;
 	message?: string;
+	blocked_users: string[];
 }
 
 export interface useSettingsTypes {
