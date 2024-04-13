@@ -57,11 +57,11 @@ const userSchema = new Schema({
 	social_media: {
 		type: Map,
 		default: {
-			twitter_x: "@",
-			instagram: "@",
-			facebook: "@",
-			pinterest: "@",
-			discord: "@"
+			twitter_x: "",
+			instagram: "",
+			facebook: "",
+			pinterest: "",
+			discord: ""
 		}
 	},
 	backdrop: {
@@ -73,12 +73,18 @@ const userSchema = new Schema({
 		type: Boolean
 	},
 	cloudinaryPfp_ID: {
-		type: String
+		type: String,
+		default: ""
 	},
 	cloudinaryBackdrop_ID: {
-		type: String
+		type: String,
+		default: ""
 	},
 	blocked_users: {
+		type: [String],
+		default: []
+	},
+	archived_blogs: {
 		type: [String],
 		default: []
 	}

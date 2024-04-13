@@ -160,9 +160,7 @@ const register = async (req: Request, res: Response) => {
 			password: hashedPassword,
 			date_joined: new Date().toLocaleDateString("en-US"),
 			num_blogs: 0,
-			isGoogleAccount: false,
-			cloudinaryPfp_ID: "",
-			cloudinaryBackdrop_ID: ""
+			isGoogleAccount: false
 		});
 
 		const token = await Token.create({
@@ -227,7 +225,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				title,
 				backdrop,
 				isGoogleAccount,
-				blocked_users
+				blocked_users,
+				archived_blogs
 			} = user;
 
 			res.json({
@@ -247,7 +246,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				social_media,
 				backdrop,
 				isGoogleAccount,
-				blocked_users
+				blocked_users,
+				archived_blogs
 			});
 		} else {
 			res.json({ message: "user does not exist" });
@@ -267,7 +267,7 @@ const logoutUser = async (req: Request, res: Response) => {
 			}
 		});
 	} catch (error) {
-		console.error("<auth_controller.ts> [263] ERROR", error);
+		console.error("<auth_controller.ts> [272] ERROR", error);
 		res.status(500).send("Error destroying session");
 	}
 };
@@ -295,13 +295,13 @@ const deleteAccount = async (req: Request, res: Response) => {
 
 			req.session.destroy(error => {
 				if (error) {
-					console.error("<auth_controller.ts> [281] ERROR", error);
+					console.error("<auth_controller.ts> [300] ERROR", error);
 				} else {
 					res.clearCookie("auth-session");
 				}
 			});
 		} catch (error) {
-			console.log("<auth_controller> [287] ERROR", error);
+			console.log("<auth_controller> [306] ERROR", error);
 		}
 	}
 };

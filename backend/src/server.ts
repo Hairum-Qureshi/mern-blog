@@ -15,7 +15,7 @@ const app = express();
 
 const limit = rateLimit({
 	max: 500, // maximum requests
-	windowMs: 60 * 60 * 1000, // 1 hour in miliseconds
+	windowMs: 60 * 60 * 1000, // 1 hour in milliseconds
 	message: "Too many requests. Please try again in 1 hour."
 });
 
@@ -27,8 +27,8 @@ const corsOptions = {
 	credentials: true,
 	optionSuccessStatus: 200
 };
-app.use(cors(corsOptions));
 
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

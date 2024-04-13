@@ -30,6 +30,7 @@ export interface User_Interface {
 	cloudinaryPfp_ID: string;
 	cloudinaryBackdrop_ID: string;
 	blocked_users: string[];
+	archived_blogs: string[];
 }
 
 export interface Token_Interface {
