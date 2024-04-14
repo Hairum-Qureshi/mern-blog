@@ -37,6 +37,7 @@
 	height: 180px;
 	border-radius: 5%;
 	object-fit: cover;
+	filter: grayscale(0);
 }
 
 .topSection .leftSection .userInfoContainer {
@@ -152,6 +153,7 @@
 .bottomSection .content .socials h2 {
 	font-family: "Manrope", sans-serif;
 	font-weight: 500;
+	word-spacing: 5px;
 }
 
 .bottomSection .content .socials h4 {

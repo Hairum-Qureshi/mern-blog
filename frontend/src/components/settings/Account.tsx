@@ -198,7 +198,7 @@ export default function Account() {
 					</label>
 				</div>
 				<div className={settings_css.header}>
-					<h3>IMAGES</h3>
+					<h3>IMAGES - CLICK ON THE IMAGE YOU WANT TO CHANGE</h3>
 					{uploading ? (
 						<span>Updating image...</span>
 					) : (

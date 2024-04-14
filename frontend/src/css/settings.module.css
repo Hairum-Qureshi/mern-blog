@@ -86,6 +86,7 @@ body {
 	background-color: rgb(101, 5, 5);
 	padding: 15px;
 	font-family: "Archivo", sans-serif;
+	border: 1px solid rgb(255, 0, 0);
 }
 
 .settingsContainer .section .deleteAccBtn {
