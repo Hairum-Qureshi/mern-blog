@@ -61,19 +61,21 @@
 }
 
 .topSection .leftSection .userInfoContainer button {
-	padding: 5px;
-	width: 30%;
+	padding: 8px;
+	font-family: "Manrope", sans-serif;
+	font-weight: 600;
+	/* width: 30%; */
 	font-size: 15px;
-	margin-top: 10px;
-	background-color: rgb(7, 60, 149);
-	border: 1px solid gold;
+	margin: 10px 0 0 10px;
+	background-color: rgb(9, 66, 124);
+	border: 1px solid rgb(0, 174, 255);
 	border-radius: 3px;
 	color: white;
 }
 
 .topSection .leftSection .userInfoContainer button:hover {
 	cursor: pointer;
-	background-color: rgb(3, 62, 110);
+	background-color: rgb(16, 98, 166);
 }
 
 .topSection .rightSection .userStats {

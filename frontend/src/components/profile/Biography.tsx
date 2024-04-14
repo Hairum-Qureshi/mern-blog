@@ -12,6 +12,10 @@ import {
 	faXTwitter
 } from "@fortawesome/free-brands-svg-icons";
 
+// TODO - for the social media icons, use an HTML table so they're neatly grouped
+// TODO - figure out why the line breaks aren't being rendered for the user bio
+// TODO - add dynamic CSS styling to the currently selected tab
+
 export default function Biograpy() {
 	const { userData } = useAuthContext()!;
 	const { data } = useSettings();

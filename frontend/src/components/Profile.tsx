@@ -8,6 +8,7 @@ import { useState } from "react";
 import profile_css from "../css/profile.module.css";
 
 // TODO - need to add a block button visible for users visiting other users' profile pages
+// TODO - create a hook that will get the user data based on the URL's user ID param
 
 export default function Profile() {
 	const { userData } = useAuthContext()!;
@@ -37,6 +38,13 @@ export default function Profile() {
 									}
 								>
 									Settings
+								</button>
+								<button
+									onClick={() =>
+										navigate(`/user/${userData.user_id}/blog/create-blog`)
+									}
+								>
+									Post Blog
 								</button>
 							</>
 						) : (
@@ -81,9 +89,6 @@ export default function Profile() {
 					>
 						<h3>BLOG POSTS</h3>
 					</div>
-					{/* <div className={profile_css.navButton}>
-						<h3>SOCIALS</h3>
-					</div> */}
 				</div>
 				<div className={profile_css.content}>
 					{selectedTab === "biography" ? <Biography /> : <Blogs />}
