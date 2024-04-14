@@ -73,7 +73,6 @@ export function useSettings(): useSettingsTypes {
 				if (userDataResponse.data.message === "user is not logged in") {
 					setData(null);
 				} else {
-					console.log(userDataResponse.data.profile_picture);
 					setData(userDataResponse.data);
 				}
 			} catch (error) {

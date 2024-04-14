@@ -11,9 +11,9 @@ export default function BlockedList() {
 				<div className={settings_css.header}>
 					<h3>Your Blocked List</h3>
 				</div>
-				{userData.blocked_users.length !== 0 ? (
+				{userData.blocked_users.length === 0 ? (
 					<div className={settings_css.section}>
-						<p>You currently don't have anyone blocked</p>
+						<p>You currently don't have anyone blocked.</p>
 					</div>
 				) : (
 					userData.blocked_users.map(user => (

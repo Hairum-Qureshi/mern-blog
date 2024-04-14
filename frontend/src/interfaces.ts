@@ -71,6 +71,7 @@ export interface User {
 	isGoogleAccount: boolean;
 	message?: string;
 	blocked_users: string[];
+	archived_blogs: string[];
 }
 
 export interface useSettingsTypes {

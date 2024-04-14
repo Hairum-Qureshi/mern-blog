@@ -1,135 +1,92 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import profile_css from "../css/profile.module.css";
-import {
-	faDiscord,
-	faFacebook,
-	faInstagram,
-	faPinterest,
-	faXTwitter
-} from "@fortawesome/free-brands-svg-icons";
 import useAuthContext from "../contexts/authContext";
 import { useNavigate, useParams } from "react-router-dom";
 import NotFound from "./NotFound";
-import ReactMarkdown from "react-markdown";
-// import { useEffect, useState } from "react";
-// import { User } from "../interfaces";
+import { useSettings } from "../hooks/useSettings";
+import Biography from "./profile/Biography";
+import Blogs from "./profile/Blogs";
+import { useState } from "react";
+import profile_css from "../css/profile.module.css";
+
+// TODO - need to add a block button visible for users visiting other users' profile pages
 
 export default function Profile() {
 	const { userData } = useAuthContext()!;
 	const { user_id } = useParams();
 	const navigate = useNavigate();
+	const { data } = useSettings();
+	const [selectedTab, setSelectedTab] = useState("biography");
 
 	return userData && userData.message !== "user does not exist" ? (
 		<>
-			<div className={profile_css.headerWrapper}>
-				{/* DO NOT REMOVE: */}
-				<header>
-					<img src={userData.backdrop} alt="User profile backdrop image" />
-				</header>
-				<div className={profile_css.colsContainer}>
-					<div className={profile_css.leftCol}>
-						<div className={profile_css.imgContainer}>
-							<img src={userData.profile_picture} alt="User profile picture" />
-							{/* Used to show online/offline status circle: */}
-							{/* <span></span> */}
+			<div className={profile_css.topSection}>
+				<img src={data?.backdrop} alt="User profile backdrop" />
+				<div className={profile_css.leftSection}>
+					<div className={profile_css.pfpContainer}>
+						<img src={data?.profile_picture} alt="User profile picture" />
+					</div>
+					<div className={profile_css.userInfoContainer}>
+						<h1>{data?.full_name}</h1>
+						<h3>test@gmail.com</h3>
+						{userData.user_id === user_id ? (
+							<>
+								<button
+									onClick={() =>
+										navigate(
+											`/user/${userData.user_id}/profile/settings?section=account`
+										)
+									}
+								>
+									Settings
+								</button>
+							</>
+						) : (
+							<button>FOLLOW</button>
+						)}
+					</div>
+				</div>
+				<div className={profile_css.rightSection}>
+					<div className={profile_css.userStats}>
+						<div className={profile_css.followersContainer}>
+							<div>
+								<h1>{data?.followers}</h1>
+							</div>
+							<div>FOLLOWERS</div>
 						</div>
-						<h2>{userData.full_name}</h2>
-						<p>{userData.title}</p>
-						<p>{userData.show_email ? userData.email : null}</p>
-
-						<ul className={profile_css.about}>
-							<li>
-								<span>{userData.followers}</span>Followers
-							</li>
-							<li>
-								<span>{userData.following}</span>Following
-							</li>
-							<li>
-								<span>{userData.num_blogs}</span>Blog Posts
-							</li>
-						</ul>
-
-						<div className={profile_css.content}>
-							<ReactMarkdown>{userData.biography}</ReactMarkdown>
-							<ul>
-								<li>
-									<FontAwesomeIcon icon={faXTwitter} />
-								</li>
-								<li>
-									<FontAwesomeIcon icon={faInstagram} />
-								</li>
-								<li>
-									<FontAwesomeIcon icon={faFacebook} />
-								</li>
-								<li>
-									<FontAwesomeIcon icon={faPinterest} />
-								</li>
-								<li>
-									<FontAwesomeIcon icon={faDiscord} />
-								</li>
-							</ul>
+						<div className={profile_css.followingsContainer}>
+							<div>
+								<h1>{data?.following}</h1>
+							</div>
+							<div>FOLLOWING</div>
+						</div>
+						<div className={profile_css.blogsCountContainer}>
+							<div>
+								<h1>{data?.num_blogs}</h1>
+							</div>
+							<div>BLOGS</div>
 						</div>
 					</div>
-					<div className={profile_css.rightCol}>
-						<nav>
-							<ul>
-								<li>
-									<h3>
-										{userData.user_id === user_id
-											? "YOUR BLOGS:"
-											: `${userData.user_id === user_id}'s BLOGS`}
-									</h3>
-								</li>
-								{/* <li>
-								<a href="">galleries</a>
-							</li>
-							<li>
-								<a href="">groups</a>
-							</li> */}
-								{/* <li>
-								<a href="">about</a>
-							</li> */}
-							</ul>
-							{userData.user_id === user_id ? (
-								<>
-									<button
-										onClick={() =>
-											navigate(
-												`/user/${userData.user_id}/profile/settings?section=account`
-											)
-										}
-									>
-										SETTINGS
-									</button>
-									<button
-										onClick={() =>
-											navigate(`/user/${userData.user_id}/blogs/post`)
-										}
-									>
-										POST BLOGS
-									</button>
-								</>
-							) : (
-								<button>FOLLOW</button>
-							)}
-						</nav>
-
-						<div className={profile_css.blogs}>
-							{userData.num_blogs == 0 ? (
-								<h2>You currently don't have any blogs posted</h2>
-							) : (
-								// add logic to loop through and display all the blogs the user has created
-								<div>
-									<h4>Some Blog Title</h4>
-
-									<img
-										src="https://e0.pxfuel.com/wallpapers/1009/683/desktop-wallpaper-earth-earth-aesthetic.jpg"
-										alt="Blog thumbnail"
-									/>
-								</div>
-							)}
-						</div>
+				</div>
+			</div>
+			<div className={profile_css.bottomSection}>
+				<div className={profile_css.navigation}>
+					<div
+						className={profile_css.navButton}
+						onClick={() => setSelectedTab("biography")}
+					>
+						<h3>BIOGRAPHY</h3>
 					</div>
+					<div
+						className={profile_css.navButton}
+						onClick={() => setSelectedTab("blogs")}
+					>
+						<h3>BLOG POSTS</h3>
+					</div>
+					{/* <div className={profile_css.navButton}>
+						<h3>SOCIALS</h3>
+					</div> */}
+				</div>
+				<div className={profile_css.content}>
+					{selectedTab === "biography" ? <Biography /> : <Blogs />}
 				</div>
 			</div>
 		</>
@@ -137,10 +94,3 @@ export default function Profile() {
 		<NotFound />
 	);
 }
-
-/*
-
-Base HTML Code from https://github.com/programmercloud/responsive-profile-page 
-Modified by Hairum
-
-*/

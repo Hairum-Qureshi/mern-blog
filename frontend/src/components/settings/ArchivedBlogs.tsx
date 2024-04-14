@@ -11,9 +11,17 @@ export default function ArchivedBlogs() {
 				<div className={settings_css.header}>
 					<h3>Your Archived Blogs</h3>
 				</div>
-				<div className={settings_css.section}></div>
-				<div className={settings_css.section}></div>
-				<div className={settings_css.section}></div>
+				{userData.archived_blogs.length === 0 ? (
+					<>
+						<div className={settings_css.section}>
+							You currently don't have any blogs archived.
+						</div>
+					</>
+				) : (
+					userData.archived_blogs.map(blog => {
+						return <div className={settings_css.section}>{blog}</div>;
+					})
+				)}
 			</div>
 		</>
 	) : (

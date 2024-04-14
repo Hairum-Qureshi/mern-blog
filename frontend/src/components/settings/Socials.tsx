@@ -10,9 +10,16 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import NotFound from "../NotFound";
 import useAuthContext from "../../contexts/authContext";
+import { useState } from "react";
 
 export default function Socials() {
 	const { userData } = useAuthContext()!;
+
+	const [twitterXUser, setTwitterXUser] = useState<string>();
+	const [instagramUser, setInstagramUser] = useState<string>();
+	const [facebookUser, setFacebookUser] = useState<string>();
+	const [pinterestUser, setPinterestUser] = useState<string>();
+	const [discordUser, setDiscordUser] = useState<string>();
 
 	return userData ? (
 		<>
@@ -22,7 +29,7 @@ export default function Socials() {
 				</div>
 				<div className={settings_css.section}>
 					<p>
-						<b>Note:</b> adding your usernames guarantees your social media
+						<b>NOTE:</b> adding your usernames guarantees your social media
 						accounts will be made public on your profile.
 					</p>
 				</div>
@@ -34,7 +41,7 @@ export default function Socials() {
 						type="text"
 						placeholder="Twitter/X"
 						value={
-							userData.social_media.twitter_x !== "@"
+							userData.social_media.twitter_x
 								? userData.social_media.twitter_x
 								: ""
 						}
@@ -48,7 +55,7 @@ export default function Socials() {
 						type="text"
 						placeholder="Instagram"
 						value={
-							userData.social_media.instagram !== "@"
+							userData.social_media.instagram
 								? userData.social_media.instagram
 								: ""
 						}
@@ -62,7 +69,7 @@ export default function Socials() {
 						type="text"
 						placeholder="Facebook"
 						value={
-							userData.social_media.facebook !== "@"
+							userData.social_media.facebook
 								? userData.social_media.facebook
 								: ""
 						}
@@ -76,7 +83,7 @@ export default function Socials() {
 						type="text"
 						placeholder="Pinterest"
 						value={
-							userData.social_media.pinterest !== "@"
+							userData.social_media.pinterest
 								? userData.social_media.pinterest
 								: ""
 						}
@@ -90,9 +97,7 @@ export default function Socials() {
 						type="text"
 						placeholder="Discord"
 						value={
-							userData.social_media.discord !== "@"
-								? userData.social_media.discord
-								: ""
+							userData.social_media.discord ? userData.social_media.discord : ""
 						}
 					/>
 				</div>
