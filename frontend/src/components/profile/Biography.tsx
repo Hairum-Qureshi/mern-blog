@@ -25,46 +25,55 @@ export default function Biograpy() {
 				) : (
 					<h2>{userData && userData.first_name}'s SOCIALS</h2>
 				)}
-				{data?.social_media.twitter_x ? (
-					<>
-						<FontAwesomeIcon icon={faXTwitter} />
-						:&nbsp;
-						<span>{data?.social_media.twitter_x}</span>
-						<br />
-					</>
-				) : null}
-				{data?.social_media.instagram ? (
-					<>
-						<FontAwesomeIcon icon={faInstagram} />
-						:&nbsp;
-						<span>{data?.social_media.instagram}</span>
-						<br />
-					</>
-				) : null}
-				{data?.social_media.facebook ? (
-					<>
-						<FontAwesomeIcon icon={faFacebook} />
-						:&nbsp;
-						<span>{data?.social_media.facebook}</span>
-						<br />
-					</>
-				) : null}
-				{data?.social_media.pinterest ? (
-					<>
-						<FontAwesomeIcon icon={faPinterest} />
-						:&nbsp;
-						<span>{data?.social_media.pinterest}</span>
-						<br />
-					</>
-				) : null}
-				{data?.social_media.discord ? (
-					<>
-						<FontAwesomeIcon icon={faDiscord} />
-						:&nbsp;
-						<span>{data?.social_media.discord}</span>
-						<br />
-					</>
-				) : null}
+				<div className={profile_css.social_block}>
+					{data?.social_media.twitter_x ? (
+						<>
+							<FontAwesomeIcon icon={faXTwitter} />
+							:&nbsp;
+							<span>{data?.social_media.twitter_x}</span>
+						</>
+					) : null}
+				</div>
+				<div className={profile_css.social_block}>
+					{data?.social_media.instagram ? (
+						<>
+							<FontAwesomeIcon icon={faInstagram} />
+							:&nbsp;
+							<span>{data?.social_media.instagram}</span>
+							<br />
+						</>
+					) : null}
+				</div>
+				<div className={profile_css.social_block}>
+					{data?.social_media.facebook ? (
+						<>
+							<FontAwesomeIcon icon={faFacebook} />
+							:&nbsp;
+							<span>{data?.social_media.facebook}</span>
+							<br />
+						</>
+					) : null}
+				</div>
+				<div className={profile_css.social_block}>
+					{data?.social_media.pinterest ? (
+						<>
+							<FontAwesomeIcon icon={faPinterest} />
+							:&nbsp;
+							<span>{data?.social_media.pinterest}</span>
+							<br />
+						</>
+					) : null}
+				</div>
+				<div className={profile_css.social_block}>
+					{data?.social_media.discord ? (
+						<>
+							<FontAwesomeIcon icon={faDiscord} />
+							:&nbsp;
+							<span>{data?.social_media.discord}</span>
+							<br />
+						</>
+					) : null}
+				</div>
 				{!data?.social_media.discord &&
 				!data?.social_media.facebook &&
 				!data?.social_media.instagram &&

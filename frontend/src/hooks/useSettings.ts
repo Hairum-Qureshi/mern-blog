@@ -51,40 +51,32 @@ export function useSettings(): useSettingsTypes {
 		pinterestUser?: string,
 		discordUser?: string
 	) {
-		if (
-			twitterXUser ||
-			instagrmUser ||
-			facebookUser ||
-			pinterestUser ||
-			discordUser
-		) {
-			setSaving(true);
+		setSaving(true);
 
-			try {
-				const response = await axios.post(
-					"http://localhost:4000/api/user/settings/autosave/social-media",
-					{
-						data:
-							twitterXUser ||
-							instagrmUser ||
-							facebookUser ||
-							pinterestUser ||
-							discordUser,
-						type: input_id
-					},
-					{ withCredentials: true }
-				);
-				setMessage(response.data);
-			} catch (error) {
-				console.log(error);
-				// TODO - Figure out how to display the error message form the server here:
-				setMessage(
-					"There was a problem sending an email. Please check your email format"
-				);
-				// setMessage(error.response.data);
-			} finally {
-				setSaving(false);
-			}
+		try {
+			const response = await axios.post(
+				"http://localhost:4000/api/user/settings/autosave/social-media",
+				{
+					data:
+						twitterXUser ||
+						instagrmUser ||
+						facebookUser ||
+						pinterestUser ||
+						discordUser,
+					type: input_id
+				},
+				{ withCredentials: true }
+			);
+			setMessage(response.data);
+		} catch (error) {
+			console.log(error);
+			// TODO - Figure out how to display the error message form the server here:
+			setMessage(
+				"There was a problem sending an email. Please check your email format"
+			);
+			// setMessage(error.response.data);
+		} finally {
+			setSaving(false);
 		}
 	}
 
