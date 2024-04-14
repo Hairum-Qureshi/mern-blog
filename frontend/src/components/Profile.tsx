@@ -26,7 +26,7 @@ export default function Profile() {
 					</div>
 					<div className={profile_css.userInfoContainer}>
 						<h1>{data?.full_name}</h1>
-						<h3>test@gmail.com</h3>
+						<h3>{data?.show_email ? data?.email : null}</h3>
 						{userData.user_id === user_id ? (
 							<>
 								<button

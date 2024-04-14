@@ -3,7 +3,7 @@
 .topSection {
 	width: 100%;
 	box-sizing: border-box;
-	border: 2px solid white;
+	/* border: 2px solid white; */
 	height: 250px;
 	display: inline-flex;
 }
@@ -95,19 +95,21 @@
 .bottomSection {
 	width: 100%;
 	box-sizing: border-box;
-	border: 2px solid orange;
+	border: 2px solid white;
+	border-top: none;
 	height: auto;
 }
 
 .bottomSection .navigation {
-	border: 1px solid white;
+	/* border: 1px solid white; */
+	border: 2px solid rgb(74, 204, 255);
 	display: inline-flex;
 	width: 100%;
 	box-sizing: border-box;
 }
 
 .bottomSection .navigation .navButton:first-of-type {
-	border-right: 2px solid white;
+	border-right: 2px solid rgb(74, 204, 255);
 }
 
 .bottomSection .navigation .navButton {
@@ -115,10 +117,15 @@
 	width: 50%;
 	text-align: center;
 	height: 20px;
+	background-color: rgb(6, 48, 103);
+}
+
+.bottomSection .navigation .navButton:active {
+	background-color: rgb(5, 61, 134);
 }
 
 .bottomSection .navigation .navButton:hover {
-	border-bottom: 2px solid yellow;
+	border-bottom: 2px solid rgb(0, 225, 255);
 	cursor: pointer;
 }
 
@@ -129,6 +136,7 @@
 }
 
 .bottomSection .content .socials {
+	background-color: rgb(0, 0, 51);
 	border-right: 2px solid white;
 	width: 20%;
 	padding: 20px;
