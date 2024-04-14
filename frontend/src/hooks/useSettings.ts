@@ -43,6 +43,51 @@ export function useSettings(): useSettingsTypes {
 		}
 	}
 
+	async function autoSaveSocials(
+		input_id: number,
+		twitterXUser?: string,
+		instagrmUser?: string,
+		facebookUser?: string,
+		pinterestUser?: string,
+		discordUser?: string
+	) {
+		if (
+			twitterXUser ||
+			instagrmUser ||
+			facebookUser ||
+			pinterestUser ||
+			discordUser
+		) {
+			setSaving(true);
+
+			try {
+				const response = await axios.post(
+					"http://localhost:4000/api/user/settings/autosave/social-media",
+					{
+						data:
+							twitterXUser ||
+							instagrmUser ||
+							facebookUser ||
+							pinterestUser ||
+							discordUser,
+						type: input_id
+					},
+					{ withCredentials: true }
+				);
+				setMessage(response.data);
+			} catch (error) {
+				console.log(error);
+				// TODO - Figure out how to display the error message form the server here:
+				setMessage(
+					"There was a problem sending an email. Please check your email format"
+				);
+				// setMessage(error.response.data);
+			} finally {
+				setSaving(false);
+			}
+		}
+	}
+
 	function deleteAccount() {
 		const confirmation = confirm(
 			"Are you sure you would like to delete your account?"
@@ -114,6 +159,7 @@ export function useSettings(): useSettingsTypes {
 		message,
 		deleteAccount,
 		uploading,
-		uploadImage
+		uploadImage,
+		autoSaveSocials
 	};
 }

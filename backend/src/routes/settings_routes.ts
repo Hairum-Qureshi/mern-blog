@@ -1,5 +1,8 @@
 import express from "express";
-import { autosave } from "../controllers/settings_controller";
+import {
+	autosave,
+	autosaveSocialMedia
+} from "../controllers/settings_controller";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -132,5 +135,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
 	});
 	// res.status(200).send("Successfully uploaded!");
 });
+
+router.post("/autosave/social-media", autosaveSocialMedia);
 
 export default router;

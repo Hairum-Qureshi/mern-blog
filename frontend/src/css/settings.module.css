@@ -134,6 +134,10 @@ body {
 	display: inline-flex;
 }
 
+.settingsContainer .section input:disabled {
+	cursor: not-allowed;
+}
+
 .settingsContainer .section small {
 	float: right;
 }

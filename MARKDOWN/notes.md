@@ -29,3 +29,11 @@
 # Accessing `req.session.user_id` when the user is signed in
 
 - If you're doing a POST request, make sure you have `{ withCredentials: true }`in the axios frontend code because otherwise, `req.session.user_id` will be undefined
+
+## MISCELLANEOUS
+
+1. The `findUser` function you made isn't necessary since MongoDB has a method called `findById`. An example:
+
+```javascript
+const user = await User.findById(user_id);
+```

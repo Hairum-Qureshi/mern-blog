@@ -10,10 +10,12 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import NotFound from "../NotFound";
 import useAuthContext from "../../contexts/authContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSettings } from "../../hooks/useSettings";
 
 export default function Socials() {
 	const { userData } = useAuthContext()!;
+	const { data, showSavingStatus, saving, autoSaveSocials } = useSettings();
 
 	const [twitterXUser, setTwitterXUser] = useState<string>();
 	const [instagramUser, setInstagramUser] = useState<string>();
@@ -21,11 +23,28 @@ export default function Socials() {
 	const [pinterestUser, setPinterestUser] = useState<string>();
 	const [discordUser, setDiscordUser] = useState<string>();
 
+	useEffect(() => {
+		if (data && userData) {
+			setTwitterXUser(data.social_media.twitter_x); // 1
+			setInstagramUser(data.social_media.instagram); // 2
+			setFacebookUser(data.social_media.facebook); // 3
+			setPinterestUser(data.social_media.pinterest); // 4
+			setDiscordUser(data.social_media.discord); // 5
+		}
+	}, [data]);
+
 	return userData ? (
 		<>
 			<div className={settings_css.settingsContainer}>
 				<div className={settings_css.header}>
 					<h3>SOCIAL MEDIA</h3>
+					{saving ? (
+						<span>Saving...</span>
+					) : (
+						<span>
+							Saved <FontAwesomeIcon icon={faCircleCheck} />
+						</span>
+					)}
 				</div>
 				<div className={settings_css.section}>
 					<p>
@@ -40,11 +59,12 @@ export default function Socials() {
 					<input
 						type="text"
 						placeholder="Twitter/X"
-						value={
-							userData.social_media.twitter_x
-								? userData.social_media.twitter_x
-								: ""
-						}
+						value={twitterXUser}
+						onChange={e => {
+							setTwitterXUser(e.target.value);
+							showSavingStatus();
+						}}
+						onBlur={() => autoSaveSocials(1, twitterXUser!)}
 					/>
 				</div>
 				<div className={settings_css.section}>
@@ -54,11 +74,12 @@ export default function Socials() {
 					<input
 						type="text"
 						placeholder="Instagram"
-						value={
-							userData.social_media.instagram
-								? userData.social_media.instagram
-								: ""
-						}
+						value={instagramUser}
+						onChange={e => {
+							setInstagramUser(e.target.value);
+							showSavingStatus();
+						}}
+						onBlur={() => autoSaveSocials(2, instagramUser!)}
 					/>
 				</div>
 				<div className={settings_css.section}>
@@ -68,11 +89,12 @@ export default function Socials() {
 					<input
 						type="text"
 						placeholder="Facebook"
-						value={
-							userData.social_media.facebook
-								? userData.social_media.facebook
-								: ""
-						}
+						value={facebookUser}
+						onChange={e => {
+							setFacebookUser(e.target.value);
+							showSavingStatus();
+						}}
+						onBlur={() => autoSaveSocials(3, facebookUser!)}
 					/>
 				</div>
 				<div className={settings_css.section}>
@@ -82,11 +104,12 @@ export default function Socials() {
 					<input
 						type="text"
 						placeholder="Pinterest"
-						value={
-							userData.social_media.pinterest
-								? userData.social_media.pinterest
-								: ""
-						}
+						value={pinterestUser}
+						onChange={e => {
+							setPinterestUser(e.target.value);
+							showSavingStatus();
+						}}
+						onBlur={() => autoSaveSocials(4, pinterestUser!)}
 					/>
 				</div>
 				<div className={settings_css.section}>
@@ -96,9 +119,12 @@ export default function Socials() {
 					<input
 						type="text"
 						placeholder="Discord"
-						value={
-							userData.social_media.discord ? userData.social_media.discord : ""
-						}
+						value={discordUser}
+						onChange={e => {
+							setDiscordUser(e.target.value);
+							showSavingStatus();
+						}}
+						onBlur={() => autoSaveSocials(5, discordUser!)}
 					/>
 				</div>
 			</div>

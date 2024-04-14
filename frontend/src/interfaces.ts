@@ -88,4 +88,12 @@ export interface useSettingsTypes {
 	deleteAccount: () => void;
 	uploading: boolean;
 	uploadImage: (imageFile: File, image_type: string) => void;
+	autoSaveSocials: (
+		input_id: number,
+		twitterXUser?: string,
+		instagrmUser?: string,
+		facebookUser?: string,
+		pinterestUser?: string,
+		discordUser?: string
+	) => void;
 }

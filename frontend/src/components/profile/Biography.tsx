@@ -27,38 +27,42 @@ export default function Biograpy() {
 				)}
 				{data?.social_media.twitter_x ? (
 					<>
-						<FontAwesomeIcon icon={faXTwitter} />:
-						<span>${data?.social_media.twitter_x}</span>
-					</>
-				) : null}
-				{data?.social_media.twitter_x ? (
-					<>
-						<FontAwesomeIcon icon={faXTwitter} />:
-						<span>${data?.social_media.twitter_x}</span>
+						<FontAwesomeIcon icon={faXTwitter} />
+						:&nbsp;
+						<span>{data?.social_media.twitter_x}</span>
+						<br />
 					</>
 				) : null}
 				{data?.social_media.instagram ? (
 					<>
-						<FontAwesomeIcon icon={faInstagram} />:
-						<span>${data?.social_media.instagram}</span>
+						<FontAwesomeIcon icon={faInstagram} />
+						:&nbsp;
+						<span>{data?.social_media.instagram}</span>
+						<br />
 					</>
 				) : null}
 				{data?.social_media.facebook ? (
 					<>
-						<FontAwesomeIcon icon={faFacebook} />:
-						<span>${data?.social_media.facebook}</span>
+						<FontAwesomeIcon icon={faFacebook} />
+						:&nbsp;
+						<span>{data?.social_media.facebook}</span>
+						<br />
 					</>
 				) : null}
 				{data?.social_media.pinterest ? (
 					<>
-						<FontAwesomeIcon icon={faPinterest} />:
-						<span>${data?.social_media.pinterest}</span>
+						<FontAwesomeIcon icon={faPinterest} />
+						:&nbsp;
+						<span>{data?.social_media.pinterest}</span>
+						<br />
 					</>
 				) : null}
 				{data?.social_media.discord ? (
 					<>
-						<FontAwesomeIcon icon={faDiscord} />:
-						<span>${data?.social_media.discord}</span>
+						<FontAwesomeIcon icon={faDiscord} />
+						:&nbsp;
+						<span>{data?.social_media.discord}</span>
+						<br />
 					</>
 				) : null}
 				{!data?.social_media.discord &&
