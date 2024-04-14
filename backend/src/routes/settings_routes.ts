@@ -55,7 +55,7 @@ async function handleImageData(
 			// Deletes the image from the "temp_pfps" folder:
 			fs.unlink(imageToDeletePath, err => {
 				if (err) {
-					console.error("<settings_routes.ts> [55] Error deleting file:", err);
+					console.error("<settings_routes.ts> [58] Error deleting file:", err);
 					return 500;
 				} else {
 					// console.log("Local file deleted successfully");
@@ -71,7 +71,7 @@ async function handleImageData(
 					);
 					return 200;
 				} catch (error) {
-					console.log("<settings_routes.ts> [71] ERROR", error);
+					console.log("<settings_routes.ts> [74] ERROR", error);
 					return 500;
 				}
 			} else {
@@ -82,13 +82,13 @@ async function handleImageData(
 					);
 					return 200;
 				} catch (error) {
-					console.log("<settings_routes.ts> [82] ERROR", error);
+					console.log("<settings_routes.ts> [85] ERROR", error);
 					return 500;
 				}
 			}
 		}
 	} catch (error) {
-		console.log("<settings_routes.ts> [88] ERROR", error);
+		console.log("<settings_routes.ts> [91] ERROR", error);
 		return 500;
 	}
 
@@ -101,7 +101,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
 
 	fs.readdir(folderPath, (err, files) => {
 		if (err) {
-			console.error("<settings_routes.ts> [101] Error reading folder:", err);
+			console.error("<settings_routes.ts> [104] Error reading folder:", err);
 		} else {
 			const files_array: string[] = files;
 			const user_id: mongoose.Types.ObjectId | undefined = req.session.user_id;
@@ -127,7 +127,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
 							}
 						})
 						.catch(error => {
-							console.log("<settings_routes.ts> [127] ERROR", error);
+							console.log("<settings_routes.ts> [130] ERROR", error);
 						});
 				}
 			}

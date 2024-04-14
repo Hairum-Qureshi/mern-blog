@@ -157,7 +157,7 @@ const autosaveSocialMedia = async (req: Request, res: Response) => {
 						{
 							$set: {
 								"social_media.twitter_x": twitter_x,
-								"social_media.instagram": data.toLowerCase() || "",
+								"social_media.instagram": data ? data.toLowerCase() : "",
 								"social_media.facebook": facebook,
 								"social_media.pinterest": pinterest,
 								"social_media.discord": discord
@@ -202,7 +202,7 @@ const autosaveSocialMedia = async (req: Request, res: Response) => {
 								"social_media.instagram": instagram,
 								"social_media.facebook": facebook,
 								"social_media.pinterest": pinterest,
-								"social_media.discord": data.toLowerCase() || ""
+								"social_media.discord": data ? data.toLowerCase() : ""
 							}
 						}
 					);
