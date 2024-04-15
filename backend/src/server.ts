@@ -8,6 +8,7 @@ import auth_routes from "./routes/auth_routes";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import settings_routes from "./routes/settings_routes";
+import blog_routes from "./routes/blog_routes";
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use(
 app.use("/api/user", limit); // middleware to add a rate limit for requests (prevent brute-force attacks)
 app.use("/api/user", auth_routes);
 app.use("/api/user/settings", settings_routes);
+app.use("/api/blogs", blog_routes);
 
 app.engine("html", require("ejs").renderFile);
 
