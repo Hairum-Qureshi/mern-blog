@@ -23,4 +23,4 @@ const blogSchema = new Schema({
 
 type Blog = InferSchemaType<typeof blogSchema>;
 
-export default model<Token>("Blog", blogSchema);
+export default model<Blog>("Blog", blogSchema);
