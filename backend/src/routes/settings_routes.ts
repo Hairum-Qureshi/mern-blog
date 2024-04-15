@@ -28,7 +28,7 @@ router.post("/autosave", autosave);
 
 const storage = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, path.join(__dirname, "./temp_pfps"));
+		callback(null, path.join(__dirname, "./temp_images"));
 	},
 	filename: (req, file, callback) => {
 		callback(null, `${Date.now()}-${file.originalname}`);
@@ -52,7 +52,7 @@ async function handleImageData(
 			// Deletes the old image from Cloudinary:
 			cloudinary.uploader.destroy(oldImagePublicID);
 
-			// Deletes the image from the "temp_pfps" folder:
+			// Deletes the image from the "temp_images" folder:
 			fs.unlink(imageToDeletePath, err => {
 				if (err) {
 					console.error("<settings_routes.ts> [58] Error deleting file:", err);
@@ -97,7 +97,7 @@ async function handleImageData(
 
 router.post("/upload", upload.single("file"), (req, res) => {
 	const { image_type } = req.body;
-	const folderPath = path.join(__dirname, "./temp_pfps");
+	const folderPath = path.join(__dirname, "./temp_images");
 
 	fs.readdir(folderPath, (err, files) => {
 		if (err) {
@@ -108,7 +108,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
 			// TODO - may need to add a check to see if user_id is a valid Mongo ID (?)
 			if (user_id !== undefined) {
 				for (let i = 0; i < files_array.length; i++) {
-					const file_path = `${__dirname}/./temp_pfps/${files_array[i]}`;
+					const file_path = `${__dirname}/./temp_images/${files_array[i]}`;
 					cloudinary.uploader
 						.upload(file_path)
 						.then(async result => {
@@ -133,7 +133,6 @@ router.post("/upload", upload.single("file"), (req, res) => {
 			}
 		}
 	});
-	// res.status(200).send("Successfully uploaded!");
 });
 
 router.post("/autosave/social-media", autosaveSocialMedia);

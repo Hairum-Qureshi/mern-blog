@@ -94,7 +94,6 @@ const autosave = async (req: Request, res: Response) => {
 						res.status(500).send("Try using a different email");
 						return;
 					}
-					break;
 				case 4:
 					await User.findByIdAndUpdate(
 						{ _id: user_id },
