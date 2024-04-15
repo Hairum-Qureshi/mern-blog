@@ -18,6 +18,14 @@ const blogSchema = new Schema({
 	blog_content: {
 		type: String,
 		required: true
+	},
+	blog_author: {
+		type: String,
+		ref: "User"
+	},
+	posted_date: {
+		type: Date,
+		default: Date.now
 	}
 });
 
