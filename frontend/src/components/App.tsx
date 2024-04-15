@@ -8,7 +8,7 @@ import NotFound from "./NotFound";
 import Profile from "./Profile";
 import Settings from "./Settings";
 import { AuthProvider } from "../contexts/authContext";
-import PostBlog from "./blogs/PostBlog";
+import Form from "./blogs/Form";
 import About from "./About";
 
 function App() {
@@ -27,10 +27,7 @@ function App() {
 							path="/user/:user_id/profile/settings"
 							element={<Settings />}
 						/>
-						<Route
-							path="/user/:user_id/blog/create-blog"
-							element={<PostBlog />}
-						/>
+						<Route path="/user/:user_id/blog/create-blog" element={<Form />} />
 						<Route path="/about" element={<About />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>

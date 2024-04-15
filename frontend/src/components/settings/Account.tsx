@@ -258,9 +258,9 @@ export default function Account() {
 							showSavingStatus();
 						}}
 						onBlur={() => autoSave(5, biography!)}
-						previewOptions={{
-							rehypePlugins: [[rehypeSanitize]]
-						}}
+						// previewOptions={{
+						// 	rehypePlugins: [[rehypeSanitize]]
+						// }}
 						textareaProps={{
 							placeholder: `Tell the world about yourself, ${data?.first_name}`,
 							maxLength: 1000
