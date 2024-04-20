@@ -36,8 +36,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+const FOLDER_PATH = path.join(__dirname, "./temp_images");
 
-async function handleImageData(
+export async function handleImageData(
 	user_id: mongoose.Types.ObjectId,
 	newImageURL: string,
 	imageToDeletePath: string,
@@ -47,15 +48,10 @@ async function handleImageData(
 	try {
 		const user: User_Interface | undefined = await findUser(undefined, user_id);
 		if (user !== undefined) {
-			const oldImagePublicID = user.cloudinaryPfp_ID;
-
-			// Deletes the old image from Cloudinary:
-			cloudinary.uploader.destroy(oldImagePublicID);
-
 			// Deletes the image from the "temp_images" folder:
 			fs.unlink(imageToDeletePath, err => {
 				if (err) {
-					console.error("<settings_routes.ts> [58] Error deleting file:", err);
+					console.error("<settings_routes.ts> [55] Error deleting file:", err);
 					return 500;
 				} else {
 					// console.log("Local file deleted successfully");
@@ -64,6 +60,10 @@ async function handleImageData(
 			});
 
 			if (image_type && image_type === "pfp") {
+				const oldImagePublicID = user.cloudinaryPfp_ID;
+
+				// Deletes the old image from Cloudinary:
+				cloudinary.uploader.destroy(oldImagePublicID);
 				try {
 					await User.findByIdAndUpdate(
 						{ _id: user_id },
@@ -71,10 +71,14 @@ async function handleImageData(
 					);
 					return 200;
 				} catch (error) {
-					console.log("<settings_routes.ts> [74] ERROR", error);
+					console.log("<settings_routes.ts> [75] ERROR", error);
 					return 500;
 				}
 			} else {
+				const oldBackdropPublicID = user.cloudinaryBackdrop_ID;
+
+				// Deletes the old image from Cloudinary:
+				cloudinary.uploader.destroy(oldBackdropPublicID);
 				try {
 					await User.findByIdAndUpdate(
 						{ _id: user_id },
@@ -82,53 +86,67 @@ async function handleImageData(
 					);
 					return 200;
 				} catch (error) {
-					console.log("<settings_routes.ts> [85] ERROR", error);
+					console.log("<settings_routes.ts> [90] ERROR", error);
 					return 500;
 				}
 			}
 		}
 	} catch (error) {
-		console.log("<settings_routes.ts> [91] ERROR", error);
+		console.log("<settings_routes.ts> [96] ERROR", error);
 		return 500;
 	}
 
 	return 200;
 }
 
+async function uploadToCloudinary(
+	user_id: mongoose.Types.ObjectId,
+	files_array: string[],
+	image_type: string
+): Promise<number> {
+	let stat_code = 500;
+	try {
+		await Promise.all(
+			files_array.map(async (file: string) => {
+				const file_path = `${__dirname}/./temp_images/${file}`;
+				const result = await cloudinary.uploader.upload(file_path);
+				const status_code = await handleImageData(
+					user_id,
+					result.secure_url,
+					file_path,
+					result.public_id,
+					image_type
+				);
+				stat_code = status_code;
+			})
+		);
+	} catch (error) {
+		console.log("<settings_routes.ts> [125] ERROR", error);
+		stat_code = 500;
+	}
+
+	return stat_code;
+}
+
 router.post("/upload", upload.single("file"), (req, res) => {
 	const { image_type } = req.body;
-	const folderPath = path.join(__dirname, "./temp_images");
-
-	fs.readdir(folderPath, (err, files) => {
+	fs.readdir(FOLDER_PATH, async (err, files) => {
 		if (err) {
-			console.error("<settings_routes.ts> [104] Error reading folder:", err);
+			console.error("<settings_routes.ts> [136] Error reading folder:", err);
 		} else {
 			const files_array: string[] = files;
 			const user_id: mongoose.Types.ObjectId | undefined = req.session.user_id;
 			// TODO - may need to add a check to see if user_id is a valid Mongo ID (?)
 			if (user_id !== undefined) {
-				for (let i = 0; i < files_array.length; i++) {
-					const file_path = `${__dirname}/./temp_images/${files_array[i]}`;
-					cloudinary.uploader
-						.upload(file_path)
-						.then(async result => {
-							const status_code: number = await handleImageData(
-								user_id,
-								result.secure_url,
-								file_path,
-								result.public_id,
-								image_type
-							);
-
-							if (status_code === 200) {
-								res.status(status_code).send("Success");
-							} else {
-								res.status(status_code).send("Error");
-							}
-						})
-						.catch(error => {
-							console.log("<settings_routes.ts> [130] ERROR", error);
-						});
+				const status_code: number = await uploadToCloudinary(
+					user_id,
+					files_array,
+					image_type
+				);
+				if (status_code === 200) {
+					res.status(status_code).send("Success");
+				} else {
+					res.status(status_code).send("Error");
 				}
 			}
 		}

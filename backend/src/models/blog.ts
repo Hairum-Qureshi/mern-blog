@@ -23,6 +23,13 @@ const blogSchema = new Schema({
 		type: String,
 		ref: "User"
 	},
+	blog_header: {
+		type: String
+	},
+	cloudinaryHeader_ID: {
+		type: String,
+		default: ""
+	},
 	posted_date: {
 		type: Date,
 		default: Date.now

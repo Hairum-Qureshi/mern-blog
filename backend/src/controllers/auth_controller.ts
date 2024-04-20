@@ -280,14 +280,14 @@ const deleteAccount = async (req: Request, res: Response) => {
 			const oldImagePublicID: string = user.cloudinaryPfp_ID;
 			const oldBackdropPublicID: string = user.cloudinaryBackdrop_ID;
 
+			// Deletes the old image from Cloudinary:
+
 			if (oldImagePublicID) {
 				cloudinary.uploader.destroy(oldImagePublicID);
 			}
 			if (oldBackdropPublicID) {
 				cloudinary.uploader.destroy(oldBackdropPublicID);
 			}
-
-			// Deletes the old image from Cloudinary:
 
 			await User.deleteOne({
 				_id: user_id
