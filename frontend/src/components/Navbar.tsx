@@ -33,6 +33,13 @@ export default function Navbar() {
 						) : null}
 						{userData ? (
 							<li>
+								<Link to={`/user/${userData.user_id}/blog/create-blog`}>
+									POST BLOG
+								</Link>
+							</li>
+						) : null}
+						{userData ? (
+							<li>
 								<Link to={`/user/${userData.user_id}/profile`}>PROFILE</Link>
 							</li>
 						) : null}
