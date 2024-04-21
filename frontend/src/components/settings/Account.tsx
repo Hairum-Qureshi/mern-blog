@@ -13,7 +13,6 @@ import rehypeSanitize from "rehype-sanitize";
 // TODO - need to make the bio word count (character count?) work
 // TODO - need to add middleware (?) to prevent other users to have access to the settings page if it's not their account
 // TODO - use the `faCircleXmark` icon to be displayed when there's an error saving
-// TODO - set the file inputs to ONLY accept images
 
 export default function Account() {
 	const { userData, signOut } = useAuthContext()!;
@@ -179,7 +178,7 @@ export default function Account() {
 				</div>
 				<div className={settings_css.section}>
 					Would you like your email public? (Currently, you have it set to
-					{data?.show_email.toString() === "false" ? " No" : " Yes"})
+					{!data?.show_email ? " No" : " Yes"})
 					<label for="Yes">
 						<input
 							type="radio"
@@ -218,6 +217,7 @@ export default function Account() {
 								style={{ display: "none" }}
 								ref={inputRef_pfp}
 								onChange={handlePfpImageChange}
+								accept="image/png, image/gif, image/jpeg"
 							/>
 
 							<img src={data?.profile_picture} alt="User profile picture" />
@@ -231,6 +231,7 @@ export default function Account() {
 								style={{ display: "none" }}
 								ref={inputRef_backdrop}
 								onChange={handleBackdropImageChange}
+								accept="image/png, image/gif, image/jpeg"
 							/>
 							<img src={data?.backdrop} alt="User profile backdrop" />
 						</div>

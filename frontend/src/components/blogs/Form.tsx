@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import form_css from "../../css/form.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 
@@ -8,6 +8,17 @@ export default function Form() {
 	const [coverImage, setCoverImage] = useState<File>();
 	const [blogContent, setBlogContent] = useState<string>();
 
+	// TODO - in the future, maybe add an option for users to select/add tags?
+	// TODO - make the input accept only image files
+
+	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
+		if (event.target.files) {
+			const file = event.target.files[0];
+			console.log(file);
+			// uploadImage(file, "pfp");
+		}
+	}
+
 	return (
 		<>
 			<div className={form_css.mainContent}>
@@ -15,16 +26,32 @@ export default function Form() {
 				<div className={form_css.form}>
 					<div className={form_css.section}>
 						<label htmlFor="Blog Title">TITLE</label>
-						<input type="text" name="Blog Title" placeholder="Blog Title" />
+						<input
+							type="text"
+							name="Blog Title"
+							placeholder="Blog Title"
+							value={blogTitle}
+							onChange={e => setBlogTitle(e.target.value)}
+						/>
 					</div>
 					<div className={form_css.section}>
 						<label htmlFor="Blog Summary">BLOG SUMMARY</label>
-						<textarea name="Blog Summary" placeholder="Blog Summary"></textarea>
+						<textarea
+							name="Blog Summary"
+							placeholder="Blog Summary"
+							value={blogSummary}
+							onChange={e => setBlogSummary(e.target.value)}
+						></textarea>
 					</div>
 					<div className={form_css.section}>
 						<label htmlFor="Blog Cover Photo">UPLOAD COVER PHOTO</label>
 						<div className={form_css.input_container}>
-							<input type="file" name="Blog Cover Photo" />
+							<input
+								type="file"
+								name="Blog Cover Photo"
+								onChange={handleThumbnailUpload}
+								accept="image/png, image/gif, image/jpeg"
+							/>
 						</div>
 					</div>
 					<div className={form_css.section}>
