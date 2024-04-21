@@ -3,7 +3,6 @@ import { InferSchemaType, Schema, model } from "mongoose";
 const blogSchema = new Schema({
 	title: {
 		type: String,
-		required: true,
 		default: "Untitled Blog"
 	},
 	route_id: {
@@ -17,16 +16,17 @@ const blogSchema = new Schema({
 	},
 	blog_content: {
 		type: String,
-		required: true
+		default: "There is currently no content"
 	},
 	blog_author: {
 		type: String,
 		ref: "User"
 	},
-	blog_header: {
-		type: String
+	blog_thumbnail: {
+		type: String,
+		required: true
 	},
-	cloudinaryHeader_ID: {
+	cloudinaryThumbnail_ID: {
 		type: String,
 		default: ""
 	},

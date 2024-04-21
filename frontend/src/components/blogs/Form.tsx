@@ -1,23 +1,26 @@
 import { ChangeEvent, useState } from "react";
 import form_css from "../../css/form.module.css";
 import { Editor } from "@tinymce/tinymce-react";
+import useBlogOperations from "../../hooks/useBlogOperations";
 
 export default function Form() {
 	const [blogTitle, setBlogTitle] = useState<string>();
 	const [blogSummary, setBlogSummary] = useState<string>();
-	const [coverImage, setCoverImage] = useState<File>();
+	const [thumbnail, setThumbnail] = useState<File>();
 	const [blogContent, setBlogContent] = useState<string>();
 
 	// TODO - in the future, maybe add an option for users to select/add tags?
 	// TODO - make the input accept only image files
+	// TODO - make the button disabled only if there is no thumbnail and blog summary
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {
 			const file = event.target.files[0];
-			console.log(file);
-			// uploadImage(file, "pfp");
+			setThumbnail(file);
 		}
 	}
+
+	const { postBlog } = useBlogOperations();
 
 	return (
 		<>
@@ -74,7 +77,15 @@ export default function Form() {
 						/>
 					</div>
 					<div className={form_css.section}>
-						<button className={form_css.postBtn}>POST</button>
+						<button
+							className={form_css.postBtn}
+							disabled={!blogSummary && !thumbnail}
+							onClick={() =>
+								postBlog(blogTitle, blogSummary, thumbnail, blogContent)
+							}
+						>
+							POST
+						</button>
 					</div>
 				</div>
 			</div>

@@ -259,7 +259,7 @@ const logoutUser = async (req: Request, res: Response) => {
 	try {
 		req.session.destroy(error => {
 			if (error) {
-				console.error("<auth_controller.ts> [255] ERROR", error);
+				console.error("<auth_controller.ts> [262] ERROR", error);
 				res.status(500).send("Error destroying session");
 			} else {
 				res.clearCookie("auth-session");
@@ -267,7 +267,7 @@ const logoutUser = async (req: Request, res: Response) => {
 			}
 		});
 	} catch (error) {
-		console.error("<auth_controller.ts> [272] ERROR", error);
+		console.error("<auth_controller.ts> [270] ERROR", error);
 		res.status(500).send("Error destroying session");
 	}
 };
@@ -295,13 +295,13 @@ const deleteAccount = async (req: Request, res: Response) => {
 
 			req.session.destroy(error => {
 				if (error) {
-					console.error("<auth_controller.ts> [300] ERROR", error);
+					console.error("<auth_controller.ts> [298] ERROR", error);
 				} else {
 					res.clearCookie("auth-session");
 				}
 			});
 		} catch (error) {
-			console.log("<auth_controller> [306] ERROR", error);
+			console.log("<auth_controller> [304] ERROR", error);
 		}
 	}
 };

@@ -118,10 +118,18 @@
 	/* color: rgb(0, 208, 255); */
 	border: 1px solid #0766d3;
 	background-color: #153253;
-	/* border: 1px solid lime; */
 }
 
 .mainContent .form .section .postBtn:active {
 	background-color: #054084;
 	/* background-color: #05842d; */
+}
+
+.mainContent .form .section .postBtn:disabled {
+	border: 1px solid red;
+	background-color: #142334;
+}
+
+.mainContent .form .section .postBtn:disabled:active {
+	background-color: #341a14;
 }

@@ -97,3 +97,12 @@ export interface useSettingsTypes {
 		discordUser?: string
 	) => void;
 }
+
+export interface BlogOperations {
+	postBlog: (
+		blogTitle: string,
+		blogSummary: string,
+		thumbnail: File,
+		blogContent: string
+	) => void;
+}

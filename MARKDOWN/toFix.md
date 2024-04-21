@@ -7,3 +7,5 @@
 [] Deleting an account doesn't seem to delete your session and log you out
 
 - It seems to work fine if you create an account through Google, though
+
+[] The user bio markdown rendering needs some work
