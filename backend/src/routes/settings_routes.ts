@@ -45,7 +45,7 @@ export async function handleImageData(
 	imageToDeletePath: string,
 	newImagePublicID: string,
 	image_type: string,
-	ref_id: mongoose.Types.ObjectId
+	ref_id?: mongoose.Types.ObjectId
 ): Promise<number> {
 	try {
 		const user: User_Interface | undefined = await findUser(undefined, user_id);
