@@ -24,6 +24,7 @@
 		"typescript": "^5.4.3"
 	},
 	"dependencies": {
+		"@braintree/sanitize-url": "^7.0.1",
 		"@types/bcrypt": "^5.0.2",
 		"@types/cookie-parser": "^1.4.7",
 		"@types/multer": "^1.4.11",

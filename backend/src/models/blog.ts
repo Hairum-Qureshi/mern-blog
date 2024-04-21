@@ -14,6 +14,11 @@ const blogSchema = new Schema({
 		type: String,
 		required: true
 	},
+	// a URL-friendly title
+	sanitized_title: {
+		type: String,
+		required: true
+	},
 	blog_content: {
 		type: String,
 		default: "There is currently no content"
@@ -23,8 +28,7 @@ const blogSchema = new Schema({
 		ref: "User"
 	},
 	blog_thumbnail: {
-		type: String,
-		required: true
+		type: String
 	},
 	cloudinaryThumbnail_ID: {
 		type: String,

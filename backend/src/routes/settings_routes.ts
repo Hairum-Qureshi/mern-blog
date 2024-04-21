@@ -10,7 +10,7 @@ import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import User from "../models/user";
-import { User_Interface } from "../interfaces";
+import { Blog_Interface, User_Interface } from "../interfaces";
 import { findUser } from "../controllers/auth_controller";
 import Blog from "../models/blog";
 
@@ -44,7 +44,8 @@ export async function handleImageData(
 	newImageURL: string,
 	imageToDeletePath: string,
 	newImagePublicID: string,
-	image_type: string
+	image_type: string,
+	ref_id: mongoose.Types.ObjectId
 ): Promise<number> {
 	try {
 		const user: User_Interface | undefined = await findUser(undefined, user_id);
@@ -91,22 +92,29 @@ export async function handleImageData(
 					return 500;
 				}
 			} else {
-				console.log("Ran");
 				// TODO - may need to add a check if the code is null/undefined:
-				// const oldBackdropPublicID = Blod.cloudinary;
+				const blog: Blog_Interface | null = await Blog.findOne({
+					_id: ref_id
+				});
+				if (blog) {
+					const oldImagePublicID = blog.cloudinaryThumbnail_ID;
 
-				// Deletes the old image from Cloudinary:
-				// cloudinary.uploader.destroy(oldBackdropPublicID);
-				// try {
-				// 	await User.findByIdAndUpdate(
-				// 		{ _id: user_id },
-				// 		{ backdrop: newImageURL, cloudinaryBackdrop_ID: newImagePublicID }
-				// 	);
-				// 	return 200;
-				// } catch (error) {
-				// 	console.log("<settings_routes.ts> [89] ERROR", error);
-				// 	return 500;
-				// }
+					// Deletes the old image from Cloudinary:
+					cloudinary.uploader.destroy(oldImagePublicID);
+					try {
+						await Blog.findByIdAndUpdate(
+							{ _id: ref_id },
+							{
+								blog_thumbnail: newImageURL,
+								cloudinaryThumbnail_ID: newImagePublicID
+							}
+						);
+						return 200;
+					} catch (error) {
+						console.log("<settings_routes.ts> [74] ERROR", error);
+						return 500;
+					}
+				}
 			}
 		}
 	} catch (error) {
@@ -120,7 +128,8 @@ export async function handleImageData(
 export async function uploadToCloudinary(
 	user_id: mongoose.Types.ObjectId,
 	files_array: string[],
-	image_type: string
+	image_type: string,
+	ref_id?: mongoose.Types.ObjectId
 ): Promise<number> {
 	let stat_code = 500;
 	try {
@@ -133,7 +142,8 @@ export async function uploadToCloudinary(
 					result.secure_url,
 					file_path,
 					result.public_id,
-					image_type
+					image_type,
+					ref_id!
 				);
 				stat_code = status_code;
 			})

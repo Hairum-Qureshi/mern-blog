@@ -10,8 +10,9 @@ export default function Form() {
 	const [blogContent, setBlogContent] = useState<string>();
 
 	// TODO - in the future, maybe add an option for users to select/add tags?
-	// TODO - make the input accept only image files
-	// TODO - make the button disabled only if there is no thumbnail and blog summary
+	// TODO - [x] make the input accept only image files
+	// TODO - [ ] make the button disabled only if there is no thumbnail and blog summary
+	// TODO - [ ] when user posts their blog, redirect to their blog
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {
@@ -74,6 +75,7 @@ export default function Form() {
 								],
 								branding: false
 							}}
+							onEditorChange={content => setBlogContent(content)}
 						/>
 					</div>
 					<div className={form_css.section}>

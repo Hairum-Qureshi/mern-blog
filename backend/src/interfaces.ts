@@ -39,3 +39,16 @@ export interface Token_Interface {
 	user_id: string;
 	new_password?: string;
 }
+
+export interface Blog_Interface {
+	_id: mongoose.Types.ObjectId;
+	title: string;
+	route_id: string;
+	blog_summary: string;
+	sanitized_title: string;
+	blog_content: string;
+	blog_author: string;
+	blog_thumbnail: string;
+	cloudinaryThumbnail_ID: string;
+	posted_date: Date;
+}
