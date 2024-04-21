@@ -10,6 +10,7 @@ import Settings from "./Settings";
 import { AuthProvider } from "../contexts/authContext";
 import Form from "./blogs/Form";
 import About from "./About";
+import Blog from "./blogs/Blog";
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 						/>
 						<Route path="/user/:user_id/blog/create-blog" element={<Form />} />
 						<Route path="/about" element={<About />} />
+						<Route path="/blogs/:blog_id/:blog_name" element={<Blog />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</GoogleOAuthProvider>

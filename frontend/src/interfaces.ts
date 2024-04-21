@@ -105,4 +105,6 @@ export interface BlogOperations {
 		thumbnail: File,
 		blogContent: string
 	) => void;
+	loading: boolean;
+	getBlogData: (route_id: string) => void;
 }

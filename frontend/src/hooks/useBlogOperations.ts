@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { BlogOperations } from "../interfaces";
 import axios from "axios";
 
 export default function useBlogOperations(): BlogOperations {
+	const [loading, setLoading] = useState(false);
+
 	async function postBlog(
 		blogTitle: string,
 		blogSummary: string,
@@ -16,6 +19,8 @@ export default function useBlogOperations(): BlogOperations {
 		formData.append("blogContent", blogContent);
 
 		try {
+			setLoading(true);
+
 			const response = await axios.post(
 				"http://localhost:4000/api/blogs/post",
 				formData,
@@ -24,13 +29,19 @@ export default function useBlogOperations(): BlogOperations {
 				}
 			);
 
-			if (response.status === 200) {
-				console.log("Success!");
+			if (response.data.status === 200) {
+				setLoading(false);
+				window.location.href = response.data.link;
 			}
 		} catch (error) {
+			setLoading(false);
 			console.log(error);
 		}
 	}
 
-	return { postBlog };
+	async function getBlogData(route_id: string) {
+		console.log(route_id);
+	}
+
+	return { postBlog, loading, getBlogData };
 }

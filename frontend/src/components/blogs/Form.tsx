@@ -2,6 +2,9 @@ import { ChangeEvent, useState } from "react";
 import form_css from "../../css/form.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 import useBlogOperations from "../../hooks/useBlogOperations";
+import useAuthContext from "../../contexts/authContext";
+import { useParams } from "react-router-dom";
+import NotFound from "../NotFound";
 
 export default function Form() {
 	const [blogTitle, setBlogTitle] = useState<string>();
@@ -12,7 +15,7 @@ export default function Form() {
 	// TODO - in the future, maybe add an option for users to select/add tags?
 	// TODO - [x] make the input accept only image files
 	// TODO - [ ] make the button disabled only if there is no thumbnail and blog summary
-	// TODO - [ ] when user posts their blog, redirect to their blog
+	// TODO - [x] when user posts their blog, redirect to their blog
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {
@@ -21,9 +24,13 @@ export default function Form() {
 		}
 	}
 
-	const { postBlog } = useBlogOperations();
+	const { postBlog, loading } = useBlogOperations();
+	const { userData } = useAuthContext()!;
+	const { user_id } = useParams();
 
-	return (
+	return userData &&
+		(userData.user_id === user_id ||
+			userData.message !== "user does not exist") ? (
 		<>
 			<div className={form_css.mainContent}>
 				<h1>POST A NEW BLOG</h1>
@@ -86,11 +93,13 @@ export default function Form() {
 								postBlog(blogTitle, blogSummary, thumbnail, blogContent)
 							}
 						>
-							POST
+							{loading ? "LOADING..." : "POST"}
 						</button>
 					</div>
 				</div>
 			</div>
 		</>
+	) : (
+		<NotFound />
 	);
 }
