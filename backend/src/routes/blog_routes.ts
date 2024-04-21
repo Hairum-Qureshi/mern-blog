@@ -1,12 +1,13 @@
 import express from "express";
-const router = express.Router();
 import Blog from "../models/blog";
 import fs from "fs";
 import { upload, FOLDER_PATH, uploadToCloudinary } from "./settings_routes";
 import mongoose from "mongoose";
 import { findUser } from "../controllers/auth_controller";
 import { User_Interface } from "../interfaces";
-import { sanitizeUrl } from "@braintree/sanitize-url";
+import slugify from "slugify";
+import generateUniqueId from "generate-unique-id";
+const router = express.Router();
 
 // Prefix: /api/blogs
 router.post("/post", upload.single("file"), (req, res) => {
@@ -29,9 +30,15 @@ router.post("/post", upload.single("file"), (req, res) => {
 				if (user !== undefined) {
 					const blog = await Blog.create({
 						title: blogTitle,
-						route_id: Math.random().toString(5).slice(2),
+						route_id: generateUniqueId({
+							length: 22,
+							excludeSymbols: ["_", "-"]
+						}),
 						blog_summary: blogSummary,
-						sanitized_title: sanitizeUrl(blogTitle),
+						sanitized_title: slugify(blogTitle, {
+							lower: true,
+							remove: /[*+~.()'"!:@]/g
+						}),
 						blog_content: blogContent,
 						blog_author: user.full_name
 					});
@@ -44,7 +51,10 @@ router.post("/post", upload.single("file"), (req, res) => {
 					);
 
 					if (status_code === 200) {
-						res.status(status_code).send("Success");
+						res.status(status_code).send({
+							status: 200,
+							link: `http://localhost:5173/blogs/${blog.route_id}/${blog.sanitized_title}`
+						});
 					} else {
 						res.status(status_code).send("Error");
 					}
