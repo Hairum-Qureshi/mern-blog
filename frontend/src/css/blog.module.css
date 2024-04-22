@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+
+.blogContainer {
+	border: 2px solid white;
+	padding: 10px;
+	width: 70%;
+	margin: 3% auto;
+}
+
+.blogContainer .detailsContainer {
+	padding: 10px;
+	font-family: "Manrope", sans-serif;
+	text-align: center;
+}
+
+.blogContainer .detailsContainer .userInfo {
+	display: inline-flex;
+	margin: 10px;
+	align-items: center;
+}
+
+.blogContainer .detailsContainer .userInfo img {
+	width: 30px;
+	height: 30px;
+	object-fit: cover;
+	border-radius: 100%;
+	margin-right: 10px;
+}

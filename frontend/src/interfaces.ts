@@ -98,6 +98,21 @@ export interface useSettingsTypes {
 	) => void;
 }
 
+export interface Blog_Interface {
+	_id: string;
+	blog_title: string;
+	user_id: string;
+	route_id: string;
+	blog_summary: string;
+	sanitized_title: string;
+	blog_content: string;
+	blog_author: string;
+	blog_thumbnail: string;
+	cloudinaryThumbnail_ID: string;
+	posted_date: Date;
+	message?: string;
+}
+
 export interface BlogOperations {
 	postBlog: (
 		blogTitle: string,
@@ -107,4 +122,6 @@ export interface BlogOperations {
 	) => void;
 	loading: boolean;
 	getBlogData: (route_id: string) => void;
+	blogData: Blog_Interface | null;
+	getBlogAuthor: (user_id: string) => void;
 }

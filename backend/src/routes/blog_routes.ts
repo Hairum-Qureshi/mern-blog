@@ -7,6 +7,7 @@ import { findUser } from "../controllers/auth_controller";
 import { User_Interface } from "../interfaces";
 import slugify from "slugify";
 import generateUniqueId from "generate-unique-id";
+import { getBlog, getBlogAuthor } from "../controllers/blog_controller";
 const router = express.Router();
 
 // Prefix: /api/blogs
@@ -29,7 +30,8 @@ router.post("/post", upload.single("file"), (req, res) => {
 				);
 				if (user !== undefined) {
 					const blog = await Blog.create({
-						title: blogTitle,
+						blog_title: blogTitle,
+						user_id: user._id,
 						route_id: generateUniqueId({
 							length: 22,
 							excludeSymbols: ["_", "-"]
@@ -63,5 +65,9 @@ router.post("/post", upload.single("file"), (req, res) => {
 		}
 	});
 });
+
+router.get("/blog/:route_id", getBlog);
+
+router.get("/:user_id/author", getBlogAuthor);
 
 export default router;

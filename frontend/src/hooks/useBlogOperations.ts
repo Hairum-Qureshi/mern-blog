@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { BlogOperations } from "../interfaces";
+import { BlogOperations, Blog_Interface } from "../interfaces";
 import axios from "axios";
 
 export default function useBlogOperations(): BlogOperations {
 	const [loading, setLoading] = useState(false);
+	const [blogData, setBlogData] = useState<Blog_Interface | null>(null);
 
 	async function postBlog(
 		blogTitle: string,
@@ -40,8 +41,18 @@ export default function useBlogOperations(): BlogOperations {
 	}
 
 	async function getBlogData(route_id: string) {
-		console.log(route_id);
+		await axios
+			.get(`http://localhost:4000/api/blogs/blog/${route_id}`)
+			.then(response => setBlogData(response.data))
+			.catch(error => console.log(error));
 	}
 
-	return { postBlog, loading, getBlogData };
+	async function getBlogAuthor(user_id: string) {
+		await axios
+			.get(`http://localhost:4000/api/blogs/${user_id}/author`)
+			.then(response => console.log(response.data))
+			.catch(error => console.log(error));
+	}
+
+	return { postBlog, loading, getBlogData, blogData, getBlogAuthor };
 }

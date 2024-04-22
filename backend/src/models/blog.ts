@@ -1,7 +1,11 @@
-import { InferSchemaType, Schema, model } from "mongoose";
+import mongoose, { InferSchemaType, Schema, model } from "mongoose";
 
 const blogSchema = new Schema({
-	title: {
+	user_id: {
+		type: mongoose.Types.ObjectId,
+		required: true
+	},
+	blog_title: {
 		type: String,
 		default: "Untitled Blog"
 	},

@@ -42,6 +42,7 @@ export interface Token_Interface {
 
 export interface Blog_Interface {
 	_id: mongoose.Types.ObjectId;
+	user_id: mongoose.Types.ObjectId;
 	title: string;
 	route_id: string;
 	blog_summary: string;
