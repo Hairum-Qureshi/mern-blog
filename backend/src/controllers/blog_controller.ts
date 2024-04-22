@@ -16,9 +16,4 @@ const getBlog = async (req: Request, res: Response) => {
 	}
 };
 
-const getBlogAuthor = async (req: Request, res: Response) => {
-	const user_id: string = req.params.user_id;
-	console.log("x", user_id);
-};
-
-export { getBlog, getBlogAuthor };
+export { getBlog };

@@ -123,5 +123,4 @@ export interface BlogOperations {
 	loading: boolean;
 	getBlogData: (route_id: string) => void;
 	blogData: Blog_Interface | null;
-	getBlogAuthor: (user_id: string) => void;
 }

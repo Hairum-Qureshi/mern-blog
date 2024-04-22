@@ -1,10 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
 .blogContainer {
-	border: 2px solid white;
+	/* border: 1px solid white; */
 	padding: 10px;
 	width: 70%;
 	margin: 3% auto;
+	border-radius: 5px;
+	/* background-color: rgb(13, 29, 52); */
 }
 
 .blogContainer .detailsContainer {
@@ -19,10 +21,19 @@
 	align-items: center;
 }
 
+.blogContainer .detailsContainer .userInfo a {
+	color: rgb(0, 195, 255);
+}
+
 .blogContainer .detailsContainer .userInfo img {
 	width: 30px;
 	height: 30px;
 	object-fit: cover;
 	border-radius: 100%;
 	margin-right: 10px;
+}
+
+.blogContainer .contentContainer {
+	padding: 20px;
+	white-space: pre-line;
 }

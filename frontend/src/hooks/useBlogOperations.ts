@@ -47,12 +47,5 @@ export default function useBlogOperations(): BlogOperations {
 			.catch(error => console.log(error));
 	}
 
-	async function getBlogAuthor(user_id: string) {
-		await axios
-			.get(`http://localhost:4000/api/blogs/${user_id}/author`)
-			.then(response => console.log(response.data))
-			.catch(error => console.log(error));
-	}
-
-	return { postBlog, loading, getBlogData, blogData, getBlogAuthor };
+	return { postBlog, loading, getBlogData, blogData };
 }
