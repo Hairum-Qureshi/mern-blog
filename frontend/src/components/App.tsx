@@ -28,9 +28,10 @@ function App() {
 							path="/user/:user_id/profile/settings"
 							element={<Settings />}
 						/>
-						<Route path="/user/:user_id/blog/create-blog" element={<Form />} />
+						<Route path="/user/:user_id/blog/create" element={<Form />} />
 						<Route path="/about" element={<About />} />
 						<Route path="/blogs/:blog_id/:blog_name" element={<Blog />} />
+						<Route path="/blogs/:blog_id/:blog_name/edit" element={<Form />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</GoogleOAuthProvider>

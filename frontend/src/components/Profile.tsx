@@ -42,7 +42,7 @@ export default function Profile() {
 								</button>
 								<button
 									onClick={() =>
-										navigate(`/user/${userData.user_id}/blog/create-blog`)
+										navigate(`/user/${userData.user_id}/blog/create`)
 									}
 								>
 									Post Blog
