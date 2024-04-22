@@ -1,21 +1,40 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import form_css from "../../css/form.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 import useBlogOperations from "../../hooks/useBlogOperations";
 import useAuthContext from "../../contexts/authContext";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 
 export default function Form() {
+	const { getBlogData, blogData, postBlog, loading } = useBlogOperations();
+	const { userData } = useAuthContext()!;
+	const { blog_id, user_id } = useParams();
+
+	const location = useLocation().pathname;
 	const [blogTitle, setBlogTitle] = useState<string>();
 	const [blogSummary, setBlogSummary] = useState<string>();
 	const [thumbnail, setThumbnail] = useState<File>();
 	const [blogContent, setBlogContent] = useState<string>();
 
+	useEffect(() => {
+		if (blog_id !== undefined) {
+			getBlogData(blog_id);
+			setBlogTitle(blogData?.blog_title);
+			setBlogSummary(blogData?.blog_summary);
+			setBlogContent(blogData?.blog_content);
+		} else {
+			setBlogTitle("");
+			setBlogSummary("");
+			setBlogContent("");
+		}
+	}, [blogData, location]);
+
 	// TODO - in the future, maybe add an option for users to select/add tags?
 	// TODO - [x] make the input accept only image files
 	// TODO - [ ] make the button disabled only if there is no thumbnail and blog summary
 	// TODO - [x] when user posts their blog, redirect to their blog
+	// TODO - [x] make it reusable so that it can handle editing blogs too
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {
@@ -24,16 +43,16 @@ export default function Form() {
 		}
 	}
 
-	const { postBlog, loading } = useBlogOperations();
-	const { userData } = useAuthContext()!;
-	const { user_id } = useParams();
-
 	return userData &&
 		(userData.user_id === user_id ||
 			userData.message !== "user does not exist") ? (
 		<>
 			<div className={form_css.mainContent}>
-				<h1>POST A NEW BLOG</h1>
+				{location.includes("edit") ? (
+					<h1>EDIT BLOG</h1>
+				) : (
+					<h1>POST A NEW BLOG</h1>
+				)}
 				<div className={form_css.form}>
 					<div className={form_css.section}>
 						<label htmlFor="Blog Title">TITLE</label>
@@ -82,19 +101,28 @@ export default function Form() {
 								],
 								branding: false
 							}}
+							value={
+								blog_id === undefined ? blogContent : blogData?.blog_content
+							}
 							onEditorChange={content => setBlogContent(content)}
 						/>
 					</div>
 					<div className={form_css.section}>
-						<button
-							className={form_css.postBtn}
-							disabled={!blogSummary && !thumbnail}
-							onClick={() =>
-								postBlog(blogTitle, blogSummary, thumbnail, blogContent)
-							}
-						>
-							{loading ? "LOADING..." : "POST"}
-						</button>
+						{location.includes("edit") ? (
+							<button className={form_css.postBtn}>
+								{loading ? "LOADING..." : "CONFIRM EDITS"}
+							</button>
+						) : (
+							<button
+								className={form_css.postBtn}
+								disabled={!blogSummary && !thumbnail}
+								onClick={() =>
+									postBlog(blogTitle, blogSummary, thumbnail, blogContent)
+								}
+							>
+								{loading ? "LOADING..." : "POST"}
+							</button>
+						)}
 					</div>
 				</div>
 			</div>
