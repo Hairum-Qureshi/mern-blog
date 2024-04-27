@@ -126,5 +126,7 @@ export interface BlogOperations {
 }
 
 export interface ProfileTools {
-	getAllBlogs: (user_id: string) => void;
+	getProfileData: (user_id: string) => void;
+	userProfileData: User | null;
+	blogs: Blog_Interface | null;
 }

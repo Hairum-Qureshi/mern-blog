@@ -11,6 +11,7 @@ import {
 	faPinterest,
 	faXTwitter
 } from "@fortawesome/free-brands-svg-icons";
+import useProfileData from "../../hooks/useProfileData";
 
 // TODO - for the social media icons, use an HTML table so they're neatly grouped
 // TODO - figure out why the line breaks aren't being rendered for the user bio
@@ -20,6 +21,7 @@ export default function Biograpy() {
 	const { userData } = useAuthContext()!;
 	const { data } = useSettings();
 	const { user_id } = useParams();
+	const { userProfileData } = useProfileData();
 
 	return (
 		<>
@@ -34,7 +36,11 @@ export default function Biograpy() {
 						<>
 							<FontAwesomeIcon icon={faXTwitter} />
 							:&nbsp;
-							<span>{data?.social_media.twitter_x}</span>
+							<span>
+								{userData?.user_id === user_id
+									? data?.social_media.twitter_x
+									: userProfileData?.social_media.twitter_x}
+							</span>
 						</>
 					) : null}
 				</div>
@@ -43,7 +49,11 @@ export default function Biograpy() {
 						<>
 							<FontAwesomeIcon icon={faInstagram} />
 							:&nbsp;
-							<span>{data?.social_media.instagram}</span>
+							<span>
+								{userData?.user_id === user_id
+									? data?.social_media.instagram
+									: userProfileData?.social_media.instagram}
+							</span>
 							<br />
 						</>
 					) : null}
@@ -53,7 +63,11 @@ export default function Biograpy() {
 						<>
 							<FontAwesomeIcon icon={faFacebook} />
 							:&nbsp;
-							<span>{data?.social_media.facebook}</span>
+							<span>
+								{userData?.user_id === user_id
+									? data?.social_media.facebook
+									: userProfileData?.social_media.facebook}
+							</span>
 							<br />
 						</>
 					) : null}
@@ -63,7 +77,11 @@ export default function Biograpy() {
 						<>
 							<FontAwesomeIcon icon={faPinterest} />
 							:&nbsp;
-							<span>{data?.social_media.pinterest}</span>
+							<span>
+								{userData?.user_id === user_id
+									? data?.social_media.pinterest
+									: userProfileData?.social_media.pinterest}
+							</span>
 							<br />
 						</>
 					) : null}
@@ -73,7 +91,11 @@ export default function Biograpy() {
 						<>
 							<FontAwesomeIcon icon={faDiscord} />
 							:&nbsp;
-							<span>{data?.social_media.discord}</span>
+							<span>
+								{userData?.user_id === user_id
+									? data?.social_media.discord
+									: userProfileData?.social_media.discord}
+							</span>
 							<br />
 						</>
 					) : null}

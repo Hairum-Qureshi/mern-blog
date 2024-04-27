@@ -4,9 +4,9 @@ import NotFound from "./NotFound";
 import { useSettings } from "../hooks/useSettings";
 import Biography from "./profile/Biography";
 import Blogs from "./profile/Blogs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import profile_css from "../css/profile.module.css";
-import useBlogOperations from "../hooks/useBlogOperations";
+import useProfileData from "../hooks/useProfileData";
 
 // TODO - need to add a block button visible for users visiting other users' profile pages
 // TODO - create a hook that will get the user data based on the URL's user ID param
@@ -19,17 +19,46 @@ export default function Profile() {
 	const { data } = useSettings();
 	const [selectedTab, setSelectedTab] = useState("biography");
 
+	const { getProfileData, userProfileData, blogs } = useProfileData();
+
+	useEffect(() => {
+		if (user_id) {
+			getProfileData(user_id);
+		}
+	}, [user_id]);
+
+	console.log(blogs);
+
 	return userData && userData.message !== "user does not exist" ? (
 		<>
 			<div className={profile_css.topSection}>
-				<img src={data?.backdrop} alt="User profile backdrop" />
+				<img
+					src={
+						userData.user_id === user_id
+							? data?.backdrop
+							: userProfileData?.backdrop
+					}
+					alt="User profile backdrop"
+				/>
 				<div className={profile_css.leftSection}>
 					<div className={profile_css.pfpContainer}>
 						<img src={data?.profile_picture} alt="User profile picture" />
 					</div>
 					<div className={profile_css.userInfoContainer}>
-						<h1>{data?.full_name}</h1>
-						<h3>{data?.show_email ? data?.email : null}</h3>
+						<h1>
+							{userData.user_id === user_id
+								? data?.full_name
+								: userProfileData?.full_name}
+						</h1>
+						<h3>
+							{userData.user_id === user_id
+								? data?.show_email
+									? data?.email
+									: null
+								: userProfileData?.show_email
+								? userProfileData?.show_email
+								: null}
+						</h3>
 						{userData.user_id === user_id ? (
 							<>
 								<button
