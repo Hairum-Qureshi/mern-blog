@@ -1,8 +1,10 @@
 ## To start backend Node.js server:
 
-- `cd backend` -> `npm run start`
+- `cd backend`
 
 - Run `npm install`
+
+- `npm run start`
 
 ## To start React.js frontend:
 
