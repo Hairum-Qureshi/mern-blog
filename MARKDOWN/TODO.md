@@ -19,3 +19,5 @@
 9. In the future, maybe add options on users' profile pages if they would like to receive email notifications whenever a user posts a new blog
 
 10. Check to see if you _really do_ need CookieParser.
+
+11. May need to add some logic to prevent showing too much personal information on the route '/api/user/[user_id]'

@@ -37,3 +37,9 @@
 ```javascript
 const user = await User.findById(user_id);
 ```
+
+## DEALING WITH EXPRESS SESSION WITH TYPESCRIPT
+
+- This YouTube video covered how to set up the configurations for Express Session with TypeScript:
+
+-> https://youtu.be/FcxjCPeicvU?si=6p98GjkmCckSHTPt

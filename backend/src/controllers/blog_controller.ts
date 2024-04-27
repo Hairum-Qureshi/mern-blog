@@ -19,7 +19,11 @@ const getBlog = async (req: Request, res: Response) => {
 const getAllBlogs = async (req: Request, res: Response) => {
 	const { user_id } = req.params;
 	const blogs = await Blog.find({ user_id });
-	console.log(blogs);
+	if (blogs.length !== 0) {
+		res.json(blogs);
+	} else {
+		res.json({ message: "blogs not found" });
+	}
 };
 
 export { getBlog, getAllBlogs };
