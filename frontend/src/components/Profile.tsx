@@ -27,9 +27,12 @@ export default function Profile() {
 		}
 	}, [user_id]);
 
-	console.log(blogs);
+	console.log(userProfileData);
 
-	return userData && userData.message !== "user does not exist" ? (
+	return userData &&
+		userData.message !== "user does not exist" &&
+		userProfileData &&
+		userProfileData.message !== "user not found" ? (
 		<>
 			<div className={profile_css.topSection}>
 				<img
