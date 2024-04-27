@@ -35,6 +35,9 @@ export default function Form() {
 	// TODO - [ ] make the button disabled only if there is no thumbnail and blog summary
 	// TODO - [x] when user posts their blog, redirect to their blog
 	// TODO - [x] make it reusable so that it can handle editing blogs too
+	// TODO - [ ] need to figure out how to populate the file input so that it has the blog's thumbnail
+	// TODO - [ ] make the edit blog functionality work
+	// !RESOLVE: - [ ] (bug) resolve issue where when editing, you're not able to change the content in the inputs + textarea
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {

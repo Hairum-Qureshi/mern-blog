@@ -7,10 +7,11 @@ import { findUser } from "../controllers/auth_controller";
 import { User_Interface } from "../interfaces";
 import slugify from "slugify";
 import generateUniqueId from "generate-unique-id";
-import { getBlog } from "../controllers/blog_controller";
+import { getBlog, getAllBlogs } from "../controllers/blog_controller";
 const router = express.Router();
 
 // Prefix: /api/blogs
+
 router.post("/post", upload.single("file"), (req, res) => {
 	// TODO - *might* need to find a new Node module to handle text sanitation so it'd be URL friendly
 
@@ -67,5 +68,7 @@ router.post("/post", upload.single("file"), (req, res) => {
 });
 
 router.get("/blog/:route_id", getBlog);
+
+router.get("/:user_id/all", getAllBlogs);
 
 export default router;

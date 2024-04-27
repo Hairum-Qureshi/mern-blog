@@ -306,11 +306,14 @@ const deleteAccount = async (req: Request, res: Response) => {
 	}
 };
 
+const getUser = async (req: Request, res: Response) => {};
+
 export {
 	login_google,
 	login,
 	register,
 	handleAuthenticatedUser,
 	logoutUser,
-	deleteAccount
+	deleteAccount,
+	getUser
 };

@@ -6,6 +6,7 @@ import Biography from "./profile/Biography";
 import Blogs from "./profile/Blogs";
 import { useState } from "react";
 import profile_css from "../css/profile.module.css";
+import useBlogOperations from "../hooks/useBlogOperations";
 
 // TODO - need to add a block button visible for users visiting other users' profile pages
 // TODO - create a hook that will get the user data based on the URL's user ID param

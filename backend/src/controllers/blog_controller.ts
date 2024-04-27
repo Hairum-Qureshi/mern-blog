@@ -16,4 +16,10 @@ const getBlog = async (req: Request, res: Response) => {
 	}
 };
 
-export { getBlog };
+const getAllBlogs = async (req: Request, res: Response) => {
+	const { user_id } = req.params;
+	const blogs = await Blog.find({ user_id });
+	console.log(blogs);
+};
+
+export { getBlog, getAllBlogs };

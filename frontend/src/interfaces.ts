@@ -124,3 +124,7 @@ export interface BlogOperations {
 	getBlogData: (route_id: string) => void;
 	blogData: Blog_Interface | null;
 }
+
+export interface ProfileTools {
+	getAllBlogs: (user_id: string) => void;
+}
