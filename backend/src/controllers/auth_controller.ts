@@ -4,8 +4,9 @@ import bcrypt from "bcrypt";
 import { User_Interface } from "../interfaces";
 import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import Token from "../models/token";
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 import { v2 as cloudinary } from "cloudinary";
+import { ObjectId } from "mongodb";
 
 export async function findUser(
 	email?: string,
@@ -306,7 +307,29 @@ const deleteAccount = async (req: Request, res: Response) => {
 	}
 };
 
-const getUser = async (req: Request, res: Response) => {};
+const getUser = async (req: Request, res: Response) => {
+	const { user_id } = req.params;
+	if (user_id) {
+		// checks if the string user ID is a valid mongo ID
+		if (ObjectId.isValid(user_id)) {
+			// if it is, it converts the string user ID to a Mongo Object ID:
+			const mongoUID_format: mongoose.Types.ObjectId = new ObjectId(user_id);
+			const user: User_Interface | undefined = await findUser(
+				undefined,
+				mongoUID_format
+			);
+			if (user) {
+				res.json(user);
+			} else {
+				res.json({ message: "user not found" });
+			}
+		} else {
+			res.json({ message: "user ID is not valid" });
+		}
+	} else {
+		res.json({ message: "user not found" });
+	}
+};
 
 export {
 	login_google,
