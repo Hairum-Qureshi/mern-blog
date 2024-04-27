@@ -25,8 +25,10 @@ export default function Profile() {
 		if (user_id) {
 			getProfileData(user_id);
 		}
+		console.log("x");
 	}, [user_id]);
 
+	// TOO MANY REQUESTS ERROR
 	console.log(userProfileData);
 
 	return userData &&
@@ -45,7 +47,14 @@ export default function Profile() {
 				/>
 				<div className={profile_css.leftSection}>
 					<div className={profile_css.pfpContainer}>
-						<img src={data?.profile_picture} alt="User profile picture" />
+						<img
+							src={
+								userData.user_id === user_id
+									? data?.profile_picture
+									: userProfileData?.profile_picture
+							}
+							alt="User profile picture"
+						/>
 					</div>
 					<div className={profile_css.userInfoContainer}>
 						<h1>

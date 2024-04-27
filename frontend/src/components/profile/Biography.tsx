@@ -12,6 +12,7 @@ import {
 	faXTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import useProfileData from "../../hooks/useProfileData";
+import { useEffect } from "react";
 
 // TODO - for the social media icons, use an HTML table so they're neatly grouped
 // TODO - figure out why the line breaks aren't being rendered for the user bio
@@ -21,7 +22,13 @@ export default function Biograpy() {
 	const { userData } = useAuthContext()!;
 	const { data } = useSettings();
 	const { user_id } = useParams();
-	const { userProfileData } = useProfileData();
+	const { getProfileData, userProfileData } = useProfileData();
+
+	useEffect(() => {
+		if (user_id) {
+			getProfileData(user_id);
+		}
+	}, [user_id]);
 
 	return (
 		<>
@@ -29,103 +36,129 @@ export default function Biograpy() {
 				{userData && userData.user_id === user_id ? (
 					<h2>MY SOCIALS</h2>
 				) : (
-					<h2>{userData && userData.first_name}'s SOCIALS</h2>
+					<h2>
+						{userData && userData?.user_id === user_id
+							? userData.first_name.toUpperCase()
+							: userProfileData?.first_name.toUpperCase()}
+						'S SOCIALS
+					</h2>
 				)}
 				<div className={profile_css.social_block}>
-					{data?.social_media.twitter_x ? (
+					{userData?.user_id === user_id && data?.social_media.twitter_x ? (
 						<>
 							<FontAwesomeIcon icon={faXTwitter} />
 							:&nbsp;
-							<span>
-								{userData?.user_id === user_id
-									? data?.social_media.twitter_x
-									: userProfileData?.social_media.twitter_x}
-							</span>
+							<span>{data?.social_media.twitter_x}</span>
+						</>
+					) : userData?.user_id !== user_id &&
+					  userProfileData?.social_media.twitter_x ? (
+						<>
+							<FontAwesomeIcon icon={faXTwitter} />
+							:&nbsp;
+							<span>{userProfileData?.social_media.twitter_x}</span>
 						</>
 					) : null}
 				</div>
 				<div className={profile_css.social_block}>
-					{data?.social_media.instagram ? (
+					{userData?.user_id === user_id && data?.social_media.instagram ? (
 						<>
 							<FontAwesomeIcon icon={faInstagram} />
 							:&nbsp;
-							<span>
-								{userData?.user_id === user_id
-									? data?.social_media.instagram
-									: userProfileData?.social_media.instagram}
-							</span>
+							<span>{data?.social_media.instagram}</span>
+							<br />
+						</>
+					) : userData?.user_id !== user_id &&
+					  userProfileData?.social_media.instagram ? (
+						<>
+							<FontAwesomeIcon icon={faInstagram} />
+							:&nbsp;
+							<span>{userProfileData?.social_media.instagram}</span>
 							<br />
 						</>
 					) : null}
 				</div>
 				<div className={profile_css.social_block}>
-					{data?.social_media.facebook ? (
+					{userData?.user_id === user_id && data?.social_media.facebook ? (
 						<>
 							<FontAwesomeIcon icon={faFacebook} />
 							:&nbsp;
-							<span>
-								{userData?.user_id === user_id
-									? data?.social_media.facebook
-									: userProfileData?.social_media.facebook}
-							</span>
+							<span>{data?.social_media.facebook}</span>
+							<br />
+						</>
+					) : userData?.user_id !== user_id &&
+					  userProfileData?.social_media.facebook ? (
+						<>
+							<FontAwesomeIcon icon={faFacebook} />
+							:&nbsp;
+							<span>{userProfileData?.social_media.facebook}</span>
 							<br />
 						</>
 					) : null}
 				</div>
 				<div className={profile_css.social_block}>
-					{data?.social_media.pinterest ? (
+					{userData?.user_id === user_id && data?.social_media.pinterest ? (
 						<>
 							<FontAwesomeIcon icon={faPinterest} />
 							:&nbsp;
-							<span>
-								{userData?.user_id === user_id
-									? data?.social_media.pinterest
-									: userProfileData?.social_media.pinterest}
-							</span>
+							<span>{data?.social_media.pinterest}</span>
+							<br />
+						</>
+					) : userData?.user_id !== user_id &&
+					  userProfileData?.social_media.pinterest ? (
+						<>
+							<FontAwesomeIcon icon={faPinterest} />
+							:&nbsp;
+							<span>{userProfileData?.social_media.pinterest}</span>
 							<br />
 						</>
 					) : null}
 				</div>
 				<div className={profile_css.social_block}>
-					{data?.social_media.discord ? (
+					{userData?.user_id === user_id && data?.social_media.discord ? (
 						<>
 							<FontAwesomeIcon icon={faDiscord} />
 							:&nbsp;
-							<span>
-								{userData?.user_id === user_id
-									? data?.social_media.discord
-									: userProfileData?.social_media.discord}
-							</span>
+							<span>{data?.social_media.discord}</span>
+							<br />
+						</>
+					) : userData?.user_id !== user_id &&
+					  userProfileData?.social_media.discord ? (
+						<>
+							<FontAwesomeIcon icon={faDiscord} />
+							:&nbsp;
+							<span>{userProfileData?.social_media.discord}</span>
 							<br />
 						</>
 					) : null}
 				</div>
-				{!data?.social_media.discord &&
+				{userData?.user_id === user_id &&
+				!data?.social_media.discord &&
 				!data?.social_media.facebook &&
 				!data?.social_media.instagram &&
 				!data?.social_media.pinterest &&
-				!data?.social_media.twitter_x &&
-				userData &&
-				userData.user_id === user_id ? (
+				!data?.social_media.twitter_x ? (
 					<h4>
-						You currently don't have any social media accounts listed. Head over
-						to your settings page and add some!
+						You currently don't have any social media accounts listed. <br />
+						Head over to your settings page and add some!
 					</h4>
-				) : !data?.social_media.discord &&
-				  !data?.social_media.facebook &&
-				  !data?.social_media.instagram &&
-				  !data?.social_media.pinterest &&
-				  !data?.social_media.twitter_x &&
-				  userData &&
-				  userData.user_id !== user_id ? (
+				) : userData?.user_id !== user_id &&
+				  !userProfileData?.social_media.discord &&
+				  !userProfileData?.social_media.facebook &&
+				  !userProfileData?.social_media.instagram &&
+				  !userProfileData?.social_media.pinterest &&
+				  !userProfileData?.social_media.twitter_x ? (
 					<h4>
-						{userData.first_name} currently doesn't have any social media
-						accounts listed
+						{userProfileData?.first_name} currently don't have any social media
+						accounts listed.
 					</h4>
 				) : null}
 			</div>
 			<div className={profile_css.biography}>
-				<ReactMarkdown>{data?.biography}</ReactMarkdown>
+				<ReactMarkdown>
+					{userData?.user_id === user_id
+						? data?.biography
+						: userProfileData?.biography}
+				</ReactMarkdown>
 			</div>
 		</>
 	);
