@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import useAuthContext from "../../contexts/authContext";
 import useProfileData from "../../hooks/useProfileData";
 import { useSettings } from "../../hooks/useSettings";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import profile_css from "../../css/profile.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash } from "@fortawesome/free-regular-svg-icons/faEyeSlash";
@@ -25,6 +25,8 @@ export default function Blogs() {
 		}
 	}, [user_id]);
 
+	const navigate = useNavigate();
+
 	return (
 		// TODO - NEED TO ADD LOGIC TO HIDE THE BUTTONS IF THE USER VISITS ANOTHER USER'S PROFILE PAGE'S BLOG TAB
 		<>
@@ -35,37 +37,38 @@ export default function Blogs() {
 				<div className={profile_css.blogs}>
 					{(blogs &&
 						blogs.length > 0 &&
-						blogs.map((blog: Blog, index: number) => (
-							<Link
-								to={`/blogs/${blog.route_id}/${blog.sanitized_title}`}
-								key={index}
+						blogs.map((blog: Blog) => (
+							<div
+								className={profile_css.container}
+								onClick={() =>
+									navigate(`/blogs/${blog.route_id}/${blog.sanitized_title}`)
+								}
+								key={Math.floor(Math.random() * Date.now())}
 							>
-								<div className={profile_css.container}>
-									<h1>{blog.blog_title.toUpperCase()}</h1>
-									{/* <div className={profile_css.imageBackground}>
-									<img src={blog.blog_thumbnail} alt="Blog thumbnail" />
-									<h2>{blog.blog_title.toUpperCase()}</h2>
-								</div> */}
-									<div className={profile_css.summaryContainer}>
-										<p>{blog.blog_summary}</p>
-									</div>
-									<div className={profile_css.buttonGroup}>
-										<button title="Archive">
-											<FontAwesomeIcon icon={faBoxArchive} />
-										</button>
-										{/* ADD LOGIC WHERE IF THE BLOG IS UNPUBLISHED, CHANGE IT TO "PUBLISHED" WHEN THE USER CLICKS ON IT AND VICE VERSA. WILL ALSO NEED TO ADD LOGIC WHERE IF YOU ARCHIVE THE BLOG, THE UNPUBLISH BUTTONS BECOMES DISABLED (SINCE YOU CAN'T PUBLISH AN ARCHIVED BLOG) */}
-										<button title="Unpublish">
-											<FontAwesomeIcon icon={faEyeSlash} />
-										</button>
-										<button title="Delete">
-											<FontAwesomeIcon icon={faTrash} />
-										</button>
-										<button title="Edit">
-											<FontAwesomeIcon icon={faPenToSquare} />
-										</button>
-									</div>
+								<h1>{blog.blog_title.toUpperCase()}</h1>
+								<div className={profile_css.summaryContainer}>
+									<p>{blog.blog_summary}</p>
 								</div>
-							</Link>
+								<div className={profile_css.buttonGroup}>
+									<button
+										title="Archive"
+										onClick={e => {
+											e.stopPropagation();
+										}}
+									>
+										<FontAwesomeIcon icon={faBoxArchive} />
+									</button>
+									<button title="Unpublish" onClick={e => e.stopPropagation()}>
+										<FontAwesomeIcon icon={faEyeSlash} />
+									</button>
+									<button title="Delete" onClick={e => e.stopPropagation()}>
+										<FontAwesomeIcon icon={faTrash} />
+									</button>
+									<button title="Edit" onClick={e => e.stopPropagation()}>
+										<FontAwesomeIcon icon={faPenToSquare} />
+									</button>
+								</div>
+							</div>
 						))) ||
 						"This user does not have any blogs posted"}
 				</div>
