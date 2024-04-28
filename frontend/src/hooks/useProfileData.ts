@@ -23,5 +23,18 @@ export default function useProfileData(): ProfileTools {
 			.catch(error => console.log(error));
 	}
 
-	return { getProfileData, userProfileData, blogs };
+	async function archiveBlog(user_id: string, blog_id: string) {
+		await axios
+			.patch(`http://localhost:4000/api/blogs/${blog_id}/archive`, {
+				user_id
+			})
+			.then(response => {
+				console.log(response);
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}
+
+	return { getProfileData, userProfileData, blogs, archiveBlog };
 }

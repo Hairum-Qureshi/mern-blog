@@ -17,7 +17,8 @@ export default function Blogs() {
 	const { userData } = useAuthContext()!;
 	const { data } = useSettings();
 	const { user_id } = useParams();
-	const { getProfileData, userProfileData, blogs } = useProfileData();
+	const { getProfileData, userProfileData, blogs, archiveBlog } =
+		useProfileData();
 
 	useEffect(() => {
 		if (user_id) {
@@ -67,6 +68,7 @@ export default function Blogs() {
 												title="Archive"
 												onClick={e => {
 													e.stopPropagation();
+													archiveBlog(userData?.user_id, blog.route_id);
 												}}
 											>
 												<FontAwesomeIcon icon={faBoxArchive} />

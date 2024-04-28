@@ -124,11 +124,12 @@ export interface BlogOperations {
 	) => void;
 	loading: boolean;
 	getBlogData: (route_id: string) => void;
-	blogData: Blog_Interface | null;
+	blogData: Blog | null;
 }
 
 export interface ProfileTools {
 	getProfileData: (user_id: string) => void;
 	userProfileData: User | null;
-	blogs: Blog_Interface | null;
+	blogs: Blog | null;
+	archiveBlog: (user_id: string, blog_id: string) => void;
 }
