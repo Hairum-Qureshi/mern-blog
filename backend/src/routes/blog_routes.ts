@@ -8,6 +8,7 @@ import { User_Interface } from "../interfaces";
 import slugify from "slugify";
 import generateUniqueId from "generate-unique-id";
 import { getBlog, getAllBlogs } from "../controllers/blog_controller";
+import User from "../models/user";
 const router = express.Router();
 
 // Prefix: /api/blogs
@@ -30,6 +31,8 @@ router.post("/post", upload.single("file"), (req, res) => {
 					user_id
 				);
 				if (user !== undefined) {
+					const blog_count: number = user.num_blogs;
+
 					const blog = await Blog.create({
 						blog_title: blogTitle,
 						user_id: user._id,
@@ -45,6 +48,11 @@ router.post("/post", upload.single("file"), (req, res) => {
 						blog_content: blogContent,
 						blog_author: user.full_name
 					});
+
+					await User.findByIdAndUpdate(
+						{ _id: user_id },
+						{ num_blogs: blog_count + 1 }
+					);
 
 					const status_code: number = await uploadToCloudinary(
 						user_id,
