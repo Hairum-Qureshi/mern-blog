@@ -209,9 +209,23 @@
 	width: 100%;
 }
 
+.blogsContainer .blogs .container .statusFlair_published,
+.blogsContainer .blogs .container .statusFlair_unpublished {
+	background-color: green;
+	width: 20%;
+	text-align: center;
+	border-radius: 10px;
+	font-weight: 500;
+}
+
+.blogsContainer .blogs .container .statusFlair_unpublished {
+	background-color: red !important;
+}
+
 .blogsContainer .blogs .container:hover {
 	background-color: rgb(24, 85, 129);
 	transition: 1s ease;
+	cursor: pointer;
 }
 
 /*

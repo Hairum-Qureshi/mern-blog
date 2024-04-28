@@ -37,39 +37,57 @@ export default function Blogs() {
 				<div className={profile_css.blogs}>
 					{(blogs &&
 						blogs.length > 0 &&
-						blogs.map((blog: Blog) => (
-							<div
-								className={profile_css.container}
-								onClick={() =>
-									navigate(`/blogs/${blog.route_id}/${blog.sanitized_title}`)
-								}
-								key={Math.floor(Math.random() * Date.now())}
-							>
-								<h1>{blog.blog_title.toUpperCase()}</h1>
-								<div className={profile_css.summaryContainer}>
-									<p>{blog.blog_summary}</p>
-								</div>
-								<div className={profile_css.buttonGroup}>
-									<button
-										title="Archive"
-										onClick={e => {
-											e.stopPropagation();
-										}}
+						blogs.map((blog: Blog) =>
+							!blog.archived ? (
+								<>
+									<div
+										className={profile_css.container}
+										onClick={() =>
+											navigate(
+												`/blogs/${blog.route_id}/${blog.sanitized_title}`
+											)
+										}
+										key={Math.floor(Math.random() * Date.now())}
 									>
-										<FontAwesomeIcon icon={faBoxArchive} />
-									</button>
-									<button title="Unpublish" onClick={e => e.stopPropagation()}>
-										<FontAwesomeIcon icon={faEyeSlash} />
-									</button>
-									<button title="Delete" onClick={e => e.stopPropagation()}>
-										<FontAwesomeIcon icon={faTrash} />
-									</button>
-									<button title="Edit" onClick={e => e.stopPropagation()}>
-										<FontAwesomeIcon icon={faPenToSquare} />
-									</button>
-								</div>
-							</div>
-						))) ||
+										<h1>{blog.blog_title.toUpperCase()}</h1>
+										{blog.published ? (
+											<p className={profile_css.statusFlair_published}>
+												PUBLISHED
+											</p>
+										) : (
+											<p className={profile_css.statusFlair_unpublished}>
+												UNPUBLISHED
+											</p>
+										)}
+										<div className={profile_css.summaryContainer}>
+											<p>{blog.blog_summary}</p>
+										</div>
+										<div className={profile_css.buttonGroup}>
+											<button
+												title="Archive"
+												onClick={e => {
+													e.stopPropagation();
+												}}
+											>
+												<FontAwesomeIcon icon={faBoxArchive} />
+											</button>
+											<button
+												title="Unpublish"
+												onClick={e => e.stopPropagation()}
+											>
+												<FontAwesomeIcon icon={faEyeSlash} />
+											</button>
+											<button title="Delete" onClick={e => e.stopPropagation()}>
+												<FontAwesomeIcon icon={faTrash} />
+											</button>
+											<button title="Edit" onClick={e => e.stopPropagation()}>
+												<FontAwesomeIcon icon={faPenToSquare} />
+											</button>
+										</div>
+									</div>
+								</>
+							) : null
+						)) ||
 						"This user does not have any blogs posted"}
 				</div>
 			</div>
