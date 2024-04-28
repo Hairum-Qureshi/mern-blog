@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Blog from "../models/blog";
 import { Blog_Interface } from "../interfaces";
+import mongoose from "mongoose";
 
 const getBlog = async (req: Request, res: Response) => {
 	const route_id: string = req.params.route_id;
@@ -18,7 +19,7 @@ const getBlog = async (req: Request, res: Response) => {
 
 const getAllBlogs = async (req: Request, res: Response) => {
 	const { user_id } = req.params;
-	const blogs = await Blog.find({ user_id });
+	const blogs: Blog_Interface[] = await Blog.find({ user_id });
 	if (blogs.length !== 0) {
 		res.json(blogs);
 	} else {
@@ -26,4 +27,20 @@ const getAllBlogs = async (req: Request, res: Response) => {
 	}
 };
 
-export { getBlog, getAllBlogs };
+const archiveBlog = async (req: Request, res: Response) => {
+	const { blog_id: route_id } = req.params;
+	try {
+		const blogs: Blog_Interface[] = await Blog.find({ route_id });
+		if (blogs.length !== 0) {
+			await Blog.findByIdAndUpdate({ _id: blogs[0]._id }, { archived: true });
+			res.status(200).send("Blog has been archived Successfully");
+		} else {
+			res.status(404).send("No blogs found");
+		}
+	} catch (error) {
+		console.log("<blog_controller.ts> [44] ERROR", error);
+		res.status(500).send("There was a problem");
+	}
+};
+
+export { getBlog, getAllBlogs, archiveBlog };

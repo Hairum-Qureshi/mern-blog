@@ -7,7 +7,11 @@ import { findUser } from "../controllers/auth_controller";
 import { User_Interface } from "../interfaces";
 import slugify from "slugify";
 import generateUniqueId from "generate-unique-id";
-import { getBlog, getAllBlogs } from "../controllers/blog_controller";
+import {
+	getBlog,
+	getAllBlogs,
+	archiveBlog
+} from "../controllers/blog_controller";
 import User from "../models/user";
 const router = express.Router();
 
@@ -78,5 +82,7 @@ router.post("/post", upload.single("file"), (req, res) => {
 router.get("/blog/:route_id", getBlog);
 
 router.get("/:user_id/all", getAllBlogs);
+
+router.patch("/:blog_id/archive", archiveBlog);
 
 export default router;
