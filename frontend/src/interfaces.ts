@@ -98,7 +98,7 @@ export interface useSettingsTypes {
 	) => void;
 }
 
-export interface Blog_Interface {
+export interface Blog {
 	_id: string;
 	blog_title: string;
 	user_id: string;
@@ -111,6 +111,8 @@ export interface Blog_Interface {
 	cloudinaryThumbnail_ID: string;
 	posted_date: Date;
 	message?: string;
+	published: boolean;
+	archived: boolean;
 }
 
 export interface BlogOperations {

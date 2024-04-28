@@ -109,7 +109,11 @@ export default function Profile() {
 						</div>
 						<div className={profile_css.blogsCountContainer}>
 							<div>
-								<h1>{data?.num_blogs}</h1>
+								<h1>
+									{userData?.user_id === user_id
+										? data?.num_blogs
+										: userProfileData?.num_blogs}
+								</h1>
 							</div>
 							<div>BLOGS</div>
 						</div>

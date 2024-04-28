@@ -51,5 +51,7 @@ export interface Blog_Interface {
 	blog_author: string;
 	blog_thumbnail: string;
 	cloudinaryThumbnail_ID: string;
+	published: boolean;
+	archived: boolean;
 	posted_date: Date;
 }

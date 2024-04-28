@@ -21,3 +21,5 @@
 10. Check to see if you _really do_ need CookieParser.
 
 11. May need to add some logic to prevent showing too much personal information on the route '/api/user/[user_id]'
+
+12. On the user profile page's blogs tab, add a delay on the button hover title text

@@ -38,6 +38,14 @@ const blogSchema = new Schema({
 		type: String,
 		default: ""
 	},
+	published: {
+		type: Boolean,
+		default: true
+	},
+	archived: {
+		type: Boolean,
+		default: false
+	},
 	posted_date: {
 		type: Date,
 		default: Date.now

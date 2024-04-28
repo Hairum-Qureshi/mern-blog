@@ -38,6 +38,14 @@
 const user = await User.findById(user_id);
 ```
 
+2. You can format `JSON.stringify()` like this:
+
+```javascript
+JSON.stringify(jsonCode, null, 4);
+// or
+JSON.stringify(jsonCode, null, "\t");
+```
+
 ## DEALING WITH EXPRESS SESSION WITH TYPESCRIPT
 
 - This YouTube video covered how to set up the configurations for Express Session with TypeScript:
