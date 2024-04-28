@@ -228,6 +228,18 @@
 	cursor: pointer;
 }
 
+.blogsContainer .blogs .notice {
+	margin: 0 auto;
+	margin: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.blogsContainer .blogs .notice a {
+	color: rgb(0, 225, 255);
+}
+
 /*
 .blogsContainer .blogs .container .imageBackground {
 	position: relative;

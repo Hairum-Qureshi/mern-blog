@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import useAuthContext from "../../contexts/authContext";
 import useProfileData from "../../hooks/useProfileData";
 import { useSettings } from "../../hooks/useSettings";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import profile_css from "../../css/profile.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash } from "@fortawesome/free-regular-svg-icons/faEyeSlash";
@@ -88,9 +88,23 @@ export default function Blogs() {
 										</div>
 									</div>
 								</>
+							) : blogs.indexOf(blog) === blogs.length - 1 ? (
+								<h3 className={profile_css.notice}>
+									All your blogs are archived. Click&nbsp;
+									<Link
+										to={`/user/${userData?.user_id}/profile/settings?section=archived-blogs`}
+									>
+										here
+									</Link>
+									&nbsp;to view them in your settings page and manage their
+									status
+								</h3>
 							) : null
-						)) ||
-						"This user does not have any blogs posted"}
+						)) || (
+						<h3 className={profile_css.notice}>
+							This user does not have any blogs posted or published
+						</h3>
+					)}
 				</div>
 			</div>
 		</>

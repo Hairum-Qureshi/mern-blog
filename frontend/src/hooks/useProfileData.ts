@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function useProfileData(): ProfileTools {
 	const [userProfileData, setUserProfileData] = useState<User | null>(null);
-	const [blogs, setBlogs] = useState<Blog | null>(null);
+	const [blogs, setBlogs] = useState<Blog[] | null>(null);
 
 	async function getProfileData(user_id: string) {
 		await axios
