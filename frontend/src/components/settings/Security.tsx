@@ -18,14 +18,6 @@ export default function Security() {
 					<h3>SECURITY - CHANGE ACCOUNT PASSWORD</h3>
 				</div>
 				<div className={settings_css.section}>
-					{userData.isGoogleAccount ? (
-						<p>
-							<b>NOTE:</b> Because you signed up through Google, you are unable
-							to change your password.
-						</p>
-					) : null}
-				</div>
-				<div className={settings_css.section}>
 					<input
 						type="email"
 						placeholder="Email"

@@ -68,14 +68,16 @@ export default function Settings() {
 								&nbsp; Socials
 							</li>
 						</Link>
-						<Link to="?section=security">
-							<li>
-								<span>
-									<FontAwesomeIcon icon={faShieldHalved} />
-								</span>
-								&nbsp; Security
-							</li>
-						</Link>
+						{!userData.isGoogleAccount ? (
+							<Link to="?section=security">
+								<li>
+									<span>
+										<FontAwesomeIcon icon={faShieldHalved} />
+									</span>
+									&nbsp; Security
+								</li>
+							</Link>
+						) : null}
 						<Link to="?section=blocked-users">
 							<li>
 								<span>
@@ -92,7 +94,7 @@ export default function Settings() {
 					<ArchivedBlogs />
 				) : current === query_params[2] ? (
 					<Socials />
-				) : current === query_params[3] ? (
+				) : current === query_params[3] && !userData.isGoogleAccount ? (
 					<Security />
 				) : current === query_params[4] ? (
 					<BlockedList />
