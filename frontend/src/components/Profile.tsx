@@ -9,27 +9,22 @@ import profile_css from "../css/profile.module.css";
 import useProfileData from "../hooks/useProfileData";
 
 // TODO - need to add a block button visible for users visiting other users' profile pages
-// TODO - create a hook that will get the user data based on the URL's user ID param
 // TODO - add styling to the block button
 
 export default function Profile() {
+	const [selectedTab, setSelectedTab] = useState("biography");
+
 	const { userData } = useAuthContext()!;
 	const { user_id } = useParams();
 	const navigate = useNavigate();
 	const { data } = useSettings();
-	const [selectedTab, setSelectedTab] = useState("biography");
-
-	const { getProfileData, userProfileData, blogs } = useProfileData();
+	const { getProfileData, userProfileData } = useProfileData();
 
 	useEffect(() => {
 		if (user_id) {
 			getProfileData(user_id);
 		}
-		console.log("x");
 	}, [user_id]);
-
-	// TOO MANY REQUESTS ERROR
-	console.log(userProfileData);
 
 	return userData &&
 		userData.message !== "user does not exist" &&
