@@ -90,14 +90,13 @@ export default function Blogs() {
 								</>
 							) : blogs.indexOf(blog) === blogs.length - 1 ? (
 								<h3 className={profile_css.notice}>
-									All your blogs are archived. Click&nbsp;
+									All of your blogs are archived. Click&nbsp;
 									<Link
 										to={`/user/${userData?.user_id}/profile/settings?section=archived-blogs`}
 									>
 										here
 									</Link>
-									&nbsp;to view them in your settings page and manage their
-									status
+									&nbsp;to view them in your settings page
 								</h3>
 							) : null
 						)) || (

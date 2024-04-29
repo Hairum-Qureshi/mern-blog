@@ -208,3 +208,38 @@ body {
 	display: flex;
 	align-items: center;
 }
+.settingsContainer .section {
+	display: flex;
+	flex-direction: column;
+	/* Add any additional styling you need for the section */
+}
+
+.settingsContainer .group {
+	display: flex;
+}
+
+.settingsContainer .group .blogTitle {
+	flex: 1;
+	margin-right: 10px;
+}
+.settingsContainer .group button {
+	padding: 8px;
+	font-size: 13px;
+	outline: none;
+	border: 1px solid rgb(0, 187, 255);
+	border-radius: 5px;
+	background: none;
+	color: white;
+}
+
+.settingsContainer .group button:hover {
+	background-color: rgb(2, 48, 112);
+	/* transition: 1s ease; */
+	cursor: pointer;
+	border: 1px solid rgb(0, 204, 255);
+}
+
+.settingsContainer .group button:active {
+	background-color: rgb(1, 26, 45);
+	transform: translateY(1px);
+}

@@ -22,14 +22,19 @@ export default function ArchivedBlogs() {
 					<h3>Your Archived Blogs</h3>
 				</div>
 				{blogs && blogs.length > 0
-					? blogs.map((blog: Blog) => {
+					? blogs.map((blog: Blog, index: number) => {
 							return blog.archived ? (
-								<div className={settings_css.section}>
-									<div>
-										<h3>{blog.blog_title}</h3>
-										<p>{blog.blog_summary}</p>
-										<button>Unarchive</button>
+								<div
+									className={settings_css.section}
+									key={Math.floor(Math.random() * index)}
+								>
+									<div className={settings_css.group}>
+										<h3 className={settings_css.blogTitle}>
+											{blog.blog_title}
+										</h3>
+										<button>UNARCHIVE</button>
 									</div>
+									<p>{blog.blog_summary}</p>
 								</div>
 							) : null;
 					  })
