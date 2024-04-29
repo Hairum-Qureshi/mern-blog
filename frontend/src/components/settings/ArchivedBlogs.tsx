@@ -2,16 +2,27 @@ import settings_css from "./../../css/settings.module.css";
 import useAuthContext from "../../contexts/authContext";
 import NotFound from "../NotFound";
 import useProfileData from "../../hooks/useProfileData";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Blog } from "../../interfaces";
 
 export default function ArchivedBlogs() {
 	const { userData } = useAuthContext()!;
 	const { getProfileData, blogs } = useProfileData();
 
+	const [archivedBlogs, setArchivedBlogs] = useState<Blog[]>([]);
+
 	useEffect(() => {
 		if (userData) {
 			getProfileData(userData.user_id);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (blogs) {
+			const archivedBlogs: Blog[] = blogs.filter((blog: Blog) => {
+				return blog.archived;
+			});
+			setArchivedBlogs(archivedBlogs);
 		}
 	}, []);
 
@@ -21,8 +32,8 @@ export default function ArchivedBlogs() {
 				<div className={settings_css.header}>
 					<h3>Your Archived Blogs</h3>
 				</div>
-				{blogs && blogs.length > 0
-					? blogs.map((blog: Blog, index: number) => {
+				{archivedBlogs.length > 0
+					? archivedBlogs.map((blog: Blog, index: number) => {
 							return blog.archived ? (
 								<div
 									className={settings_css.section}
