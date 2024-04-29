@@ -50,7 +50,7 @@ export default function Blogs() {
 										}
 										key={Math.floor(Math.random() * Date.now())}
 									>
-										<h1>{blog.blog_title.toUpperCase()}</h1>
+										<h2>{blog.blog_title.toUpperCase()}</h2>
 										{blog.published ? (
 											<p className={profile_css.statusFlair_published}>
 												PUBLISHED

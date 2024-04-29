@@ -190,11 +190,12 @@
 }
 
 .blogsContainer .blogs {
+	padding: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: -10px;
 	width: 100%;
 	box-sizing: border-box;
-	display: inline-flex;
-	padding: 10px;
-	margin-top: -10px;
 }
 
 .blogsContainer .blogs .container {
@@ -202,11 +203,15 @@
 	border: 2px solid rgb(240, 240, 240);
 	background-color: rgb(26, 72, 102);
 	border-radius: 5px;
-	margin: 0 10px 10px 10px;
+	margin: 10px 150px 10px 150px;
 	padding: 15px;
 	font-family: "Heebo", sans-serif;
 	font-weight: 100;
 	width: 100%;
+}
+
+.blogsContainer .blogs .container:first-of-type {
+	margin-top: 5px;
 }
 
 .blogsContainer .blogs .container .statusFlair_published,
@@ -234,10 +239,6 @@
 	width: 100%;
 	box-sizing: border-box;
 	text-align: center;
-}
-
-.blogsContainer .blogs .notice a {
-	color: rgb(0, 225, 255);
 }
 
 /*
