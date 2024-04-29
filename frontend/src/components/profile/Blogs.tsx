@@ -29,7 +29,10 @@ export default function Blogs() {
 	const navigate = useNavigate();
 
 	return (
-		// TODO - NEED TO ADD LOGIC TO HIDE THE BUTTONS IF THE USER VISITS ANOTHER USER'S PROFILE PAGE'S BLOG TAB
+		// TODO - need to add logic to hide the buttons if the user visits another user's profile page's blog tab
+		// TODO - fix the logic where it only displays the message "all of your blogs are archived" if all the blogs are archived
+		//		-> may need to use filter
+		// TODO - need to change the 'active' styling when you click the 'here' link text
 		<>
 			<div className={profile_css.blogsContainer}>
 				<div className={profile_css.blogsSearchContainer}>

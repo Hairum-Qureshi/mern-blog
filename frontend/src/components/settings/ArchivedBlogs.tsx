@@ -39,17 +39,6 @@ export default function ArchivedBlogs() {
 							) : null;
 					  })
 					: null}
-				{/* {userData.archived_blogs.length === 0 ? (
-					<>
-						<div className={settings_css.section}>
-							You currently don't have any blogs archived.
-						</div>
-					</>
-				) : (
-					userData.archived_blogs.map(blog => {
-						return <div className={settings_css.section}>{blog}</div>;
-					})
-				)} */}
 			</div>
 		</>
 	) : (

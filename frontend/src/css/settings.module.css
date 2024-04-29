@@ -208,11 +208,6 @@ body {
 	display: flex;
 	align-items: center;
 }
-.settingsContainer .section {
-	display: flex;
-	flex-direction: column;
-	/* Add any additional styling you need for the section */
-}
 
 .settingsContainer .group {
 	display: flex;
@@ -221,6 +216,7 @@ body {
 .settingsContainer .group .blogTitle {
 	flex: 1;
 	margin-right: 10px;
+	margin-top: 5px;
 }
 .settingsContainer .group button {
 	padding: 8px;
@@ -242,4 +238,8 @@ body {
 .settingsContainer .group button:active {
 	background-color: rgb(1, 26, 45);
 	transform: translateY(1px);
+}
+
+.settingsContainer .section p {
+	margin: 15px 0 10px 0;
 }
