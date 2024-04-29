@@ -241,6 +241,10 @@
 	text-align: center;
 }
 
+.blogsContainer .blogs .notice a {
+	color: rgb(0, 174, 255);
+}
+
 /*
 .blogsContainer .blogs .container .imageBackground {
 	position: relative;
