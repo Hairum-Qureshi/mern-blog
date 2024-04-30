@@ -14,7 +14,7 @@
 
 7. Consider adding another property to the User model involving making the user account private/public
 
-8. If a user signed up through Google, maybe consider hiding the "Security" tab on the user settings page since it seems pointless
+~~8. If a user signed up through Google, maybe consider hiding the "Security" tab on the user settings page since it seems pointless~~
 
 9. In the future, maybe add options on users' profile pages if they would like to receive email notifications whenever a user posts a new blog
 
@@ -23,3 +23,9 @@
 11. May need to add some logic to prevent showing too much personal information on the route '/api/user/[user_id]'
 
 12. On the user profile page's blogs tab, add a delay on the button hover title text
+
+13. In the verfication_controller.ts file, check if you really do need `await` before the `deleteToken()` function because you use `await deleteToken()` once and `deleteToken()` for the rest of the instances.
+
+14. In the future, add more properties to the Blogs model like upvotes, favorites, etc. and display them on the archived blogs setting page as 'blog stats'
+
+15. Consider adding a character limit on the blog summary textarea AND Blog Title in the blog post form

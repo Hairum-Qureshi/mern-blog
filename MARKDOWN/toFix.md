@@ -9,5 +9,3 @@
 - It seems to work fine if you create an account through Google, though
 
 [] The user bio markdown rendering needs some work
-
-- If you don't create an account through Google, on the Security settings tab, there's a minor CSS issue

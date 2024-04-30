@@ -29,16 +29,20 @@ const getAllBlogs = async (req: Request, res: Response) => {
 
 const archiveBlog = async (req: Request, res: Response) => {
 	const { blog_id: route_id } = req.params;
+	const { archive_this } = req.body;
 	try {
 		const blogs: Blog_Interface[] = await Blog.find({ route_id });
 		if (blogs.length !== 0) {
-			await Blog.findByIdAndUpdate({ _id: blogs[0]._id }, { archived: true });
-			res.status(200).send("Blog has been archived Successfully");
+			await Blog.findByIdAndUpdate(
+				{ _id: blogs[0]._id },
+				{ archived: archive_this }
+			);
+			res.status(200).send("Success");
 		} else {
 			res.status(404).send("No blogs found");
 		}
 	} catch (error) {
-		console.log("<blog_controller.ts> [44] ERROR", error);
+		console.log("<blog_controller.ts> [45] ERROR", error);
 		res.status(500).send("There was a problem");
 	}
 };

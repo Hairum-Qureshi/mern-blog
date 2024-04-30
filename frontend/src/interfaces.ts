@@ -131,5 +131,5 @@ export interface ProfileTools {
 	getProfileData: (user_id: string) => void;
 	userProfileData: User | null;
 	blogs: Blog[] | null;
-	archiveBlog: (user_id: string, blog_id: string) => void;
+	archiveBlog: (blog_id: string, archive_this: boolean) => void;
 }

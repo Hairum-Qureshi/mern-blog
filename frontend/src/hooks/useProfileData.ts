@@ -23,10 +23,10 @@ export default function useProfileData(): ProfileTools {
 			.catch(error => console.log(error));
 	}
 
-	async function archiveBlog(user_id: string, blog_id: string) {
+	async function archiveBlog(blog_id: string, archive_this: boolean) {
 		await axios
 			.patch(`http://localhost:4000/api/blogs/${blog_id}/archive`, {
-				user_id
+				archive_this
 			})
 			.then(response => {
 				console.log(response);

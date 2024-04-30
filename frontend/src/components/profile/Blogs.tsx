@@ -34,7 +34,7 @@ export default function Blogs() {
 			});
 			setNonArchivedBlogs(nonArchived_blogs);
 		}
-	}, []);
+	}, [blogs]);
 
 	const navigate = useNavigate();
 
@@ -79,7 +79,7 @@ export default function Blogs() {
 													title="Archive"
 													onClick={e => {
 														e.stopPropagation();
-														archiveBlog(userData?.user_id, blog.route_id);
+														archiveBlog(blog.route_id, true);
 													}}
 												>
 													<FontAwesomeIcon icon={faBoxArchive} />
