@@ -48,6 +48,9 @@ export default function Blogs() {
 	return (
 		// TODO - need to add logic to hide the buttons if the user visits another user's profile page's blog tab
 		// TODO - need to change the 'active' styling when you click the 'here' link text
+		// TODO - add the date posted to the divs as well
+		// TODO - add logic to display text if the user doesn't have any blogs posted
+
 		<>
 			<div className={profile_css.blogsContainer}>
 				<div className={profile_css.blogsSearchContainer}>

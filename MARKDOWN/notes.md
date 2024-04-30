@@ -22,6 +22,8 @@
 
 4. To rename your express-session cookie from "connect.sid", just add `name: "new-cookie-name",` in your session object **this applies to the backend**
 
+5. After creating a cookie, **make sure you do a `res.send()`** or the cookie will not set on the frontend! (Refer to auth_controller.ts [68] for an example) **this applies to the backend**
+
 ## In Express Session to delete a cookie:
 
 - Make sure that your axios request in the frontend is a GET request

@@ -318,7 +318,7 @@ const getUser = async (req: Request, res: Response) => {
 				undefined,
 				mongoUID_format
 			);
-			if (user) {
+			if (user !== undefined) {
 				res.json(user);
 			} else {
 				res.json({ message: "user not found" });
