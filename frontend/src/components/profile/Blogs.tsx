@@ -38,6 +38,13 @@ export default function Blogs() {
 
 	const navigate = useNavigate();
 
+	function archive(blog_id: string) {
+		const nonArchivedBlogs_updated: Blog[] = nonArchivedBlogs.filter(
+			(blog: Blog) => blog.route_id !== blog_id
+		);
+		setNonArchivedBlogs(nonArchivedBlogs_updated);
+	}
+
 	return (
 		// TODO - need to add logic to hide the buttons if the user visits another user's profile page's blog tab
 		// TODO - need to change the 'active' styling when you click the 'here' link text
@@ -80,6 +87,7 @@ export default function Blogs() {
 													onClick={e => {
 														e.stopPropagation();
 														archiveBlog(blog.route_id, true);
+														archive(blog.route_id);
 													}}
 												>
 													<FontAwesomeIcon icon={faBoxArchive} />
