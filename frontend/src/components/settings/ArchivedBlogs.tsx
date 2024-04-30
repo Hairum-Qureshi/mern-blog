@@ -24,7 +24,14 @@ export default function ArchivedBlogs() {
 			});
 			setArchivedBlogs(archivedBlogs);
 		}
-	}, []);
+	}, [blogs]);
+
+	function unArchiveBlog(blog_id: string) {
+		const unArchivedBlogs_updated: Blog[] = archivedBlogs.filter(
+			(blog: Blog) => blog.route_id !== blog_id
+		);
+		setArchivedBlogs(unArchivedBlogs_updated);
+	}
 
 	return userData && userData.message !== "user does not exist" ? (
 		<>
@@ -32,24 +39,28 @@ export default function ArchivedBlogs() {
 				<div className={settings_css.header}>
 					<h3>Your Archived Blogs</h3>
 				</div>
-				{archivedBlogs.length > 0
-					? archivedBlogs.map((blog: Blog, index: number) => {
-							return blog.archived ? (
-								<div
-									className={settings_css.section}
-									key={Math.floor(Math.random() * index)}
-								>
-									<div className={settings_css.group}>
-										<h3 className={settings_css.blogTitle}>
-											{blog.blog_title}
-										</h3>
-										<button>UNARCHIVE</button>
-									</div>
-									<p>{blog.blog_summary}</p>
+				{archivedBlogs.length > 0 ? (
+					archivedBlogs.map((blog: Blog) => {
+						return blog.archived ? (
+							<div
+								className={settings_css.section}
+								key={Math.floor(Math.random() * Date.now())}
+							>
+								<div className={settings_css.group}>
+									<h3 className={settings_css.blogTitle}>{blog.blog_title}</h3>
+									<button onClick={() => unArchiveBlog(blog.route_id)}>
+										UNARCHIVE
+									</button>
 								</div>
-							) : null;
-					  })
-					: null}
+								<p>{blog.blog_summary}</p>
+							</div>
+						) : null;
+					})
+				) : (
+					<div className={settings_css.section}>
+						<h3>You currently don't have any archived blogs</h3>
+					</div>
+				)}
 			</div>
 		</>
 	) : (
