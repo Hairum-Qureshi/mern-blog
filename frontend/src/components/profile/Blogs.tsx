@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash } from "@fortawesome/free-regular-svg-icons/faEyeSlash";
 import {
 	faBoxArchive,
+	faEye,
 	faPenToSquare,
 	faTrash
 } from "@fortawesome/free-solid-svg-icons";
@@ -43,6 +44,20 @@ export default function Blogs() {
 			(blog: Blog) => blog.route_id !== blog_id
 		);
 		setNonArchivedBlogs(nonArchivedBlogs_updated);
+	}
+
+	function unPublish(blog_id: string) {
+		const index: number = nonArchivedBlogs.findIndex(
+			(blog: Blog) => blog.route_id === blog_id
+		);
+
+		const published_status: boolean = !nonArchivedBlogs[index].published;
+		const updated: Blog[] = [...nonArchivedBlogs];
+		updated[index] = {
+			...nonArchivedBlogs[index],
+			published: published_status
+		};
+		setNonArchivedBlogs(updated);
 	}
 
 	return (
@@ -97,9 +112,16 @@ export default function Blogs() {
 												</button>
 												<button
 													title="Unpublish"
-													onClick={e => e.stopPropagation()}
+													onClick={e => {
+														e.stopPropagation();
+														unPublish(blog.route_id);
+													}}
 												>
-													<FontAwesomeIcon icon={faEyeSlash} />
+													{blog.published ? (
+														<FontAwesomeIcon icon={faEye} />
+													) : (
+														<FontAwesomeIcon icon={faEyeSlash} />
+													)}
 												</button>
 												<button
 													title="Delete"
