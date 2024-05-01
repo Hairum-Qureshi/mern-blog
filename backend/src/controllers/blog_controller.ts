@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import Blog from "../models/blog";
 import { Blog_Interface } from "../interfaces";
-import mongoose from "mongoose";
 
 const getBlog = async (req: Request, res: Response) => {
 	const route_id: string = req.params.route_id;
