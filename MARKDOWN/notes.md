@@ -48,6 +48,8 @@ JSON.stringify(jsonCode, null, 4);
 JSON.stringify(jsonCode, null, "\t");
 ```
 
+3. **ALWAYS** make sure that your .env file is not being sent to yout Github repo!
+
 ## DEALING WITH EXPRESS SESSION WITH TYPESCRIPT
 
 - This YouTube video covered how to set up the configurations for Express Session with TypeScript:
