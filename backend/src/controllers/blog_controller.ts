@@ -56,22 +56,6 @@ const updateBlogArchiveStatus = async (req: Request, res: Response) => {
 			res.json({ message: "blog ID is not valid" });
 		}
 	}
-	// const { archive_this } = req.body;
-	// try {
-	// const blogs: Blog_Interface[] = await Blog.find({ route_id });
-	// 	if (blogs.length !== 0) {
-	// await Blog.findByIdAndUpdate(
-	// 	{ _id: blogs[0]._id },
-	// 	{ archived: archive_this }
-	// );
-	// res.status(200).send("Success");
-	// } else {
-	// 	res.status(404).send("No blogs found");
-	// }
-	// } catch (error) {
-	// 	console.log("<blog_controller.ts> [45] ERROR", error);
-	// 	res.status(500).send("There was a problem");
-	// }
 };
 
 const updateBlogPublishStatus = async (req: Request, res: Response) => {};
