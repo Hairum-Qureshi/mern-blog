@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import Blog from "../models/blog";
 import { Blog_Interface } from "../interfaces";
+import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
 
 const getBlog = async (req: Request, res: Response) => {
 	const route_id: string = req.params.route_id;
@@ -26,26 +28,57 @@ const getAllBlogs = async (req: Request, res: Response) => {
 	}
 };
 
-const archiveBlog = async (req: Request, res: Response) => {
-	const { blog_id: route_id } = req.params;
+const updateBlogArchiveStatus = async (req: Request, res: Response) => {
+	const { blog_id } = req.params;
 	const { archive_this } = req.body;
-	try {
-		const blogs: Blog_Interface[] = await Blog.find({ route_id });
-		if (blogs.length !== 0) {
-			await Blog.findByIdAndUpdate(
-				{ _id: blogs[0]._id },
-				{ archived: archive_this }
-			);
-			res.status(200).send("Success");
+	if (blog_id) {
+		// checks if the string blog ID is a valid mongo ID
+		if (ObjectId.isValid(blog_id)) {
+			// if it is, it converts the string blog ID to a Mongo Object ID:
+			const mongoID_format: mongoose.Types.ObjectId = new ObjectId(blog_id);
+			try {
+				const blogs: Blog_Interface[] = await Blog.find({
+					_id: mongoID_format
+				});
+				if (blogs.length !== 0) {
+					await Blog.findByIdAndUpdate(
+						{ _id: blogs[0]._id },
+						{ archived: archive_this }
+					);
+					res.status(200).send("Success");
+				} else {
+					res.status(404).send("No blogs found");
+				}
+			} catch (error) {
+				console.log("<blog_controller.ts> [53] ERROR", error);
+			}
 		} else {
-			res.status(404).send("No blogs found");
+			res.json({ message: "blog ID is not valid" });
 		}
-	} catch (error) {
-		console.log("<blog_controller.ts> [45] ERROR", error);
-		res.status(500).send("There was a problem");
 	}
+	// const { archive_this } = req.body;
+	// try {
+	// const blogs: Blog_Interface[] = await Blog.find({ route_id });
+	// 	if (blogs.length !== 0) {
+	// await Blog.findByIdAndUpdate(
+	// 	{ _id: blogs[0]._id },
+	// 	{ archived: archive_this }
+	// );
+	// res.status(200).send("Success");
+	// } else {
+	// 	res.status(404).send("No blogs found");
+	// }
+	// } catch (error) {
+	// 	console.log("<blog_controller.ts> [45] ERROR", error);
+	// 	res.status(500).send("There was a problem");
+	// }
 };
 
 const updateBlogPublishStatus = async (req: Request, res: Response) => {};
 
-export { getBlog, getAllBlogs, archiveBlog, updateBlogPublishStatus };
+export {
+	getBlog,
+	getAllBlogs,
+	updateBlogArchiveStatus,
+	updateBlogPublishStatus
+};

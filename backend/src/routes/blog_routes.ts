@@ -10,7 +10,7 @@ import generateUniqueId from "generate-unique-id";
 import {
 	getBlog,
 	getAllBlogs,
-	archiveBlog,
+	updateBlogArchiveStatus,
 	updateBlogPublishStatus
 } from "../controllers/blog_controller";
 import User from "../models/user";
@@ -84,7 +84,7 @@ router.get("/blog/:route_id", getBlog);
 
 router.get("/:user_id/all", getAllBlogs);
 
-router.patch("/:blog_id/update-archive-status", archiveBlog);
+router.patch("/:blog_id/update-archive-status", updateBlogArchiveStatus);
 
 router.patch("/:blog_id/update-publish-status", updateBlogPublishStatus);
 

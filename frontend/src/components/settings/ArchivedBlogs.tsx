@@ -7,7 +7,7 @@ import { Blog } from "../../interfaces";
 
 export default function ArchivedBlogs() {
 	const { userData } = useAuthContext()!;
-	const { getProfileData, blogs, archiveBlog } = useProfileData();
+	const { getProfileData, blogs, handleArchiveStatus } = useProfileData();
 
 	const [archivedBlogs, setArchivedBlogs] = useState<Blog[]>([]);
 
@@ -51,7 +51,7 @@ export default function ArchivedBlogs() {
 									<button
 										onClick={() => {
 											unArchiveBlog(blog.route_id);
-											archiveBlog(blog.route_id, false);
+											handleArchiveStatus(blog._id, false);
 										}}
 									>
 										UNARCHIVE

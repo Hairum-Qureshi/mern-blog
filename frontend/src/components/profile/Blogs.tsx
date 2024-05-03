@@ -18,8 +18,13 @@ export default function Blogs() {
 	const { userData } = useAuthContext()!;
 	const { data } = useSettings();
 	const { user_id } = useParams();
-	const { getProfileData, userProfileData, blogs, archiveBlog } =
-		useProfileData();
+	const {
+		getProfileData,
+		userProfileData,
+		blogs,
+		handleArchiveStatus,
+		handlePublishStatus
+	} = useProfileData();
 	const [nonArchivedBlogs, setNonArchivedBlogs] = useState<Blog[]>([]);
 
 	useEffect(() => {
@@ -106,7 +111,7 @@ export default function Blogs() {
 															title="Archive"
 															onClick={e => {
 																e.stopPropagation();
-																archiveBlog(blog.route_id, true);
+																handleArchiveStatus(blog._id, true);
 																archive(blog.route_id);
 															}}
 														>
@@ -117,6 +122,7 @@ export default function Blogs() {
 															onClick={e => {
 																e.stopPropagation();
 																unPublish(blog.route_id);
+																handlePublishStatus(blog._id, false);
 															}}
 														>
 															{blog.published ? (

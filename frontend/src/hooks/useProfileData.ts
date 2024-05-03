@@ -23,7 +23,7 @@ export default function useProfileData(): ProfileTools {
 			.catch(error => console.log(error));
 	}
 
-	async function archiveBlog(blog_id: string, archive_this: boolean) {
+	async function handleArchiveStatus(blog_id: string, archive_this: boolean) {
 		await axios
 			.patch(
 				`http://localhost:4000/api/blogs/${blog_id}/update-archive-status`,
@@ -39,5 +39,27 @@ export default function useProfileData(): ProfileTools {
 			});
 	}
 
-	return { getProfileData, userProfileData, blogs, archiveBlog };
+	async function handlePublishStatus(blog_id: string, publish_this: boolean) {
+		await axios
+			.patch(
+				`http://localhost:4000/api/blogs/${blog_id}/update-publish-status`,
+				{
+					publish_this
+				}
+			)
+			.then(response => {
+				console.log(response);
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}
+
+	return {
+		getProfileData,
+		userProfileData,
+		blogs,
+		handleArchiveStatus,
+		handlePublishStatus
+	};
 }
