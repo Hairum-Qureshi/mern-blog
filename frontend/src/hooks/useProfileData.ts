@@ -25,9 +25,12 @@ export default function useProfileData(): ProfileTools {
 
 	async function archiveBlog(blog_id: string, archive_this: boolean) {
 		await axios
-			.patch(`http://localhost:4000/api/blogs/${blog_id}/archive`, {
-				archive_this
-			})
+			.patch(
+				`http://localhost:4000/api/blogs/${blog_id}/update-archive-status`,
+				{
+					archive_this
+				}
+			)
 			.then(response => {
 				console.log(response);
 			})

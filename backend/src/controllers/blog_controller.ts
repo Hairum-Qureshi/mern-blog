@@ -46,4 +46,6 @@ const archiveBlog = async (req: Request, res: Response) => {
 	}
 };
 
-export { getBlog, getAllBlogs, archiveBlog };
+const updateBlogPublishStatus = async (req: Request, res: Response) => {};
+
+export { getBlog, getAllBlogs, archiveBlog, updateBlogPublishStatus };

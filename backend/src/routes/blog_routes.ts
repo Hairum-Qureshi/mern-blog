@@ -10,7 +10,8 @@ import generateUniqueId from "generate-unique-id";
 import {
 	getBlog,
 	getAllBlogs,
-	archiveBlog
+	archiveBlog,
+	updateBlogPublishStatus
 } from "../controllers/blog_controller";
 import User from "../models/user";
 const router = express.Router();
@@ -83,6 +84,8 @@ router.get("/blog/:route_id", getBlog);
 
 router.get("/:user_id/all", getAllBlogs);
 
-router.patch("/:blog_id/archive", archiveBlog);
+router.patch("/:blog_id/update-archive-status", archiveBlog);
+
+router.patch("/:blog_id/update-publish-status", updateBlogPublishStatus);
 
 export default router;
