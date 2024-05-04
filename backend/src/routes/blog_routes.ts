@@ -11,7 +11,8 @@ import {
 	getBlog,
 	getAllBlogs,
 	updateBlogArchiveStatus,
-	updateBlogPublishStatus
+	updateBlogPublishStatus,
+	deleteBlog
 } from "../controllers/blog_controller";
 import User from "../models/user";
 const router = express.Router();
@@ -87,5 +88,7 @@ router.get("/:user_id/all", getAllBlogs);
 router.patch("/:blog_id/update-archive-status", updateBlogArchiveStatus);
 
 router.patch("/:blog_id/update-publish-status", updateBlogPublishStatus);
+
+router.delete("/:blog_id/delete-blog", deleteBlog);
 
 export default router;

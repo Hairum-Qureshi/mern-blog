@@ -55,11 +55,19 @@ export default function useProfileData(): ProfileTools {
 			});
 	}
 
+	async function deleteBlog(blog_id: string) {
+		await axios
+			.delete(`http://localhost:4000/api/blogs/${blog_id}/delete-blog`)
+			.then(response => console.log(response))
+			.catch(error => alert(error));
+	}
+
 	return {
 		getProfileData,
 		userProfileData,
 		blogs,
 		handleArchiveStatus,
-		handlePublishStatus
+		handlePublishStatus,
+		deleteBlog
 	};
 }

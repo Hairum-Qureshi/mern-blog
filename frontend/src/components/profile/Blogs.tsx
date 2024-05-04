@@ -23,9 +23,10 @@ export default function Blogs() {
 		userProfileData,
 		blogs,
 		handleArchiveStatus,
-		handlePublishStatus
+		handlePublishStatus,
+		deleteBlog
 	} = useProfileData();
-	const [nonArchivedBlogs, setNonArchivedBlogs] = useState<Blog[]>([]);
+	const [blogsToShow, setBlogsToShow] = useState<Blog[]>([]);
 
 	useEffect(() => {
 		if (user_id) {
@@ -38,37 +39,51 @@ export default function Blogs() {
 			const nonArchived_blogs: Blog[] = blogs.filter((blog: Blog) => {
 				return !blog.archived;
 			});
-			setNonArchivedBlogs(nonArchived_blogs);
+			setBlogsToShow(nonArchived_blogs);
 		}
 	}, [blogs]);
 
 	const navigate = useNavigate();
 
 	function archive(blog_id: string) {
-		const nonArchivedBlogs_updated: Blog[] = nonArchivedBlogs.filter(
+		const nonArchivedBlogs_updated: Blog[] = blogsToShow.filter(
 			(blog: Blog) => blog.route_id !== blog_id
 		);
-		setNonArchivedBlogs(nonArchivedBlogs_updated);
+		setBlogsToShow(nonArchivedBlogs_updated);
 	}
 
 	function unPublish(blog_id: string) {
-		const index: number = nonArchivedBlogs.findIndex(
+		const index: number = blogsToShow.findIndex(
 			(blog: Blog) => blog.route_id === blog_id
 		);
 
-		const published_status: boolean = !nonArchivedBlogs[index].published;
-		const updated: Blog[] = [...nonArchivedBlogs];
+		const published_status: boolean = !blogsToShow[index].published;
+		const updated: Blog[] = [...blogsToShow];
 		updated[index] = {
-			...nonArchivedBlogs[index],
+			...blogsToShow[index],
 			published: published_status
 		};
-		setNonArchivedBlogs(updated);
+		setBlogsToShow(updated);
+	}
+
+	function removeBlog(blog_id: string, blog_title: string) {
+		const confirmation = confirm(
+			`Are you sure you would like to delete the blog "${blog_title}"? You will not be able to restore it once deleted`
+		);
+		if (confirmation) {
+			const nonArchivedBlogs_updated: Blog[] = blogsToShow.filter(
+				(blog: Blog) => blog.route_id !== blog_id
+			);
+			setBlogsToShow(nonArchivedBlogs_updated);
+		}
 	}
 
 	return (
 		// TODO - need to change the 'active' styling when you click the 'here' link text
 		// TODO - add the date posted to the divs as well
 		// TODO - add logic to display text if the user doesn't have any blogs posted
+		// TODO - need to fix logic regarding displaying blogs that are unpublished to other users. It does not work
+		// TODO - look into whether or not the way you have the publish/unpublish logic
 
 		<>
 			<div className={profile_css.blogsContainer}>
@@ -77,8 +92,8 @@ export default function Blogs() {
 				</div>
 				<div className={profile_css.blogs}>
 					{
-						nonArchivedBlogs.length > 0 ? (
-							nonArchivedBlogs.map((blog: Blog) => {
+						blogsToShow.length > 0 ? (
+							blogsToShow.map((blog: Blog) => {
 								return (
 									<>
 										{(blog.published && userData?.user_id === user_id) ||
@@ -93,7 +108,7 @@ export default function Blogs() {
 												key={Math.floor(Math.random() * Date.now())}
 											>
 												<h2>{blog.blog_title.toUpperCase()}</h2>
-												{blog.published ? (
+												{!blog.published ? (
 													<p className={profile_css.statusFlair_published}>
 														PUBLISHED
 													</p>
@@ -129,7 +144,7 @@ export default function Blogs() {
 																}
 															}}
 														>
-															{blog.published ? (
+															{!blog.published ? (
 																<FontAwesomeIcon icon={faEye} />
 															) : (
 																<FontAwesomeIcon icon={faEyeSlash} />
@@ -137,7 +152,11 @@ export default function Blogs() {
 														</button>
 														<button
 															title="Delete"
-															onClick={e => e.stopPropagation()}
+															onClick={e => {
+																e.stopPropagation();
+																deleteBlog(blog._id);
+																removeBlog(blog.route_id, blog.blog_title);
+															}}
 														>
 															<FontAwesomeIcon icon={faTrash} />
 														</button>

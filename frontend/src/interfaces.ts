@@ -133,4 +133,5 @@ export interface ProfileTools {
 	blogs: Blog[] | null;
 	handleArchiveStatus: (blog_id: string, archive_this: boolean) => void;
 	handlePublishStatus: (blog_id: string, publish_this: boolean) => void;
+	deleteBlog: (blog_id: string) => void;
 }

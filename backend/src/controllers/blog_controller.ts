@@ -39,10 +39,10 @@ async function updateBlogData(
 		// if it is, it converts the string blog ID to a Mongo Object ID:
 		const mongoID_format: mongoose.Types.ObjectId = new ObjectId(blog_id);
 		try {
-			const blogs: Blog_Interface[] | null = await Blog.findById({
+			const blog: Blog_Interface[] | null = await Blog.findById({
 				_id: mongoID_format
 			});
-			if (blogs) {
+			if (blog) {
 				if (dataPropertyToUpdate === "archived") {
 					await Blog.findByIdAndUpdate(
 						{ _id: mongoID_format },
@@ -84,9 +84,32 @@ const updateBlogPublishStatus = async (req: Request, res: Response) => {
 	}
 };
 
+const deleteBlog = async (req: Request, res: Response) => {
+	const { blog_id } = req.params;
+	if (ObjectId.isValid(blog_id)) {
+		const mongoID_format: mongoose.Types.ObjectId = new ObjectId(blog_id);
+		try {
+			const blog: Blog_Interface[] | null = await Blog.findById({
+				_id: mongoID_format
+			});
+			if (blog) {
+				await Blog.deleteOne({
+					_id: blog_id
+				});
+				res.status(200).send("Success");
+			} else {
+				res.status(404).send("Blog does not exist");
+			}
+		} catch (error) {
+			console.log("<blog_controller.ts> [104] Error deleting blog", error);
+		}
+	}
+};
+
 export {
 	getBlog,
 	getAllBlogs,
 	updateBlogArchiveStatus,
-	updateBlogPublishStatus
+	updateBlogPublishStatus,
+	deleteBlog
 };
