@@ -28,33 +28,51 @@ const getAllBlogs = async (req: Request, res: Response) => {
 	}
 };
 
+async function updateBlogData(
+	blog_id: string,
+	dataPropertyToUpdate: string,
+	dataToUpdate: boolean,
+	res: Response
+) {
+	// checks if the string blog ID is a valid mongo ID
+	if (ObjectId.isValid(blog_id)) {
+		// if it is, it converts the string blog ID to a Mongo Object ID:
+		const mongoID_format: mongoose.Types.ObjectId = new ObjectId(blog_id);
+		try {
+			const blogs: Blog_Interface[] | null = await Blog.findById({
+				_id: mongoID_format
+			});
+			if (blogs) {
+				if (dataPropertyToUpdate === "archived") {
+					await Blog.findByIdAndUpdate(
+						{ _id: mongoID_format },
+						{ archived: dataToUpdate }
+					);
+				} else {
+					await Blog.findByIdAndUpdate(
+						{ _id: mongoID_format },
+						{ published: dataToUpdate }
+					);
+				}
+				res.status(200).send("Success");
+			} else {
+				res.status(404).send("No blogs found");
+			}
+		} catch (error) {
+			console.log("<blog_controller.ts> [62] ERROR", error);
+		}
+	} else {
+		res.json({ message: "blog ID is not valid" });
+	}
+}
+
 const updateBlogArchiveStatus = async (req: Request, res: Response) => {
 	const { blog_id } = req.params;
 	const { archive_this } = req.body;
 	if (blog_id) {
-		// checks if the string blog ID is a valid mongo ID
-		if (ObjectId.isValid(blog_id)) {
-			// if it is, it converts the string blog ID to a Mongo Object ID:
-			const mongoID_format: mongoose.Types.ObjectId = new ObjectId(blog_id);
-			try {
-				const blogs: Blog_Interface[] | null = await Blog.findById({
-					_id: mongoID_format
-				});
-				if (blogs) {
-					await Blog.findByIdAndUpdate(
-						{ _id: mongoID_format },
-						{ archived: archive_this }
-					);
-					res.status(200).send("Success");
-				} else {
-					res.status(404).send("No blogs found");
-				}
-			} catch (error) {
-				console.log("<blog_controller.ts> [53] ERROR", error);
-			}
-		} else {
-			res.json({ message: "blog ID is not valid" });
-		}
+		updateBlogData(blog_id, "archived", archive_this, res);
+	} else {
+		res.json({ message: "blog ID is not valid" });
 	}
 };
 
@@ -62,29 +80,7 @@ const updateBlogPublishStatus = async (req: Request, res: Response) => {
 	const { blog_id } = req.params;
 	const { publish_this } = req.body;
 	if (blog_id) {
-		// checks if the string blog ID is a valid mongo ID
-		if (ObjectId.isValid(blog_id)) {
-			// if it is, it converts the string blog ID to a Mongo Object ID:
-			const mongoID_format: mongoose.Types.ObjectId = new ObjectId(blog_id);
-			try {
-				const blogs: Blog_Interface[] | null = await Blog.findById({
-					_id: mongoID_format
-				});
-				if (blogs) {
-					await Blog.findByIdAndUpdate(
-						{ _id: mongoID_format },
-						{ published: publish_this }
-					);
-					res.status(200).send("Success");
-				} else {
-					res.status(404).send("No blogs found");
-				}
-			} catch (error) {
-				console.log("<blog_controller.ts> [82] ERROR", error);
-			}
-		} else {
-			res.json({ message: "blog ID is not valid" });
-		}
+		updateBlogData(blog_id, "published", publish_this, res);
 	}
 };
 
