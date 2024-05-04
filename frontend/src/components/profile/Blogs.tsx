@@ -118,11 +118,15 @@ export default function Blogs() {
 															<FontAwesomeIcon icon={faBoxArchive} />
 														</button>
 														<button
-															title="Unpublish"
+															title={blog.published ? "Publish" : "Unpublish"}
 															onClick={e => {
 																e.stopPropagation();
 																unPublish(blog.route_id);
-																handlePublishStatus(blog._id, false);
+																if (blog.published) {
+																	handlePublishStatus(blog._id, false);
+																} else {
+																	handlePublishStatus(blog._id, true);
+																}
 															}}
 														>
 															{blog.published ? (
