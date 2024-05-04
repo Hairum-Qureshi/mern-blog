@@ -71,8 +71,6 @@ const updateBlogArchiveStatus = async (req: Request, res: Response) => {
 	const { archive_this } = req.body;
 	if (blog_id) {
 		updateBlogData(blog_id, "archived", archive_this, res);
-	} else {
-		res.json({ message: "blog ID is not valid" });
 	}
 };
 
