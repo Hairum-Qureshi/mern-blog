@@ -18,7 +18,7 @@ export default function ArchivedBlogs() {
 	}, []);
 
 	useEffect(() => {
-		if (blogs) {
+		if (blogs && blogs.length > 0) {
 			const archivedBlogs: Blog[] = blogs.filter((blog: Blog) => {
 				return blog.archived;
 			});
