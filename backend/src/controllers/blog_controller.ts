@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Blog from "../models/blog";
-import { Blog_Interface } from "../interfaces";
+import User from "../models/user";
+import { Blog_Interface, User_Interface } from "../interfaces";
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
@@ -87,14 +88,32 @@ const deleteBlog = async (req: Request, res: Response) => {
 	if (ObjectId.isValid(blog_id)) {
 		const mongoID_format: mongoose.Types.ObjectId = new ObjectId(blog_id);
 		try {
-			const blog: Blog_Interface[] | null = await Blog.findById({
+			const blog: Blog_Interface | null = await Blog.findById({
 				_id: mongoID_format
 			});
 			if (blog) {
-				await Blog.deleteOne({
-					_id: blog_id
-				});
-				res.status(200).send("Success");
+				const current_userID: mongoose.Types.ObjectId | undefined =
+					req.session.user_id;
+				if (current_userID !== undefined) {
+					const user: User_Interface | null = await User.findById({
+						_id: current_userID
+					});
+					if (user) {
+						const blogCount: number = user.num_blogs;
+
+						await User.findByIdAndUpdate(
+							{ _id: current_userID },
+							{ num_blogs: blogCount - 1 }
+						);
+
+						await Blog.deleteOne({
+							_id: blog_id
+						});
+						res.status(200).send("Success");
+					}
+				} else {
+					console.log("User is not logged in");
+				}
 			} else {
 				res.status(404).send("Blog does not exist");
 			}
