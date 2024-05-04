@@ -37,10 +37,10 @@ const updateBlogArchiveStatus = async (req: Request, res: Response) => {
 			// if it is, it converts the string blog ID to a Mongo Object ID:
 			const mongoID_format: mongoose.Types.ObjectId = new ObjectId(blog_id);
 			try {
-				const blogs: Blog_Interface[] = await Blog.find({
+				const blogs: Blog_Interface[] | null = await Blog.findById({
 					_id: mongoID_format
 				});
-				if (blogs.length !== 0) {
+				if (blogs) {
 					await Blog.findByIdAndUpdate(
 						{ _id: blogs[0]._id },
 						{ archived: archive_this }
