@@ -57,3 +57,12 @@ body {
 	border: 1.5px solid rgb(37, 70, 126);
 	margin: 0 10px 0 10px;
 }
+
+footer {
+	position: absolute;
+	width: 100%;
+	height: 2.5rem;
+	background-color: rgb(16, 36, 91);
+	color: white;
+	padding: 20px;
+}

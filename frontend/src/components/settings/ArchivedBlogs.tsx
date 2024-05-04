@@ -37,7 +37,7 @@ export default function ArchivedBlogs() {
 		<>
 			<div className={settings_css.settingsContainer}>
 				<div className={settings_css.header}>
-					<h3>Your Archived Blogs</h3>
+					<h3>YOUR ARCHIVED BLOGS</h3>
 				</div>
 				{archivedBlogs.length > 0 ? (
 					archivedBlogs.map((blog: Blog) => {

@@ -84,6 +84,9 @@ export default function Blogs() {
 		// TODO - add logic to display text if the user doesn't have any blogs posted
 		// TODO - need to fix logic regarding displaying blogs that are unpublished to other users. It does not work
 		// TODO - look into whether or not the way you have the publish/unpublish logic
+		// TODO - need to figure out how to make the account's num blogs counter go down without doing a page refresh when the user deletes a blog
+		// TODO - check why a newly created blog post is unpublished by default
+		// TODO - redesign the blog posts layout/divs
 
 		<>
 			<div className={profile_css.blogsContainer}>

@@ -11,6 +11,7 @@ import { AuthProvider } from "../contexts/authContext";
 import Form from "./blogs/Form";
 import About from "./About";
 import Blog from "./blogs/Blog";
+import Footer from "./Footer";
 
 function App() {
 	return (
@@ -34,6 +35,7 @@ function App() {
 						<Route path="/blogs/:blog_id/:blog_name/edit" element={<Form />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
+					<Footer />
 				</GoogleOAuthProvider>
 			</AuthProvider>
 		</BrowserRouter>
