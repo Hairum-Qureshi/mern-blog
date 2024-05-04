@@ -101,14 +101,15 @@ const deleteBlog = async (req: Request, res: Response) => {
 					if (user) {
 						const blogCount: number = user.num_blogs;
 
-						await User.findByIdAndUpdate(
-							{ _id: current_userID },
-							{ num_blogs: blogCount - 1 }
-						);
-
 						await Blog.deleteOne({
 							_id: blog_id
 						});
+
+						await User.findByIdAndUpdate(
+							{ _id: current_userID },
+							{ num_blogs: blogCount === 0 ? 0 : blogCount - 1 }
+						);
+
 						res.status(200).send("Success");
 					}
 				} else {
