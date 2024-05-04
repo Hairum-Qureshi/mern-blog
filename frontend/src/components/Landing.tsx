@@ -1,3 +1,5 @@
+import landing_css from "../css/landing.module.css";
+
 export default function Landing() {
-	return <div>Landing</div>;
+	return <div className={landing_css.main}>Landing</div>;
 }
