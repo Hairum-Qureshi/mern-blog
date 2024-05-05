@@ -6,7 +6,7 @@ export default function BlockedList() {
 	const { userData } = useAuthContext()!;
 
 	return userData && userData.message !== "user does not exist" ? (
-		<>
+		<div className={settings_css.mainBody}>
 			<div className={settings_css.settingsContainer}>
 				<div className={settings_css.header}>
 					<h3>Your Blocked List</h3>
@@ -23,7 +23,7 @@ export default function BlockedList() {
 					))
 				)}
 			</div>
-		</>
+		</div>
 	) : (
 		<NotFound />
 	);

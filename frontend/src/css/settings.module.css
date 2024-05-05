@@ -4,9 +4,16 @@ body {
 	overflow-y: scroll;
 }
 
+.mainBody {
+	height: 100vh;
+	width: 100%;
+	box-sizing: border-box;
+}
+
 .main {
 	display: flex;
 	margin: 0 auto;
+	height: inherit;
 }
 
 .navbar {

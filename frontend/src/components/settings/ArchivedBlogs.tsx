@@ -34,7 +34,7 @@ export default function ArchivedBlogs() {
 	}
 
 	return userData && userData.message !== "user does not exist" ? (
-		<>
+		<div className={settings_css.mainBody}>
 			<div className={settings_css.settingsContainer}>
 				<div className={settings_css.header}>
 					<h3>YOUR ARCHIVED BLOGS</h3>
@@ -67,7 +67,7 @@ export default function ArchivedBlogs() {
 					</div>
 				)}
 			</div>
-		</>
+		</div>
 	) : (
 		<NotFound />
 	);

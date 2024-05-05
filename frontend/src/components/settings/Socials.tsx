@@ -34,7 +34,7 @@ export default function Socials() {
 	}, [data]);
 
 	return userData ? (
-		<>
+		<div className={settings_css.mainBody}>
 			<div className={settings_css.settingsContainer}>
 				<div className={settings_css.header}>
 					<h3>SOCIAL MEDIA</h3>
@@ -128,7 +128,7 @@ export default function Socials() {
 					/>
 				</div>
 			</div>
-		</>
+		</div>
 	) : (
 		<NotFound />
 	);

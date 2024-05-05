@@ -12,7 +12,7 @@ export default function Security() {
 	// TODO - if the user signed up with Google, have this disabled
 
 	return userData && userData.message !== "user does not exist" ? (
-		<>
+		<div className={settings_css.mainBody}>
 			<div className={settings_css.settingsContainer}>
 				<div className={settings_css.header}>
 					<h3>SECURITY - CHANGE ACCOUNT PASSWORD</h3>
@@ -42,7 +42,7 @@ export default function Security() {
 					/>
 				</div>
 			</div>
-		</>
+		</div>
 	) : (
 		<NotFound />
 	);
