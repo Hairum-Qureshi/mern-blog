@@ -222,6 +222,12 @@
 	margin-top: 5px;
 }
 
+.blogsContainer .blogs .container .date_posted {
+	font-weight: 500;
+	margin-top: 10px;
+	color: rgb(59, 204, 249);
+}
+
 .blogsContainer .blogs .container .statusFlair_published,
 .blogsContainer .blogs .container .statusFlair_unpublished {
 	background-color: green;

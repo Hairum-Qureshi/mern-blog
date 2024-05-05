@@ -81,7 +81,7 @@ export default function Blogs() {
 	return (
 		// TODO - need to change the 'active' styling when you click the 'here' link text
 		// TODO - add the date posted to the divs as well
-		// TODO - look into whether or not the way you have the publish/unpublish logic
+		// TODO - look into whether or not the way you have the publish/unpublish logic (showing the eye/closed eye)
 		// TODO - need to figure out how to make the account's num blogs counter go down without doing a page refresh when the user deletes a blog
 		// TODO - redesign the blog posts layout/divs
 		// TODO - on the page that displays the blog, add logic to prevent users from reading the blog if it's been unpublished
@@ -118,6 +118,18 @@ export default function Blogs() {
 														UNPUBLISHED
 													</p>
 												)}
+												<p className={profile_css.date_posted}>
+													{new Date(blog.posted_date).toLocaleDateString(
+														"en-US",
+														{
+															year: "numeric",
+															month: "long",
+															day: "numeric",
+															hour: "2-digit",
+															minute: "2-digit"
+														}
+													)}
+												</p>
 												<div className={profile_css.summaryContainer}>
 													<p>{blog.blog_summary}</p>
 												</div>
