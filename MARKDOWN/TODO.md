@@ -29,3 +29,5 @@
 14. In the future, add more properties to the Blogs model like upvotes, favorites, etc. and display them on the archived blogs setting page as 'blog stats'
 
 15. Consider adding a character limit on the blog summary textarea AND Blog Title in the blog post form
+
+16. Add a 'save password' feature

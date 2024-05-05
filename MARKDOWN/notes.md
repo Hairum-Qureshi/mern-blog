@@ -55,3 +55,16 @@ JSON.stringify(jsonCode, null, "\t");
 - This YouTube video covered how to set up the configurations for Express Session with TypeScript:
 
 -> https://youtu.be/FcxjCPeicvU?si=6p98GjkmCckSHTPt
+
+## CSS
+
+- The following CSS will help keep a footer at the bottom of the page regardless if there's content on the page or not:
+
+```css
+  {
+	min-height: 100vh;
+	max-height: inherit;
+\ }
+```
+
+If there's no content on the page, the footer will be at the bottom by default due to the `min-height: 100vh` property. However, as content is being added, if it exceeds 100vh, the `max-height: inherit` property will take over and the footer will remain at the bottom beneath the content exceeding 100vh.
