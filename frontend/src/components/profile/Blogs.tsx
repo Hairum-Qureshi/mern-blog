@@ -81,7 +81,6 @@ export default function Blogs() {
 	return (
 		// TODO - need to change the 'active' styling when you click the 'here' link text
 		// TODO - add the date posted to the divs as well
-		// TODO - add logic to display text if the user doesn't have any blogs posted
 		// TODO - look into whether or not the way you have the publish/unpublish logic
 		// TODO - need to figure out how to make the account's num blogs counter go down without doing a page refresh when the user deletes a blog
 		// TODO - redesign the blog posts layout/divs
@@ -171,7 +170,14 @@ export default function Blogs() {
 													</div>
 												) : null}
 											</div>
-										) : null}
+										) : (
+											<h3 className={profile_css.notice}>
+												{blogsToShow.findIndex(b => b._id === blog._id) ===
+												blogsToShow.length - 1
+													? "This user currently doesn't have any blogs published/posted"
+													: null}
+											</h3>
+										)}
 									</>
 								);
 							})
