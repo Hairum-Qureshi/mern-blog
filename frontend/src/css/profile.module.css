@@ -1,6 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap");
 
+.main {
+	width: 100%;
+	box-sizing: border-box;
+	height: 100vh;
+}
+
 .topSection {
 	width: 100%;
 	box-sizing: border-box;

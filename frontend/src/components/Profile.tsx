@@ -30,7 +30,7 @@ export default function Profile() {
 		userData.message !== "user does not exist" &&
 		userProfileData &&
 		userProfileData.message !== "user not found" ? (
-		<>
+		<div className={profile_css.main}>
 			<div className={profile_css.topSection}>
 				<img
 					src={
@@ -139,7 +139,7 @@ export default function Profile() {
 					{selectedTab === "biography" ? <Biography /> : <Blogs />}
 				</div>
 			</div>
-		</>
+		</div>
 	) : (
 		<NotFound />
 	);
