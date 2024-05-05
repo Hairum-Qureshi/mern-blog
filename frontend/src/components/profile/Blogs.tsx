@@ -82,11 +82,10 @@ export default function Blogs() {
 		// TODO - need to change the 'active' styling when you click the 'here' link text
 		// TODO - add the date posted to the divs as well
 		// TODO - add logic to display text if the user doesn't have any blogs posted
-		// TODO - need to fix logic regarding displaying blogs that are unpublished to other users. It does not work
 		// TODO - look into whether or not the way you have the publish/unpublish logic
 		// TODO - need to figure out how to make the account's num blogs counter go down without doing a page refresh when the user deletes a blog
-		// TODO - check why a newly created blog post is unpublished by default
 		// TODO - redesign the blog posts layout/divs
+		// TODO - on the page that displays the blog, add logic to prevent users from reading the blog if it's been unpublished
 
 		<>
 			<div className={profile_css.blogsContainer}>
@@ -99,8 +98,8 @@ export default function Blogs() {
 							blogsToShow.map((blog: Blog) => {
 								return (
 									<>
-										{(blog.published && userData?.user_id === user_id) ||
-										(!blog.published && userData?.user_id === user_id) ? (
+										{userData?.user_id === user_id ||
+										(userData?.user_id !== user_id && blog.published) ? (
 											<div
 												className={profile_css.container}
 												onClick={() =>
@@ -111,7 +110,7 @@ export default function Blogs() {
 												key={Math.floor(Math.random() * Date.now())}
 											>
 												<h2>{blog.blog_title.toUpperCase()}</h2>
-												{!blog.published ? (
+												{blog.published ? (
 													<p className={profile_css.statusFlair_published}>
 														PUBLISHED
 													</p>
