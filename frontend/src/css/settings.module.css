@@ -5,7 +5,8 @@ body {
 }
 
 .mainBody {
-	height: 100vh;
+	min-height: 100vh;
+	max-height: inherit;
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -13,7 +14,8 @@ body {
 .main {
 	display: flex;
 	margin: 0 auto;
-	height: inherit;
+	min-height: 100vh;
+	max-height: inherit;
 }
 
 .navbar {
