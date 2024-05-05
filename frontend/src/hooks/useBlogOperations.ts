@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { BlogOperations, Blog_Interface } from "../interfaces";
+import { BlogOperations, Blog } from "../interfaces";
 import axios from "axios";
 
 export default function useBlogOperations(): BlogOperations {
 	const [loading, setLoading] = useState(false);
-	const [blogData, setBlogData] = useState<Blog_Interface | null>(null);
+	const [blogData, setBlogData] = useState<Blog | null>(null);
 
 	async function postBlog(
 		blogTitle: string,
