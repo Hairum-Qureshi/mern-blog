@@ -32,7 +32,7 @@ export default function Settings() {
 	const current = searchParams.get("section");
 
 	return userData && userData.message !== "user does not exist" ? (
-		<>
+		<div>
 			<div className={settings_css.main}>
 				<div className={settings_css.navbar}>
 					<ul>
@@ -102,7 +102,7 @@ export default function Settings() {
 					<NotFound />
 				)}
 			</div>
-		</>
+		</div>
 	) : (
 		<NotFound />
 	);
