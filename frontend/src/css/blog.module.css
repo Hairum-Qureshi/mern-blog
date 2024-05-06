@@ -28,6 +28,10 @@
 	color: rgb(0, 195, 255);
 }
 
+.blogContainer .detailsContainer .userInfo a:visited {
+	color: rgb(212, 14, 212);
+}
+
 .blogContainer .detailsContainer .userInfo img {
 	width: 30px;
 	height: 30px;

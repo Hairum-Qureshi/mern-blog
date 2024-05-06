@@ -93,6 +93,7 @@ export default function Blogs() {
 		// TODO - use 'ConfirmationModal' as a the replacement component for the built-in 'confirm()' JS function for the confirmation that prompts the user before deleting a blog.
 		// NOTE - you're not displaying the user's 'rank/role' on their profile page (see the settings page for more info)
 		// ! FIX - when you click the 'archive' button for the blog, it displays the wrong message, but when you refresh, it displays the correct message.
+		// TODO - for other users whenever they visit another user's page and see their blogs, add a "report" and "favorite/save" button
 
 		<>
 			{/* {showConfirmation ? <ConfirmationModal>Hello</ConfirmationModal> : null} */}
@@ -117,15 +118,17 @@ export default function Blogs() {
 											key={Math.floor(Math.random() * Date.now())}
 										>
 											<h2>{blog.blog_title.toUpperCase()}</h2>
-											{blog.published ? (
-												<p className={profile_css.statusFlair_published}>
-													PUBLISHED
-												</p>
-											) : (
-												<p className={profile_css.statusFlair_unpublished}>
-													UNPUBLISHED
-												</p>
-											)}
+											{userData?.user_id === user_id ? (
+												blog.published ? (
+													<p className={profile_css.statusFlair_published}>
+														PUBLISHED
+													</p>
+												) : (
+													<p className={profile_css.statusFlair_unpublished}>
+														UNPUBLISHED
+													</p>
+												)
+											) : null}
 											<p className={profile_css.date_posted}>
 												{new Date(blog.posted_date).toLocaleDateString(
 													"en-US",
