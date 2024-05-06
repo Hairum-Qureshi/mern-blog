@@ -1,6 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
+
 .main {
 	width: 100%;
 	box-sizing: border-box;
 	min-height: 100vh;
 	max-height: inherit;
+}
+
+.blogsContainer {
+	width: 70%;
+	box-sizing: border-box;
+	/* border: 2px solid white; */
+	height: inherit;
+	margin: 30px auto;
+	word-wrap: break-word;
+	padding: 10px;
+}
+
+.blogsContainer .blogBlock {
+	padding: 5px;
+}
+
+.blogsContainer .blogBlock h3 {
+	font-family: "Archivo", sans-serif;
+}
+
+.blogsContainer .blogBlock hr:first-of-type {
+	margin: 5px 0 5px 0;
+}
+
+.blogsContainer .blogBlock hr {
+	border: 1px solid white;
+	margin: 5px 0 10px 0;
+}
+
+.blogsContainer .blogBlock .blogData {
+	color: white;
+	margin: 5px;
+	font-size: 14px;
+}
+
+.blogsContainer .blogBlock .blogData span:first-child {
+	margin: 0 10px 0 0;
+}
+
+.blogsContainer .blogBlock .blogData span {
+	margin: 0 10px 0 10px;
+}
+
+.blogsContainer .blogBlock .blogData a {
+	color: rgb(40, 168, 237);
+	text-decoration: none;
+}
+
+.blogsContainer .blogBlock .blogData a:visited {
+	color: rgb(126, 76, 252);
+}
+
+.blogsContainer .blogBlock .blogData .tag:first-of-type {
+	margin-left: -5px;
+}
+
+.blogsContainer .blogBlock .blogData .tag {
+	display: inline-flex;
+	margin-left: 5px;
+	background-color: rgb(3, 73, 122);
+	padding: 3px;
+	border-radius: 3px;
+}
+
+.blogsContainer .blogBlock .blogData .tag:hover {
+	cursor: pointer;
+	background-color: rgb(4, 93, 157);
+}
+
+.blogsContainer .blogBlock .blogData .tag:active {
+	background-color: rgb(7, 128, 214);
+}
+
+.blogsContainer .blogBlock .blogPreviewContentContainer {
+	display: inline-flex;
+}
+
+.blogsContainer
+	.blogBlock
+	.blogPreviewContentContainer
+	.blogThumbnailContainer {
+	width: 60%;
+	height: 130px;
+	border: 1px solid white;
+	margin-right: 10px;
+}
+
+.blogsContainer
+	.blogBlock
+	.blogPreviewContentContainer
+	.blogThumbnailContainer
+	img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+
+.blogsContainer
+	.blogBlock
+	.blogPreviewContentContainer
+	.blogSummaryContainer
+	button {
+	margin: 10px 0 10px 0;
+	padding: 5px;
+	font-size: 15px;
+	background: none;
+	color: white;
+	border: 1px solid rgb(7, 128, 214);
+	border-radius: 5px;
+}
+
+.blogsContainer
+	.blogBlock
+	.blogPreviewContentContainer
+	.blogSummaryContainer
+	button:hover {
+	background-color: rgb(6, 56, 97);
+	cursor: pointer;
+	transition: 0.5s ease;
+}
+
+.blogsContainer
+	.blogBlock
+	.blogPreviewContentContainer
+	.blogSummaryContainer
+	button:active {
+	background-color: rgb(6, 78, 136);
+	transition: 0s;
 }
