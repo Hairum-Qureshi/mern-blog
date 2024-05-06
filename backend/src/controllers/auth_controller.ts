@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { User_Interface } from "../interfaces";
 import { sendAccountVerificationEmail } from "../nodemailer_files/nodemailer";
 import Token from "../models/token";
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 import { v2 as cloudinary } from "cloudinary";
 import { ObjectId } from "mongodb";
 

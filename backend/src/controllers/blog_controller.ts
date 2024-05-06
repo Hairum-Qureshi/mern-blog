@@ -4,6 +4,7 @@ import User from "../models/user";
 import { Blog_Interface, User_Interface } from "../interfaces";
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
+import { v2 as cloudinary } from "cloudinary";
 
 const getBlog = async (req: Request, res: Response) => {
 	const route_id: string = req.params.route_id;
@@ -100,6 +101,7 @@ const deleteBlog = async (req: Request, res: Response) => {
 					});
 					if (user) {
 						const blogCount: number = user.num_blogs;
+						const blogThumbnailID: string = blog.cloudinaryThumbnail_ID;
 
 						await Blog.deleteOne({
 							_id: blog_id
@@ -109,6 +111,8 @@ const deleteBlog = async (req: Request, res: Response) => {
 							{ _id: current_userID },
 							{ num_blogs: blogCount === 0 ? 0 : blogCount - 1 }
 						);
+
+						cloudinary.uploader.destroy(blogThumbnailID);
 
 						res.status(200).send("Success");
 					}
