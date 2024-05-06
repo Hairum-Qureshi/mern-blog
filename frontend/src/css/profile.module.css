@@ -290,8 +290,18 @@
 	transition: 0.5s ease;
 }
 
+.blogsContainer .blogs .container .buttonGroup button:nth-child(3):active {
+	background-color: rgb(139, 15, 15);
+	transition: 0s;
+}
+
 .blogsContainer .blogs .container .buttonGroup button:hover {
 	cursor: pointer;
 	background-color: rgb(4, 58, 129);
 	transition: 0.5s ease;
+}
+
+.blogsContainer .blogs .container .buttonGroup button:active {
+	background-color: rgb(7, 111, 196);
+	transition: 0s;
 }

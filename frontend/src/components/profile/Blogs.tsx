@@ -81,8 +81,9 @@ export default function Blogs() {
 		// setShowConfirmation(true);
 		if (confirmation) {
 			const nonArchivedBlogs_updated: Blog[] = blogsToShow.filter(
-				(blog: Blog) => blog.route_id !== blog_id
+				(blog: Blog) => blog._id !== blog_id
 			);
+			deleteBlog(blog_id);
 			setBlogsToShow(nonArchivedBlogs_updated);
 		}
 	}
@@ -178,8 +179,7 @@ export default function Blogs() {
 														title="Delete"
 														onClick={e => {
 															e.stopPropagation();
-															deleteBlog(blog._id);
-															removeBlog(blog.route_id, blog.blog_title);
+															removeBlog(blog._id, blog.blog_title);
 														}}
 													>
 														<FontAwesomeIcon icon={faTrash} />
