@@ -9,6 +9,7 @@ import slugify from "slugify";
 import generateUniqueId from "generate-unique-id";
 import {
 	getBlog,
+	getAllUserBlogs,
 	getAllBlogs,
 	updateBlogArchiveStatus,
 	updateBlogPublishStatus,
@@ -83,7 +84,9 @@ router.post("/post", upload.single("file"), (req, res) => {
 
 router.get("/blog/:route_id", getBlog);
 
-router.get("/:user_id/all", getAllBlogs);
+router.get("/:user_id/all", getAllUserBlogs);
+
+router.get("/all", getAllBlogs);
 
 router.patch("/:blog_id/update-archive-status", updateBlogArchiveStatus);
 

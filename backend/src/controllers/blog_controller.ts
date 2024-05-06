@@ -20,13 +20,22 @@ const getBlog = async (req: Request, res: Response) => {
 	}
 };
 
-const getAllBlogs = async (req: Request, res: Response) => {
+const getAllUserBlogs = async (req: Request, res: Response) => {
 	const { user_id } = req.params;
 	const blogs: Blog_Interface[] = await Blog.find({ user_id });
 	if (blogs.length !== 0) {
 		res.json(blogs);
 	} else {
 		res.json({ message: "blogs not found" });
+	}
+};
+
+const getAllBlogs = async (req: Request, res: Response) => {
+	const all_blogs: Blog_Interface[] | null = await Blog.find({});
+	if (all_blogs && all_blogs.length > 0) {
+		res.json(all_blogs);
+	} else {
+		res.json({ message: "no blogs" });
 	}
 };
 
@@ -130,6 +139,7 @@ const deleteBlog = async (req: Request, res: Response) => {
 
 export {
 	getBlog,
+	getAllUserBlogs,
 	getAllBlogs,
 	updateBlogArchiveStatus,
 	updateBlogPublishStatus,
