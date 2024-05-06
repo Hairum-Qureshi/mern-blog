@@ -88,20 +88,18 @@ export default function Blogs() {
 	}
 
 	return (
-		// TODO - need to change the 'active' styling when you click the 'here' link text
 		// TODO - need to figure out how to make the account's num blogs counter go down without doing a page refresh when the user deletes a blog
-		// TODO - redesign the blog posts layout/divs
 		// TODO - on the page that displays the blog, add logic to prevent users from reading the blog if it's been unpublished
-		// TODO - need to update DELETE request so that it deletes the blog's thumbnail image from Cloudinary as well when you delete a blog
 		// TODO - use 'ConfirmationModal' as a the replacement component for the built-in 'confirm()' JS function for the confirmation that prompts the user before deleting a blog.
 		// NOTE - you're not displaying the user's 'rank/role' on their profile page (see the settings page for more info)
+		// ! FIX - when you click the 'archive' button for the blog, it displays the wrong message, but when you refresh, it displays the correct message.
 
 		<>
 			{/* {showConfirmation ? <ConfirmationModal>Hello</ConfirmationModal> : null} */}
 			<div className={profile_css.blogsContainer}>
-				<div className={profile_css.blogsSearchContainer}>
+				{/* <div className={profile_css.blogsSearchContainer}>
 					<input type="search" placeholder="Search by title" />
-				</div>
+				</div> */}
 				<div className={profile_css.blogs}>
 					{blogsToShow.length > 0 ? (
 						blogsToShow.map((blog: Blog) => {
