@@ -135,3 +135,7 @@ export interface ProfileTools {
 	handlePublishStatus: (blog_id: string, publish_this: boolean) => void;
 	deleteBlog: (blog_id: string) => void;
 }
+
+export interface BlogTools {
+	blogs: Blog[];
+}
