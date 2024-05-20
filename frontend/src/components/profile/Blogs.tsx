@@ -186,7 +186,10 @@ export default function Blogs() {
 													</button>
 													<button
 														title="Edit"
-														onClick={e => e.stopPropagation()}
+														onClick={e => {
+															e.stopPropagation();
+															navigate(`/blog/${blog.route_id}/edit`);
+														}}
 													>
 														<FontAwesomeIcon icon={faPenToSquare} />
 													</button>

@@ -33,6 +33,7 @@ function App() {
 						<Route path="/about" element={<About />} />
 						<Route path="/blogs/:blog_id/:blog_name" element={<Blog />} />
 						<Route path="/blogs/:blog_id/:blog_name/edit" element={<Form />} />
+						<Route path="/blog/:blog_id/edit" element={<Form />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 					<Footer />

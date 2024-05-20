@@ -22,20 +22,20 @@ const getBlog = async (req: Request, res: Response) => {
 
 const getAllUserBlogs = async (req: Request, res: Response) => {
 	const { user_id } = req.params;
-	const blogs: Blog_Interface[] = await Blog.find({ user_id });
-	if (blogs.length !== 0) {
-		res.json(blogs);
+	const blogs: Blog_Interface[] | null = await Blog.find({ user_id });
+	if (blogs && blogs.length !== 0) {
+		res.status(200).json(blogs);
 	} else {
-		res.json({ message: "blogs not found" });
+		res.status(404).json({ message: "blogs not found" });
 	}
 };
 
 const getAllBlogs = async (req: Request, res: Response) => {
 	const all_blogs: Blog_Interface[] | null = await Blog.find({});
 	if (all_blogs && all_blogs.length > 0) {
-		res.json(all_blogs);
+		res.status(200).json(all_blogs);
 	} else {
-		res.json({ message: "no blogs" });
+		res.status(404).json({ message: "no blogs" });
 	}
 };
 

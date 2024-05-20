@@ -46,7 +46,7 @@ export function useSettings(): useSettingsTypes {
 	async function autoSaveSocials(
 		input_id: number,
 		twitterXUser?: string,
-		instagrmUser?: string,
+		instagramUser?: string,
 		facebookUser?: string,
 		pinterestUser?: string,
 		discordUser?: string
@@ -59,7 +59,7 @@ export function useSettings(): useSettingsTypes {
 				{
 					data:
 						twitterXUser ||
-						instagrmUser ||
+						instagramUser ||
 						facebookUser ||
 						pinterestUser ||
 						discordUser,

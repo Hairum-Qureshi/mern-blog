@@ -7,6 +7,19 @@
 	max-height: inherit;
 }
 
+.main h1 {
+	text-align: center;
+	margin-top: 50px;
+}
+
+.main input[type="text"] {
+	width: 50%;
+	padding: 8px;
+	font-size: 16px;
+	outline: none;
+	border-radius: 5px;
+}
+
 .blogsContainer:nth-child(1) {
 	margin: 30px auto 0;
 }
@@ -61,9 +74,13 @@
 	text-decoration: none;
 }
 
-.blogsContainer .blogBlock .blogData a:visited {
-	color: rgb(126, 76, 252);
+.blogsContainer .blogBlock .blogData a:hover {
+	color: rgb(21, 163, 239);
 }
+
+/* .blogsContainer .blogBlock .blogData a:visited {
+	color: rgb(126, 76, 252);
+} */
 
 .blogsContainer .blogBlock .blogData .tag:first-of-type {
 	margin-left: -5px;
@@ -94,10 +111,11 @@
 	.blogBlock
 	.blogPreviewContentContainer
 	.blogThumbnailContainer {
-	width: 60%;
-	height: 130px;
+	width: 200px; /* Adjust as needed */
+	height: 130px; /* Adjust as needed */
 	border: 1px solid white;
 	margin-right: 10px;
+	overflow: hidden; /* Ensure contained images don't overflow */
 }
 
 .blogsContainer
@@ -105,10 +123,9 @@
 	.blogPreviewContentContainer
 	.blogThumbnailContainer
 	img {
-	object-fit: cover;
-	min-width: 100%;
-	max-width: 100%;
+	width: 100%;
 	height: 100%;
+	object-fit: cover;
 }
 
 .blogsContainer

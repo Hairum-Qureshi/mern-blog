@@ -9,3 +9,9 @@
 - It seems to work fine if you create an account through Google, though
 
 [] The user bio markdown rendering needs some work
+
+[] The tokens don't appear to be being deleted...
+
+[] When a user does have a blog posted, on their profiles in the blogs tab, it still says "This user currently doesn't have any blogs published/posted"
+
+[] When you archive your last blog, you'll need to refresh the page to see the message of "all your blogs are archived"
