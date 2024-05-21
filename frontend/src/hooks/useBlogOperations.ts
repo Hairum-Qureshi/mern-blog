@@ -50,7 +50,7 @@ export default function useBlogOperations(): BlogOperations {
 		try {
 			const formData = new FormData();
 			formData.append("file", thumbnail);
-			formData.append("image_type", "blog_thumbnail");
+			formData.append("image_type", "thumbnail");
 			formData.append("blogTitle", blogTitle);
 			formData.append("blogSummary", blogSummary);
 			formData.append("blogContent", blogContent);

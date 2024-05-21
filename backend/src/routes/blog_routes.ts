@@ -89,8 +89,8 @@ async function updateBlogData(
 	blogContent: string,
 	uploadingImage: boolean,
 	user_id: mongoose.Types.ObjectId,
-	files_array: string[],
-	image_type: string
+	image_type: string,
+	files_array?: string[]
 ): Promise<BlogData> {
 	let status_code = 200;
 
@@ -116,19 +116,20 @@ async function updateBlogData(
 						  })
 			}
 		)) as unknown as Blog_Interface;
+
+		if (uploadingImage && files_array !== undefined) {
+			status_code = await uploadToCloudinary(
+				user_id,
+				files_array,
+				image_type,
+				blog[0]._id
+			);
+		}
+
 		return { status_code, updatedBlogData };
 	} catch (error) {
 		status_code = 500;
-		console.log("<blog_routes.ts>[123] ERROR", error);
-	}
-
-	if (uploadingImage) {
-		status_code = await uploadToCloudinary(
-			user_id,
-			files_array,
-			image_type,
-			blog[0]._id
-		);
+		console.log("<blog_routes.ts>[122] ERROR", error);
 	}
 
 	return { status_code };
@@ -156,7 +157,6 @@ router.put("/:blog_id/edit", upload.single("file"), (req, res) => {
 						blogContent,
 						false,
 						user_id,
-						files_array,
 						image_type
 					);
 
@@ -178,8 +178,8 @@ router.put("/:blog_id/edit", upload.single("file"), (req, res) => {
 						blogContent,
 						true,
 						user_id,
-						files_array,
-						image_type
+						image_type,
+						files_array
 					);
 					if (returnData.updatedBlogData !== undefined) {
 						if (returnData.status_code === 200) {

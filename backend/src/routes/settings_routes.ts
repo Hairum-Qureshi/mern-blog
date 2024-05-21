@@ -73,7 +73,7 @@ export async function handleImageData(
 					);
 					return 200;
 				} catch (error) {
-					console.log("<settings_routes.ts> [74] ERROR", error);
+					console.log("<settings_routes.ts> [76] ERROR", error);
 					return 500;
 				}
 			} else if (image_type && image_type === "backdrop") {
@@ -88,7 +88,7 @@ export async function handleImageData(
 					);
 					return 200;
 				} catch (error) {
-					console.log("<settings_routes.ts> [89] ERROR", error);
+					console.log("<settings_routes.ts> [91] ERROR", error);
 					return 500;
 				}
 			} else {
@@ -111,14 +111,14 @@ export async function handleImageData(
 						);
 						return 200;
 					} catch (error) {
-						console.log("<settings_routes.ts> [74] ERROR", error);
+						console.log("<settings_routes.ts> [114] ERROR", error);
 						return 500;
 					}
 				}
 			}
 		}
 	} catch (error) {
-		console.log("<settings_routes.ts> [95] ERROR", error);
+		console.log("<settings_routes.ts> [121] ERROR", error);
 		return 500;
 	}
 
