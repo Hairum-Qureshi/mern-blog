@@ -40,6 +40,34 @@ export default function useBlogOperations(): BlogOperations {
 		}
 	}
 
+	async function editBlog(
+		blogTitle: string,
+		blogSummary: string,
+		thumbnail: File,
+		blogContent: string,
+		route_id: string
+	) {
+		try {
+			const formData = new FormData();
+			formData.append("file", thumbnail);
+			formData.append("image_type", "blog_thumbnail");
+			formData.append("blogTitle", blogTitle);
+			formData.append("blogSummary", blogSummary);
+			formData.append("blogContent", blogContent);
+
+			const response = await axios.put(
+				`http://localhost:4000/api/blogs/${route_id}/edit`,
+				formData,
+				{
+					withCredentials: true
+				}
+			);
+			console.log(response);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	async function getBlogData(route_id: string) {
 		await axios
 			.get(`http://localhost:4000/api/blogs/blog/${route_id}`)
@@ -47,5 +75,5 @@ export default function useBlogOperations(): BlogOperations {
 			.catch(error => console.log(error));
 	}
 
-	return { postBlog, loading, getBlogData, blogData };
+	return { postBlog, loading, getBlogData, blogData, editBlog };
 }

@@ -3,11 +3,12 @@ import form_css from "../../css/form.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 import useBlogOperations from "../../hooks/useBlogOperations";
 import useAuthContext from "../../contexts/authContext";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 
 export default function Form() {
-	const { getBlogData, blogData, postBlog, loading } = useBlogOperations();
+	const { getBlogData, blogData, postBlog, loading, editBlog } =
+		useBlogOperations();
 	const { userData } = useAuthContext()!;
 	const { blog_id, user_id } = useParams();
 
@@ -16,19 +17,24 @@ export default function Form() {
 	const [blogSummary, setBlogSummary] = useState<string>();
 	const [thumbnail, setThumbnail] = useState<File>();
 	const [blogContent, setBlogContent] = useState<string>();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (blog_id !== undefined) {
 			getBlogData(blog_id);
-			setBlogTitle(blogData?.blog_title);
-			setBlogSummary(blogData?.blog_summary);
-			setBlogContent(blogData?.blog_content);
-		} else {
-			setBlogTitle("");
-			setBlogSummary("");
-			setBlogContent("");
 		}
-	}, [blogData, location]);
+	}, [blog_id]);
+
+	useEffect(() => {
+		if (blogData) {
+			setBlogTitle(blogData.blog_title);
+			setBlogSummary(blogData.blog_summary);
+			setBlogContent(blogData.blog_content);
+		}
+		// else {
+		// 	navigate(`/user/${userData?.user_id}/blog/create`);
+		// }
+	}, [blogData]);
 
 	// TODO - in the future, maybe add an option for users to select/add tags?
 	// TODO - [x] make the input accept only image files
@@ -37,6 +43,10 @@ export default function Form() {
 	// TODO - [x] make it reusable so that it can handle editing blogs too
 	// TODO - [ ] need to figure out how to populate the file input so that it has the blog's thumbnail
 	// TODO - [ ] make the edit blog functionality work
+	// TODO - [x] need to lead user to the "create blog" form if they enter a blog ID to edit that doesn't exist
+	// 		  --> may need to lead users to a 404 page IF they somehow try and edit a blog with an existing ID that they don't own
+	// TODO - [ ] make the "confirm edits" button work
+	// TODO - [ ] need to lead user to a 404 page if they tamper with the user ID in the post blog route
 	// !RESOLVE: - [ ] (bug) resolve issue where when editing, you're not able to change the content in the inputs + textarea
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
@@ -77,7 +87,11 @@ export default function Form() {
 						></textarea>
 					</div>
 					<div className={form_css.section}>
-						<label htmlFor="Blog Cover Photo">UPLOAD COVER PHOTO</label>
+						<label htmlFor="Blog Cover Photo">
+							{location.includes("edit")
+								? "UPLOAD A NEW THUMBNAIL (leaving this blank will keep your old thumbnail)"
+								: "UPLOAD THUMBNAIL"}
+						</label>
 						<div className={form_css.input_container}>
 							<input
 								type="file"
@@ -112,7 +126,18 @@ export default function Form() {
 					</div>
 					<div className={form_css.section}>
 						{location.includes("edit") ? (
-							<button className={form_css.postBtn}>
+							<button
+								className={form_css.postBtn}
+								onClick={() =>
+									editBlog(
+										blogTitle,
+										blogSummary,
+										thumbnail,
+										blogContent,
+										blog_id
+									)
+								}
+							>
 								{loading ? "LOADING..." : "CONFIRM EDITS"}
 							</button>
 						) : (

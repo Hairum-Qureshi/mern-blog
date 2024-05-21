@@ -125,6 +125,13 @@ export interface BlogOperations {
 	loading: boolean;
 	getBlogData: (route_id: string) => void;
 	blogData: Blog | null;
+	editBlog: (
+		blogTitle: string,
+		blogSummary: string,
+		thumbnail: File,
+		blogContent: string,
+		route_id: string
+	) => void;
 }
 
 export interface ProfileTools {

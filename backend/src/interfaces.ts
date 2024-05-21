@@ -55,3 +55,8 @@ export interface Blog_Interface {
 	archived: boolean;
 	posted_date: Date;
 }
+
+export interface BlogData {
+	updatedBlogData?: Blog_Interface;
+	status_code: number;
+}
