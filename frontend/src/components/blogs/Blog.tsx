@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useBlogOperations from "../../hooks/useBlogOperations";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import blog_css from "../../css/blog.module.css";
 import NotFound from "../NotFound";
 import useAuthContext from "../../contexts/authContext";
@@ -11,6 +11,7 @@ export default function Blog() {
 	const { userData } = useAuthContext()!;
 	const { getBlogData, blogData } = useBlogOperations();
 	const navigate = useNavigate();
+	const { handlePublishStatus } = useProfileData();
 
 	useEffect(() => {
 		blog_id && getBlogData(blog_id);
@@ -28,8 +29,40 @@ export default function Blog() {
 		}
 	}
 
-	return blogData && blogData.message !== "blog not found" ? (
+	const [showMessage, setShowMessage] = useState(true);
+
+	if (
+		!blogData ||
+		blogData.message === "blog not found" ||
+		(blogData.archived && blogData.user_id !== userData?.user_id) ||
+		(!blogData.published && blogData.user_id !== userData?.user_id)
+	) {
+		return <NotFound />;
+	}
+
+	return (
 		<div className={blog_css.blogContainer}>
+			{showMessage ? (
+				blogData?.archived && blogData.user_id === userData?.user_id ? (
+					<div className={blog_css.archiveNotice}>
+						THIS BLOG IS ARCHIVED. CLICK HERE TO UNARCHIVE IT VIA SETTINGS
+					</div>
+				) : !blogData.published && blogData.user_id === userData?.user_id ? (
+					<div className={blog_css.archiveNotice}>
+						THIS BLOG IS UNPUBLISHED. CLICK&nbsp;
+						<Link
+							to="#"
+							onClick={() => {
+								handlePublishStatus(blogData._id, true);
+								setShowMessage(false);
+							}}
+						>
+							HERE
+						</Link>
+						&nbsp;TO PUBLISH IT
+					</div>
+				) : null
+			) : null}
 			<div className={blog_css.detailsContainer}>
 				<h1>{blogData.blog_title}</h1>
 				<div className={blog_css.userInfo}>
@@ -44,7 +77,7 @@ export default function Blog() {
 					</h3>
 				</div>
 				<div className={blog_css.buttonContainer}>
-					{userData && userData.user_id === blogData.user_id ? (
+					{userData && userData.user_id === blogData.user_id && (
 						<>
 							<button
 								onClick={() => removeBlog(blogData._id, blogData.blog_title)}
@@ -55,14 +88,12 @@ export default function Blog() {
 								Edit Blog
 							</button>
 						</>
-					) : null}
+					)}
 				</div>
 			</div>
 			<div className={blog_css.contentContainer}>
 				<div dangerouslySetInnerHTML={{ __html: blogData.blog_content }}></div>
 			</div>
 		</div>
-	) : (
-		<NotFound />
 	);
 }

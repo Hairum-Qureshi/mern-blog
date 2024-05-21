@@ -24,10 +24,12 @@
 
 12. On the user profile page's blogs tab, add a delay on the button hover title text
 
-13. In the verfication_controller.ts file, check if you really do need `await` before the `deleteToken()` function because you use `await deleteToken()` once and `deleteToken()` for the rest of the instances.
+13. In the verIfication_controller.ts file, check if you really do need `await` before the `deleteToken()` function because you use `await deleteToken()` once and `deleteToken()` for the rest of the instances.
 
 14. In the future, add more properties to the Blogs model like upvotes, favorites, etc. and display them on the archived blogs setting page as 'blog stats'
 
 15. Consider adding a character limit on the blog summary textarea AND Blog Title in the blog post form
 
 16. Add a 'save password' feature
+
+17. Style the blogs' delete and edit buttons

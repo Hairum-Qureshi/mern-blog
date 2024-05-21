@@ -129,7 +129,7 @@ async function updateBlogData(
 		return { status_code, updatedBlogData };
 	} catch (error) {
 		status_code = 500;
-		console.log("<blog_routes.ts>[122] ERROR", error);
+		console.log("<blog_routes.ts>[132] ERROR", error);
 	}
 
 	return { status_code };
