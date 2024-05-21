@@ -123,7 +123,7 @@ export interface BlogOperations {
 		blogContent: string
 	) => void;
 	loading: boolean;
-	getBlogData: (route_id: string) => void;
+	getBlogData: (route_id: string, blog_name: string) => void;
 	blogData: Blog | null;
 	editBlog: (
 		blogTitle: string,

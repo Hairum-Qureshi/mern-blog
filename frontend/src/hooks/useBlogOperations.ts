@@ -62,15 +62,17 @@ export default function useBlogOperations(): BlogOperations {
 					withCredentials: true
 				}
 			);
-			console.log(response);
+			if (response.data.status === 200) {
+				window.location.href = response.data.link;
+			}
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
-	async function getBlogData(route_id: string) {
+	async function getBlogData(route_id: string, blog_name: string) {
 		await axios
-			.get(`http://localhost:4000/api/blogs/blog/${route_id}`)
+			.get(`http://localhost:4000/api/blogs/blog/${route_id}/${blog_name}`)
 			.then(response => setBlogData(response.data))
 			.catch(error => console.log(error));
 	}

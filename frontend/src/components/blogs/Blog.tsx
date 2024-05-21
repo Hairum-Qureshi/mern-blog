@@ -7,15 +7,15 @@ import useAuthContext from "../../contexts/authContext";
 import useProfileData from "../../hooks/useProfileData";
 
 export default function Blog() {
-	const { blog_id } = useParams();
+	const { blog_id, blog_name } = useParams();
 	const { userData } = useAuthContext()!;
 	const { getBlogData, blogData } = useBlogOperations();
 	const navigate = useNavigate();
 	const { handlePublishStatus } = useProfileData();
 
 	useEffect(() => {
-		blog_id && getBlogData(blog_id);
-	}, [blog_id]);
+		blog_id && blog_name && getBlogData(blog_id, blog_name);
+	}, [blog_id, blog_name]);
 
 	const { deleteBlog } = useProfileData();
 

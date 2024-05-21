@@ -8,8 +8,12 @@ import { v2 as cloudinary } from "cloudinary";
 
 const getBlog = async (req: Request, res: Response) => {
 	const route_id: string = req.params.route_id;
+	const blog_name: string = req.params.blog_name;
 	try {
-		const blog: Blog_Interface | null = await Blog.findOne({ route_id });
+		const blog: Blog_Interface | null = await Blog.findOne({
+			route_id,
+			sanitized_title: blog_name
+		});
 		if (blog) {
 			res.status(200).send(blog);
 		} else {

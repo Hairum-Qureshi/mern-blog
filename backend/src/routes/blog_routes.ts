@@ -114,7 +114,8 @@ async function updateBlogData(
 								lower: true,
 								remove: /[*+~.()'"!:@]/g
 						  })
-			}
+			},
+			{ new: true } // returns the updated collection
 		)) as unknown as Blog_Interface;
 
 		if (uploadingImage && files_array !== undefined) {
@@ -201,7 +202,7 @@ router.put("/:blog_id/edit", upload.single("file"), (req, res) => {
 	});
 });
 
-router.get("/blog/:route_id", getBlog);
+router.get("/blog/:route_id/:blog_name", getBlog);
 
 router.get("/:user_id/all", getAllUserBlogs);
 
