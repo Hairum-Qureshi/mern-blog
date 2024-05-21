@@ -92,20 +92,22 @@ export default function Profile() {
 							<>
 								<button>FOLLOW</button>
 								<button>BLOCK</button>
-								{userData.postNotifEnabledAccounts.length === 0 ||
-								!userData.postNotifEnabledAccounts.includes(
-									userData.user_id
-								) ? (
+								{user_id &&
+								!userData.postNotifEnabledAccounts.includes(user_id) ? (
 									<button
 										title="Enable Post Notifications"
-										onClick={() => handleNotifications(user_id, true)}
+										onClick={() =>
+											user_id && handleNotifications(user_id, true)
+										}
 									>
 										<FontAwesomeIcon icon={faBellSlash} />
 									</button>
 								) : (
 									<button
 										title="Mute Post Notifications"
-										onClick={() => handleNotifications(user_id, false)}
+										onClick={() =>
+											user_id && handleNotifications(user_id, false)
+										}
 									>
 										<FontAwesomeIcon icon={faBell} />
 									</button>

@@ -68,7 +68,16 @@ export default function useProfileData(): ProfileTools {
 		user_id: string,
 		enableNotifications: boolean
 	) {
-		console.log(user_id, enableNotifications);
+		await axios.patch(
+			`http://localhost:4000/api/user/handle-post-notifications`,
+			{
+				user_id: user_id,
+				enableNotifications
+			},
+			{
+				withCredentials: true
+			}
+		);
 	}
 
 	return {

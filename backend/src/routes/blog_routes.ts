@@ -16,6 +16,7 @@ import {
 	deleteBlog
 } from "../controllers/blog_controller";
 import User from "../models/user";
+import { sendBlogPostNotifEmail } from "../nodemailer_files/nodemailer";
 const router = express.Router();
 
 // Prefix: /api/blogs
@@ -60,6 +61,30 @@ router.post("/post", upload.single("file"), (req, res) => {
 						{ _id: user_id },
 						{ num_blogs: blog_count + 1 }
 					);
+
+					// what if a user deletes their account?
+					if (
+						user.postNotifSubscriber_emails.length > 0 &&
+						user !== undefined
+					) {
+						for (let i = 0; i < user.postNotifSubscriber_emails.length; i++) {
+							const foundUser: User_Interface | undefined = await findUser(
+								user.postNotifSubscriber_emails[i]
+							);
+							if (foundUser !== undefined) {
+								const receiver_name = foundUser.first_name;
+								sendBlogPostNotifEmail(
+									user.first_name,
+									user.postNotifSubscriber_emails[i],
+									`http://localhost:5173/blogs/${blog.route_id}/${blog.sanitized_title}`,
+									blog.blog_title,
+									blog.blog_summary,
+									receiver_name,
+									`http://localhost:5173/user/${blog.user_id}/profile`
+								);
+							}
+						}
+					}
 
 					const status_code: number = await uploadToCloudinary(
 						user_id,
@@ -130,7 +155,7 @@ async function updateBlogData(
 		return { status_code, updatedBlogData };
 	} catch (error) {
 		status_code = 500;
-		console.log("<blog_routes.ts>[132] ERROR", error);
+		console.log("<blog_routes.ts>[133] ERROR", error);
 	}
 
 	return { status_code };

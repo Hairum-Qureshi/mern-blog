@@ -32,6 +32,7 @@ export interface User_Interface {
 	blocked_users: string[];
 	archived_blogs: string[];
 	postNotifEnabledAccounts: string[];
+	postNotifSubscriber_emails: string[];
 }
 
 export interface Token_Interface {

@@ -89,6 +89,12 @@ const userSchema = new Schema({
 		default: []
 	},
 	postNotifEnabledAccounts: {
+		// holds the user IDs of the accounts the user has post notifications enabled
+		type: [String],
+		default: []
+	},
+	postNotifSubscriber_emails: {
+		// holds the emails of other users that enabled notifications for the user
 		type: [String],
 		default: []
 	}

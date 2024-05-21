@@ -7,6 +7,7 @@ import Token from "../models/token";
 import mongoose from "mongoose";
 import { v2 as cloudinary } from "cloudinary";
 import { ObjectId } from "mongodb";
+import Blog from "../models/blog";
 
 export async function findUser(
 	email?: string,
@@ -291,6 +292,8 @@ const deleteAccount = async (req: Request, res: Response) => {
 			if (oldBackdropPublicID) {
 				cloudinary.uploader.destroy(oldBackdropPublicID);
 			}
+
+			await Blog.deleteMany({ user_id });
 
 			await User.deleteOne({
 				_id: user_id
