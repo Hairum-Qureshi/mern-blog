@@ -106,13 +106,15 @@
 
 .blogsContainer .blogBlock .blogPreviewContentContainer {
 	display: inline-flex;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .blogsContainer
 	.blogBlock
 	.blogPreviewContentContainer
 	.blogThumbnailContainer {
-	width: 600px;
+	width: 30%;
 	height: 130px;
 	border: 1px solid white;
 	margin-right: 10px;
@@ -141,6 +143,10 @@
 	color: white;
 	border: 1px solid rgb(7, 128, 214);
 	border-radius: 5px;
+}
+
+.blogsContainer .blogBlock .blogPreviewContentContainer .blogSummaryContainer {
+	width: 100%;
 }
 
 .blogsContainer
