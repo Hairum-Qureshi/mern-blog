@@ -1,18 +1,32 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useBlogOperations from "../../hooks/useBlogOperations";
 import { useEffect } from "react";
 import blog_css from "../../css/blog.module.css";
 import NotFound from "../NotFound";
 import useAuthContext from "../../contexts/authContext";
+import useProfileData from "../../hooks/useProfileData";
 
 export default function Blog() {
 	const { blog_id } = useParams();
-	const { userData, signOut } = useAuthContext()!;
+	const { userData } = useAuthContext()!;
 	const { getBlogData, blogData } = useBlogOperations();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		blog_id && getBlogData(blog_id);
 	}, [blog_id]);
+
+	const { deleteBlog } = useProfileData();
+
+	function removeBlog(blog_id: string, blog_title: string) {
+		const confirmation = confirm(
+			`Are you sure you would like to delete the blog "${blog_title}"? You will not be able to restore it once deleted`
+		);
+		if (confirmation) {
+			deleteBlog(blog_id);
+			navigate(`/user/${userData?.user_id}/profile`);
+		}
+	}
 
 	return blogData && blogData.message !== "blog not found" ? (
 		<div className={blog_css.blogContainer}>
@@ -32,7 +46,14 @@ export default function Blog() {
 				<div className={blog_css.buttonContainer}>
 					{userData && userData.user_id === blogData.user_id ? (
 						<>
-							<button>Delete Blog</button> <button>Edit Blog</button>
+							<button
+								onClick={() => removeBlog(blogData._id, blogData.blog_title)}
+							>
+								Delete Blog
+							</button>
+							<button onClick={() => navigate(`/blog/${blog_id}/edit`)}>
+								Edit Blog
+							</button>
 						</>
 					) : null}
 				</div>
