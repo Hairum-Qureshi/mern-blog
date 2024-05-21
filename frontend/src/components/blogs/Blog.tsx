@@ -84,7 +84,11 @@ export default function Blog() {
 							>
 								Delete Blog
 							</button>
-							<button onClick={() => navigate(`/blog/${blog_id}/edit`)}>
+							<button
+								onClick={() =>
+									navigate(`/blog/${blog_id}/${blogData.sanitized_title}/edit`)
+								}
+							>
 								Edit Blog
 							</button>
 						</>

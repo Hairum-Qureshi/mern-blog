@@ -188,7 +188,9 @@ export default function Blogs() {
 														title="Edit"
 														onClick={e => {
 															e.stopPropagation();
-															navigate(`/blog/${blog.route_id}/edit`);
+															navigate(
+																`/blog/${blog.route_id}/${blog.sanitized_title}/edit`
+															);
 														}}
 													>
 														<FontAwesomeIcon icon={faPenToSquare} />

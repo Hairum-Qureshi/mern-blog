@@ -10,18 +10,17 @@ export default function Form() {
 	const { getBlogData, blogData, postBlog, loading, editBlog } =
 		useBlogOperations();
 	const { userData } = useAuthContext()!;
-	const { blog_id, user_id } = useParams();
+	const { blog_id, user_id, blog_name } = useParams();
 
 	const location = useLocation().pathname;
 	const [blogTitle, setBlogTitle] = useState<string>();
 	const [blogSummary, setBlogSummary] = useState<string>();
 	const [thumbnail, setThumbnail] = useState<File>();
 	const [blogContent, setBlogContent] = useState<string>();
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (blog_id !== undefined) {
-			getBlogData(blog_id);
+			getBlogData(blog_id, blog_name);
 		}
 	}, [blog_id]);
 
