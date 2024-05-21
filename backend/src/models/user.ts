@@ -87,6 +87,10 @@ const userSchema = new Schema({
 	archived_blogs: {
 		type: [String],
 		default: []
+	},
+	postNotifEnabledAccounts: {
+		type: [String],
+		default: []
 	}
 });
 

@@ -72,6 +72,7 @@ export interface User {
 	message?: string;
 	blocked_users: string[];
 	archived_blogs: string[];
+	postNotifEnabledAccounts: string[];
 }
 
 export interface useSettingsTypes {
@@ -141,6 +142,7 @@ export interface ProfileTools {
 	handleArchiveStatus: (blog_id: string, archive_this: boolean) => void;
 	handlePublishStatus: (blog_id: string, publish_this: boolean) => void;
 	deleteBlog: (blog_id: string) => void;
+	handleNotifications: (user_id: string, enableNotifications: boolean) => void;
 }
 
 export interface BlogTools {

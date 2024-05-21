@@ -7,6 +7,8 @@ import Blogs from "./profile/Blogs";
 import { useEffect, useState } from "react";
 import profile_css from "../css/profile.module.css";
 import useProfileData from "../hooks/useProfileData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell, faBellSlash } from "@fortawesome/free-solid-svg-icons";
 
 // TODO - need to add a block button visible for users visiting other users' profile pages
 // TODO - add styling to the block button
@@ -18,7 +20,8 @@ export default function Profile() {
 	const { user_id } = useParams();
 	const navigate = useNavigate();
 	const { data } = useSettings();
-	const { getProfileData, userProfileData } = useProfileData();
+	const { getProfileData, userProfileData, handleNotifications } =
+		useProfileData();
 
 	useEffect(() => {
 		if (user_id) {
@@ -89,6 +92,24 @@ export default function Profile() {
 							<>
 								<button>FOLLOW</button>
 								<button>BLOCK</button>
+								{userData.postNotifEnabledAccounts.length === 0 ||
+								!userData.postNotifEnabledAccounts.includes(
+									userData.user_id
+								) ? (
+									<button
+										title="Enable Post Notifications"
+										onClick={() => handleNotifications(user_id, true)}
+									>
+										<FontAwesomeIcon icon={faBellSlash} />
+									</button>
+								) : (
+									<button
+										title="Mute Post Notifications"
+										onClick={() => handleNotifications(user_id, false)}
+									>
+										<FontAwesomeIcon icon={faBell} />
+									</button>
+								)}
 							</>
 						)}
 					</div>

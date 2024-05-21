@@ -31,6 +31,7 @@ export interface User_Interface {
 	cloudinaryBackdrop_ID: string;
 	blocked_users: string[];
 	archived_blogs: string[];
+	postNotifEnabledAccounts: string[];
 }
 
 export interface Token_Interface {

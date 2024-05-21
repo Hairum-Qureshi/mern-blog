@@ -64,12 +64,20 @@ export default function useProfileData(): ProfileTools {
 			.catch(error => alert(error));
 	}
 
+	async function handleNotifications(
+		user_id: string,
+		enableNotifications: boolean
+	) {
+		console.log(user_id, enableNotifications);
+	}
+
 	return {
 		getProfileData,
 		userProfileData,
 		blogs,
 		handleArchiveStatus,
 		handlePublishStatus,
-		deleteBlog
+		deleteBlog,
+		handleNotifications
 	};
 }

@@ -33,3 +33,5 @@
 16. Add a 'save password' feature
 
 17. Style the blogs' delete and edit buttons
+
+18. When the user deletes their account, make sure to delete all the blogs they've posted as well

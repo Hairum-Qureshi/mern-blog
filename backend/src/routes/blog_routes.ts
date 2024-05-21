@@ -146,7 +146,7 @@ router.put("/:blog_id/edit", upload.single("file"), (req, res) => {
 		const blog: Blog_Interface[] | null = await Blog.find({ route_id });
 
 		if (error) {
-			console.log("<blog_routes.ts>[89] ERROR", error);
+			console.log("<blog_routes.ts>[149] ERROR", error);
 		} else if (user_id !== undefined) {
 			if (blog && blog.length !== 0) {
 				if (files.length === 0) {

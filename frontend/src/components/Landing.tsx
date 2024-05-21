@@ -24,6 +24,7 @@ export default function Landing() {
 	// TODO - add a comment counter to each blog collection
 	// TODO - add a tag feature to the blog post form + collection
 	// TODO - need to implement pagination
+	// TODO - make it so that the newest blogs come first
 	// ! FIX - the image's width for the blog thumbnails aren't the same for all images
 
 	return userData && userData.message !== "user does not exist" ? (

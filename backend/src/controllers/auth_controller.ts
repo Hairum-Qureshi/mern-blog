@@ -227,7 +227,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				backdrop,
 				isGoogleAccount,
 				blocked_users,
-				archived_blogs
+				archived_blogs,
+				postNotifEnabledAccounts
 			} = user;
 
 			res.json({
@@ -248,7 +249,8 @@ const handleAuthenticatedUser = async (req: Request, res: Response) => {
 				backdrop,
 				isGoogleAccount,
 				blocked_users,
-				archived_blogs
+				archived_blogs,
+				postNotifEnabledAccounts
 			});
 		} else {
 			res.json({ message: "user does not exist" });
