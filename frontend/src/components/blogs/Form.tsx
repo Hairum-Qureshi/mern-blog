@@ -36,16 +36,16 @@ export default function Form() {
 	}, [blogData]);
 
 	// TODO - in the future, maybe add an option for users to select/add tags?
-	// TODO - [x] make the input accept only image files
 	// TODO - [ ] make the button disabled only if there is no thumbnail and blog summary
-	// TODO - [x] when user posts their blog, redirect to their blog
-	// TODO - [x] make it reusable so that it can handle editing blogs too
 	// TODO - [ ] need to figure out how to populate the file input so that it has the blog's thumbnail
 	// TODO - [ ] make the edit blog functionality work
 	// TODO - [x] need to lead user to the "create blog" form if they enter a blog ID to edit that doesn't exist
 	// 		  --> may need to lead users to a 404 page IF they somehow try and edit a blog with an existing ID that they don't own
-	// TODO - [ ] make the "confirm edits" button work
 	// TODO - [ ] need to lead user to a 404 page if they tamper with the user ID in the post blog route
+	// TODO - [ ] add character limit for the tags
+	// TODO - [ ] fix styling so that the tag div so it grows horizontally and not vertically
+	// TODO - [ ] add the styling to add a red asterisk besides the required fields
+	// TODO - [ ] improve error handling for the form by making sure all required fields are answered before submitting
 	// !RESOLVE: - [ ] (bug) resolve issue where when editing, you're not able to change the content in the inputs + textarea
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
@@ -53,6 +53,25 @@ export default function Form() {
 			const file = event.target.files[0];
 			setThumbnail(file);
 		}
+	}
+
+	const [tag, setTag] = useState<string>("");
+	const [tags, setTags] = useState<string[]>([]);
+
+	function createTag(e) {
+		if (e.key === "Enter") {
+			setTags([...tags, e.target.value]);
+			setTag("");
+		}
+	}
+
+	function deleteTag(index: number) {
+		const tagsCopy = [...tags];
+		const tagToRemove: string = tags[index];
+		const filteredTags: string[] = tagsCopy.filter(
+			(tag: string) => tag !== tagToRemove
+		);
+		setTags(filteredTags);
 	}
 
 	return userData &&
@@ -73,7 +92,9 @@ export default function Form() {
 							name="Blog Title"
 							placeholder="Blog Title"
 							value={blogTitle}
-							onChange={e => setBlogTitle(e.target.value)}
+							onChange={e => {
+								setBlogTitle(e.target.value);
+							}}
 						/>
 					</div>
 					<div className={form_css.section}>
@@ -98,6 +119,35 @@ export default function Form() {
 								onChange={handleThumbnailUpload}
 								accept="image/png, image/gif, image/jpeg"
 							/>
+						</div>
+					</div>
+					<div className={form_css.section}>
+						<label htmlFor="Blog Tags">
+							ENTER UP TO 5 TAGS (MINIMUM 1 TAG)
+						</label>
+						<div className={form_css.tagInput}>
+							{tags.map((tag: string, index: number) => {
+								return (
+									<div className={form_css.tag} key={index}>
+										<span className={form_css.text}>{tag}</span>
+										<span
+											className={form_css.closeBtn}
+											onClick={() => deleteTag(index)}
+										>
+											&times;
+										</span>
+									</div>
+								);
+							})}
+							{tags.length !== 5 ? (
+								<input
+									type="text"
+									value={tag}
+									placeholder="Hit the 'enter' key to add a tag"
+									onChange={e => setTag(e.target.value)}
+									onKeyDown={e => createTag(e)}
+								></input>
+							) : null}
 						</div>
 					</div>
 					<div className={form_css.section}>

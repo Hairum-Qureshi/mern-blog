@@ -30,6 +30,63 @@
 	margin-top: 20px;
 }
 
+.mainContent .form .section .tagInput {
+	border: 2px solid white;
+	display: flex; /* Use flexbox */
+	flex-wrap: wrap; /* Allow wrapping */
+	width: 100%;
+	box-sizing: border-box;
+	background-color: white;
+	color: black;
+	min-height: 40px;
+	max-height: auto;
+	border-radius: 3px;
+}
+
+.mainContent .form .section .tagInput .tag {
+	padding: 8px;
+	border-radius: 3px;
+	background-color: rgb(3, 63, 104);
+	color: white;
+	font-size: 15px;
+	text-transform: uppercase;
+	margin-right: 10px;
+	box-sizing: border-box;
+	margin: 5px 0 5px 5px;
+	display: flex; /* Activate flexbox */
+	align-items: center; /* Center vertically */
+}
+
+.mainContent .form .section .tagInput .closeBtn {
+	font-size: 20px;
+	margin-left: 20px;
+	background-color: #0766d3;
+	border-radius: 10%;
+	width: 20px;
+	height: 20px;
+	display: flex; /* Activate flexbox */
+	align-items: center; /* Center vertically */
+	justify-content: center; /* Center horizontally */
+	color: white; /* Ensure the text is visible against the background */
+}
+
+.mainContent .form .section .tagInput .closeBtn:hover {
+	cursor: pointer;
+}
+
+.mainContent .form .section .tagInput .closeBtn:active {
+	background-color: #054084;
+}
+
+.mainContent .form .section .tagInput input[type="text"] {
+	background: none;
+	outline: none;
+	margin-top: 0px;
+	padding-left: 5px;
+	width: auto;
+	box-sizing: border-box;
+}
+
 .mainContent .form .section label {
 	display: block;
 	margin-bottom: 5px;

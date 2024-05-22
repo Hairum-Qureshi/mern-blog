@@ -64,7 +64,7 @@ export default function Landing() {
 											<span>
 												<FontAwesomeIcon icon={faComment} />
 											</span>
-											<Link to="#">23 Comments</Link>
+											<Link to="#">{blog.comment_count} Comments</Link>
 											<span>
 												<FontAwesomeIcon icon={faTags} /> Tags:
 											</span>

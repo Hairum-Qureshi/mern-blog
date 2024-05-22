@@ -114,6 +114,8 @@ export interface Blog {
 	message?: string;
 	published: boolean;
 	archived: boolean;
+	tags: string[];
+	comment_count: number;
 }
 
 export interface BlogOperations {
