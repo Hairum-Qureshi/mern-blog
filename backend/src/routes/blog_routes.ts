@@ -62,7 +62,6 @@ router.post("/post", upload.single("file"), (req, res) => {
 						{ num_blogs: blog_count + 1 }
 					);
 
-					// what if a user deletes their account?
 					if (
 						user.postNotifSubscriber_emails.length > 0 &&
 						user !== undefined
@@ -81,6 +80,17 @@ router.post("/post", upload.single("file"), (req, res) => {
 									blog.blog_summary,
 									receiver_name,
 									`http://localhost:5173/user/${blog.user_id}/profile`
+								);
+							} else {
+								// Handles the condition where if a user has their account deleted, their email is still saved, so when the findUser() function cannot find that user based on the email provided, it will remove it from the array
+								await User.findByIdAndUpdate(
+									{ _id: user_id },
+									{
+										$pull: {
+											postNotifSubscriber_emails:
+												user.postNotifSubscriber_emails[i]
+										}
+									}
 								);
 							}
 						}
