@@ -34,25 +34,34 @@ router.post("/post", upload.single("file"), (req, res) => {
 			const user_id: mongoose.Types.ObjectId | undefined = req.session.user_id;
 			// TODO - may need to add a check to see if user_id is a valid Mongo ID (?)
 			if (user_id !== undefined) {
+				console.log("is string undefined", blogTitle === "undefined");
+				console.log("is null", blogTitle === null);
 				const user: User_Interface | undefined = await findUser(
 					undefined,
 					user_id
 				);
 				if (user !== undefined) {
 					const blog_count: number = user.num_blogs;
-
 					const blog = await Blog.create({
-						blog_title: blogTitle,
+						blog_title:
+							blogTitle && blogTitle !== "undefined"
+								? blogTitle
+								: "Untitled Blog",
 						user_id: user._id,
 						route_id: generateUniqueId({
 							length: 22,
 							excludeSymbols: ["_", "-"]
 						}),
 						blog_summary: blogSummary,
-						sanitized_title: slugify(blogTitle, {
-							lower: true,
-							remove: /[*+~.()'"!:@]/g
-						}),
+						sanitized_title: slugify(
+							blogTitle && blogTitle !== "undefined"
+								? blogTitle
+								: "Untitled Blog",
+							{
+								lower: true,
+								remove: /[*+~.()'"!:@]/g
+							}
+						),
 						blog_content: blogContent,
 						blog_author: user.full_name
 					});
@@ -133,7 +142,12 @@ async function updateBlogData(
 		const updatedBlogData: Blog_Interface = (await Blog.findByIdAndUpdate(
 			{ _id: blog[0]._id },
 			{
-				blog_title: blog[0].title === blogTitle ? blog[0].title : blogTitle,
+				blog_title:
+					blog[0].title === blogTitle
+						? blog[0].title
+							? blog[0].title
+							: "Untitled Blog"
+						: blogTitle,
 				blog_summary:
 					blog[0].blog_summary === blogSummary
 						? blog[0].blog_summary

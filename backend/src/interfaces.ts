@@ -56,6 +56,8 @@ export interface Blog_Interface {
 	published: boolean;
 	archived: boolean;
 	posted_date: Date;
+	tags: string[];
+	comment_count: number;
 }
 
 export interface BlogData {

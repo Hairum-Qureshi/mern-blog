@@ -62,6 +62,8 @@ router.patch("/handle-post-notifications", async (req, res) => {
 	const user: User_Interface | null = await User.findById({ _id: curr_uid });
 	let status = 200;
 
+	// When a user deletes their account, their email is still saved which needs to be
+
 	if (curr_uid !== undefined && user) {
 		if (enableNotifications) {
 			status = await updateRecord(curr_uid, user_id, user, true);

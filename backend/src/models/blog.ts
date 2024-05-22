@@ -49,6 +49,14 @@ const blogSchema = new Schema({
 	posted_date: {
 		type: Date,
 		default: Date.now
+	},
+	tags: {
+		type: [String],
+		default: []
+	},
+	comment_count: {
+		type: Number,
+		default: 0
 	}
 });
 
