@@ -16,7 +16,7 @@ export default function useBlogOperations(): BlogOperations {
 		const formData = new FormData();
 		formData.append("file", thumbnail);
 		formData.append("image_type", "blog_thumbnail");
-		formData.append("blogTitle", blogTitle);
+		formData.append("blogTitle", !blogTitle ? "Untitled Blog" : blogTitle);
 		formData.append("blogSummary", blogSummary);
 		formData.append("blogContent", blogContent);
 		formData.append("blogTags", JSON.stringify(blogTags));
@@ -54,7 +54,7 @@ export default function useBlogOperations(): BlogOperations {
 			const formData = new FormData();
 			formData.append("file", thumbnail);
 			formData.append("image_type", "thumbnail");
-			formData.append("blogTitle", blogTitle);
+			formData.append("blogTitle", !blogTitle ? "Untitled Blog" : blogTitle);
 			formData.append("blogSummary", blogSummary);
 			formData.append("blogContent", blogContent);
 			formData.append("blogTags", JSON.stringify(blogTags));

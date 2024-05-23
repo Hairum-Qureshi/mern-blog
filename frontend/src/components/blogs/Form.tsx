@@ -21,7 +21,7 @@ export default function Form() {
 	const [blogTags, setBlogTags] = useState<string[]>([]);
 
 	useEffect(() => {
-		if (blog_id !== undefined) {
+		if (blog_id !== undefined && blog_name !== undefined) {
 			getBlogData(blog_id, blog_name);
 		}
 	}, [blog_id]);
@@ -33,9 +33,6 @@ export default function Form() {
 			setBlogContent(blogData.blog_content);
 			setBlogTags(blogData?.tags);
 		}
-		// else {
-		// 	navigate(`/user/${userData?.user_id}/blog/create`);
-		// }
 	}, [blogData]);
 
 	// TODO - in the future, maybe add an option for users to select/add tags?
@@ -50,7 +47,8 @@ export default function Form() {
 	// TODO - [ ] need to update the edit blog form so it also has the option to showcase the user's tags for that blog
 	// 		  --> will also need to add a check to make sure the user has at least 1 tag provided before posting a blog and editing
 	//            a blog
-	// !RESOLVE: - [ ] (bug) resolve issue where when editing, you're not able to change the content in the inputs + textarea
+	// TODO - [ ] add feature where if you hit the back space, you can re-edit the previous tag/delete it
+	// !RESOLVE: - [ ] (bug) you can't seem to edit the body content of the blog's editor when trying to edit it
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {
@@ -119,7 +117,7 @@ export default function Form() {
 						></textarea>
 					</div>
 					<div className={form_css.section}>
-						<label htmlFor="Blog Cover Photo">
+						<label htmlFor="blog-cover-photo">
 							{location.includes("edit")
 								? "UPLOAD A NEW THUMBNAIL (leaving this blank will keep your old thumbnail)"
 								: "UPLOAD THUMBNAIL"}
@@ -127,7 +125,8 @@ export default function Form() {
 						<div className={form_css.input_container}>
 							<input
 								type="file"
-								name="Blog Cover Photo"
+								id="blog-cover-photo"
+								name="blog-cover-photo"
 								onChange={handleThumbnailUpload}
 								accept="image/png, image/gif, image/jpeg"
 							/>

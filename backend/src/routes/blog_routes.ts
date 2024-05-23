@@ -42,10 +42,7 @@ router.post("/post", upload.single("file"), (req, res) => {
 				if (user !== undefined) {
 					const blog_count: number = user.num_blogs;
 					const blog = await Blog.create({
-						blog_title:
-							blogTitle && blogTitle !== "undefined"
-								? blogTitle
-								: "Untitled Blog",
+						blog_title: blogTitle,
 						user_id: user._id,
 						route_id: generateUniqueId({
 							length: 22,
@@ -157,12 +154,7 @@ async function updateBlogData(
 		const updatedBlogData: Blog_Interface = (await Blog.findByIdAndUpdate(
 			{ _id: blog[0]._id },
 			{
-				blog_title:
-					blog[0].title === blogTitle
-						? blog[0].title
-							? blog[0].title
-							: "Untitled Blog"
-						: blogTitle,
+				blog_title: blog[0].title === blogTitle ? blog[0].title : blogTitle,
 				blog_summary:
 					blog[0].blog_summary === blogSummary
 						? blog[0].blog_summary
@@ -195,7 +187,7 @@ async function updateBlogData(
 		return { status_code, updatedBlogData };
 	} catch (error) {
 		status_code = 500;
-		console.log("<blog_routes.ts>[133] ERROR", error);
+		console.log("<blog_routes.ts> [198] ERROR", error);
 	}
 
 	return { status_code };
@@ -212,7 +204,7 @@ router.put("/:blog_id/edit", upload.single("file"), (req, res) => {
 		const blog: Blog_Interface[] | null = await Blog.find({ route_id });
 
 		if (error) {
-			console.log("<blog_routes.ts>[149] ERROR", error);
+			console.log("<blog_routes.ts> [215] ERROR", error);
 		} else if (user_id !== undefined) {
 			if (blog && blog.length !== 0) {
 				if (files.length === 0) {
