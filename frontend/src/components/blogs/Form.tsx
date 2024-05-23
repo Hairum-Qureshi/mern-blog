@@ -5,6 +5,7 @@ import useBlogOperations from "../../hooks/useBlogOperations";
 import useAuthContext from "../../contexts/authContext";
 import { useLocation, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
+import AlertPopUp from "../AlertPopUp";
 
 export default function Form() {
 	const { getBlogData, blogData, postBlog, loading, editBlog } =
@@ -19,6 +20,11 @@ export default function Form() {
 	const [blogContent, setBlogContent] = useState<string>();
 	const [tag, setTag] = useState<string>("");
 	const [blogTags, setBlogTags] = useState<string[]>([]);
+	const [showPopUp, setShowPopUp] = useState(false);
+	const [popUpData, setPopUpData] = useState({
+		symbol: "",
+		message: ""
+	});
 
 	useEffect(() => {
 		if (blog_id !== undefined && blog_name !== undefined) {
@@ -48,7 +54,6 @@ export default function Form() {
 	// 		  --> will also need to add a check to make sure the user has at least 1 tag provided before posting a blog and editing
 	//            a blog
 	// TODO - [ ] add feature where if you hit the back space, you can re-edit the previous tag/delete it
-	// !RESOLVE: - [ ] (bug) you can't seem to edit the body content of the blog's editor when trying to edit it
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {
@@ -57,11 +62,24 @@ export default function Form() {
 		}
 	}
 
+	function resetPopUpState() {
+		setTimeout(() => {
+			setShowPopUp(false);
+			setPopUpData({ symbol: "", message: "" });
+		}, 1000);
+	}
+
 	function createTag(e: React.KeyboardEvent<HTMLInputElement>) {
 		if (e.key === "Enter") {
 			const inputElement = e.target as HTMLInputElement;
-			if (blogTags.includes(inputElement.value.trim())) {
-				alert("Duplicate tag");
+			if (!inputElement.value.trim()) {
+				setShowPopUp(true);
+				setPopUpData({ symbol: "⚠️", message: "Please enter a tag" });
+				resetPopUpState();
+			} else if (blogTags.includes(inputElement.value.trim())) {
+				setShowPopUp(true);
+				setPopUpData({ symbol: "⚠️", message: "No duplicate tags" });
+				resetPopUpState();
 			} else {
 				setBlogTags([
 					...blogTags,
@@ -88,6 +106,14 @@ export default function Form() {
 		(userData.user_id === user_id ||
 			userData.message !== "user does not exist") ? (
 		<>
+			{showPopUp ? (
+				<AlertPopUp>
+					<p>
+						<span>{popUpData.symbol}</span> &nbsp;
+						{popUpData.message}
+					</p>
+				</AlertPopUp>
+			) : null}
 			<div className={form_css.mainContent}>
 				{location.includes("edit") ? (
 					<h1>EDIT BLOG</h1>
@@ -179,9 +205,7 @@ export default function Form() {
 								],
 								branding: false
 							}}
-							value={
-								blog_id === undefined ? blogContent : blogData?.blog_content
-							}
+							value={blogContent}
 							onEditorChange={content => setBlogContent(content)}
 						/>
 					</div>

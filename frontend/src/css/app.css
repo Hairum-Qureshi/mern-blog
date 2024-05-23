@@ -81,3 +81,19 @@ footer h2 {
 	font-family: "Lato", sans-serif;
 	font-weight: 500;
 }
+
+.alert {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 80%;
+	max-width: 500px;
+	background-color: #da2f1c;
+	color: white;
+	border-radius: 5px;
+	padding: 10px;
+	box-shadow: 0 2px 5px rgba(167, 59, 5, 0.2);
+	z-index: 999;
+	border: 2px solid rgb(183, 16, 4);
+}
