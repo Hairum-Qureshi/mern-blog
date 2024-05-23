@@ -45,10 +45,8 @@ export default function Form() {
 	// TODO - [x] need to lead user to the "create blog" form if they enter a blog ID to edit that doesn't exist
 	// 		  --> may need to lead users to a 404 page IF they somehow try and edit a blog with an existing ID that they don't own
 	// TODO - [ ] need to lead user to a 404 page if they tamper with the user ID in the post blog route
-	// TODO - [ ] fix styling so that the tag div so it grows horizontally and not vertically
 	// TODO - [ ] add the styling to add a red asterisk besides the required fields
 	// TODO - [ ] improve error handling for the form by making sure all required fields are answered before submitting
-	// TODO - [ ] try and figure out how to have the input field for the tags to be longer and stay on the same line as the tags and not get pushed down; only if there's not much space left for it, the input can move to the next line
 	// TODO - [ ] need to update the edit blog form so it also has the option to showcase the user's tags for that blog
 	// 		  --> will also need to add a check to make sure the user has at least 1 tag provided before posting a blog and editing
 	//            a blog
@@ -64,8 +62,18 @@ export default function Form() {
 	function createTag(e: React.KeyboardEvent<HTMLInputElement>) {
 		if (e.key === "Enter") {
 			const inputElement = e.target as HTMLInputElement;
-			setBlogTags([...blogTags, inputElement.value]);
-			setTag("");
+			if (blogTags.includes(inputElement.value.trim())) {
+				alert("Duplicate tag");
+			} else {
+				setBlogTags([
+					...blogTags,
+					inputElement.value
+						.trim()
+						.replace(/['",!@#$%^&*()_+\-=[\]{}|\\:;,.<>?/~`]/g, "")
+						.replace(/\s+/g, "-")
+				]);
+				setTag("");
+			}
 		}
 	}
 
