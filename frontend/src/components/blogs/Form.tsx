@@ -54,6 +54,7 @@ export default function Form() {
 	// 		  --> will also need to add a check to make sure the user has at least 1 tag provided before posting a blog and editing
 	//            a blog
 	// TODO - [ ] add feature where if you hit the back space, you can re-edit the previous tag/delete it
+	// TODO - [ ] add loading message when user makes edits to a blog
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {
