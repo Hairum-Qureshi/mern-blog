@@ -3,7 +3,7 @@ import form_css from "../../css/form.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 import useBlogOperations from "../../hooks/useBlogOperations";
 import useAuthContext from "../../contexts/authContext";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 
 export default function Form() {
@@ -17,6 +17,8 @@ export default function Form() {
 	const [blogSummary, setBlogSummary] = useState<string>();
 	const [thumbnail, setThumbnail] = useState<File>();
 	const [blogContent, setBlogContent] = useState<string>();
+	const [tag, setTag] = useState<string>("");
+	const [blogTags, setBlogTags] = useState<string[]>([]);
 
 	useEffect(() => {
 		if (blog_id !== undefined) {
@@ -29,6 +31,7 @@ export default function Form() {
 			setBlogTitle(blogData.blog_title);
 			setBlogSummary(blogData.blog_summary);
 			setBlogContent(blogData.blog_content);
+			setBlogTags(blogData?.tags);
 		}
 		// else {
 		// 	navigate(`/user/${userData?.user_id}/blog/create`);
@@ -42,10 +45,13 @@ export default function Form() {
 	// TODO - [x] need to lead user to the "create blog" form if they enter a blog ID to edit that doesn't exist
 	// 		  --> may need to lead users to a 404 page IF they somehow try and edit a blog with an existing ID that they don't own
 	// TODO - [ ] need to lead user to a 404 page if they tamper with the user ID in the post blog route
-	// TODO - [ ] add character limit for the tags
 	// TODO - [ ] fix styling so that the tag div so it grows horizontally and not vertically
 	// TODO - [ ] add the styling to add a red asterisk besides the required fields
 	// TODO - [ ] improve error handling for the form by making sure all required fields are answered before submitting
+	// TODO - [ ] try and figure out how to have the input field for the tags to be longer and stay on the same line as the tags and not get pushed down; only if there's not much space left for it, the input can move to the next line
+	// TODO - [ ] need to update the edit blog form so it also has the option to showcase the user's tags for that blog
+	// 		  --> will also need to add a check to make sure the user has at least 1 tag provided before posting a blog and editing
+	//            a blog
 	// !RESOLVE: - [ ] (bug) resolve issue where when editing, you're not able to change the content in the inputs + textarea
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
@@ -55,23 +61,21 @@ export default function Form() {
 		}
 	}
 
-	const [tag, setTag] = useState<string>("");
-	const [tags, setTags] = useState<string[]>([]);
-
-	function createTag(e) {
+	function createTag(e: React.KeyboardEvent<HTMLInputElement>) {
 		if (e.key === "Enter") {
-			setTags([...tags, e.target.value]);
+			const inputElement = e.target as HTMLInputElement;
+			setBlogTags([...blogTags, inputElement.value]);
 			setTag("");
 		}
 	}
 
 	function deleteTag(index: number) {
-		const tagsCopy = [...tags];
-		const tagToRemove: string = tags[index];
+		const tagsCopy = [...blogTags];
+		const tagToRemove: string = blogTags[index];
 		const filteredTags: string[] = tagsCopy.filter(
 			(tag: string) => tag !== tagToRemove
 		);
-		setTags(filteredTags);
+		setBlogTags(filteredTags);
 	}
 
 	return userData &&
@@ -126,7 +130,7 @@ export default function Form() {
 							ENTER UP TO 5 TAGS (MINIMUM 1 TAG)
 						</label>
 						<div className={form_css.tagInput}>
-							{tags.map((tag: string, index: number) => {
+							{blogTags.map((tag: string, index: number) => {
 								return (
 									<div className={form_css.tag} key={index}>
 										<span className={form_css.text}>{tag}</span>
@@ -139,9 +143,10 @@ export default function Form() {
 									</div>
 								);
 							})}
-							{tags.length !== 5 ? (
+							{blogTags.length !== 5 ? (
 								<input
 									type="text"
+									maxLength={15}
 									value={tag}
 									placeholder="Hit the 'enter' key to add a tag"
 									onChange={e => setTag(e.target.value)}
@@ -183,7 +188,8 @@ export default function Form() {
 										blogSummary,
 										thumbnail,
 										blogContent,
-										blog_id
+										blog_id,
+										blogTags
 									)
 								}
 							>
@@ -194,7 +200,13 @@ export default function Form() {
 								className={form_css.postBtn}
 								disabled={!blogSummary && !thumbnail}
 								onClick={() =>
-									postBlog(blogTitle, blogSummary, thumbnail, blogContent)
+									postBlog(
+										blogTitle,
+										blogSummary,
+										thumbnail,
+										blogContent,
+										blogTags
+									)
 								}
 							>
 								{loading ? "LOADING..." : "POST"}

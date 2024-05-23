@@ -25,7 +25,7 @@ const blogSchema = new Schema({
 	},
 	blog_content: {
 		type: String,
-		default: "There is currently no content"
+		default: "There is currently no content provided for this blog."
 	},
 	blog_author: {
 		type: String,

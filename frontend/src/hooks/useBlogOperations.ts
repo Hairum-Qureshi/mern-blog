@@ -10,7 +10,8 @@ export default function useBlogOperations(): BlogOperations {
 		blogTitle: string,
 		blogSummary: string,
 		thumbnail: File,
-		blogContent: string
+		blogContent: string,
+		blogTags: string[]
 	) {
 		const formData = new FormData();
 		formData.append("file", thumbnail);
@@ -18,6 +19,7 @@ export default function useBlogOperations(): BlogOperations {
 		formData.append("blogTitle", blogTitle);
 		formData.append("blogSummary", blogSummary);
 		formData.append("blogContent", blogContent);
+		formData.append("blogTags", JSON.stringify(blogTags));
 
 		try {
 			setLoading(true);
@@ -45,7 +47,8 @@ export default function useBlogOperations(): BlogOperations {
 		blogSummary: string,
 		thumbnail: File,
 		blogContent: string,
-		route_id: string
+		route_id: string,
+		blogTags: string[]
 	) {
 		try {
 			const formData = new FormData();
@@ -54,6 +57,7 @@ export default function useBlogOperations(): BlogOperations {
 			formData.append("blogTitle", blogTitle);
 			formData.append("blogSummary", blogSummary);
 			formData.append("blogContent", blogContent);
+			formData.append("blogTags", JSON.stringify(blogTags));
 
 			const response = await axios.put(
 				`http://localhost:4000/api/blogs/${route_id}/edit`,

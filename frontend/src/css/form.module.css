@@ -83,7 +83,9 @@
 	outline: none;
 	margin-top: 0px;
 	padding-left: 5px;
-	width: auto;
+	/* width: auto;
+	min-width: 100%; */
+	width: inherit;
 	box-sizing: border-box;
 }
 

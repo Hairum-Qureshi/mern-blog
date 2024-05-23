@@ -68,8 +68,13 @@ export default function Landing() {
 											<span>
 												<FontAwesomeIcon icon={faTags} /> Tags:
 											</span>
-											<div className={landing_css.tag}>home</div>
-											<div className={landing_css.tag}>cooking</div>
+											{blog.tags.map((tag: string, index: number) => {
+												return (
+													<div className={landing_css.tag} key={index}>
+														{tag.toUpperCase()}
+													</div>
+												);
+											})}
 										</p>
 									</div>
 									<hr />

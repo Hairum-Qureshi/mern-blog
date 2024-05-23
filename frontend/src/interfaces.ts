@@ -123,7 +123,8 @@ export interface BlogOperations {
 		blogTitle: string,
 		blogSummary: string,
 		thumbnail: File,
-		blogContent: string
+		blogContent: string,
+		blogTags: string[]
 	) => void;
 	loading: boolean;
 	getBlogData: (route_id: string, blog_name: string) => void;
@@ -133,7 +134,8 @@ export interface BlogOperations {
 		blogSummary: string,
 		thumbnail: File,
 		blogContent: string,
-		route_id: string
+		route_id: string,
+		blogTags: string[]
 	) => void;
 }
 

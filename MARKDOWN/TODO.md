@@ -33,3 +33,5 @@
 16. Add a 'save password' feature
 
 17. Style the blogs' delete and edit buttons
+
+18. Modify the logic to handle blog post notification emails where if a user X has blog post notifications enabled for user Y, but block user Y, remove user X's email from user Y's array containing notification subscribers and vice versa if user Y blocks user X.

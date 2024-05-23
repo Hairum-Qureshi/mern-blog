@@ -24,18 +24,17 @@ const router = express.Router();
 router.post("/post", upload.single("file"), (req, res) => {
 	// TODO - *might* need to find a new Node module to handle text sanitation so it'd be URL friendly
 
-	const { image_type, blogTitle, blogSummary, blogContent } = req.body;
+	const { image_type, blogTitle, blogSummary, blogContent, blogTags } =
+		req.body;
 
 	fs.readdir(FOLDER_PATH, async (err, files) => {
 		if (err) {
-			console.error("<blog_routes.ts> [30] Error reading folder:", err);
+			console.error("<blog_routes.ts> [31] Error reading folder:", err);
 		} else {
 			const files_array: string[] = files;
 			const user_id: mongoose.Types.ObjectId | undefined = req.session.user_id;
 			// TODO - may need to add a check to see if user_id is a valid Mongo ID (?)
 			if (user_id !== undefined) {
-				console.log("is string undefined", blogTitle === "undefined");
-				console.log("is null", blogTitle === null);
 				const user: User_Interface | undefined = await findUser(
 					undefined,
 					user_id
@@ -63,7 +62,8 @@ router.post("/post", upload.single("file"), (req, res) => {
 							}
 						),
 						blog_content: blogContent,
-						blog_author: user.full_name
+						blog_author: user.full_name,
+						tags: JSON.parse(blogTags)
 					});
 
 					await User.findByIdAndUpdate(
@@ -126,11 +126,26 @@ router.post("/post", upload.single("file"), (req, res) => {
 	});
 });
 
+function compareArrays(dbTags: string[], bodyTags: string[]): boolean {
+	if (dbTags.length !== bodyTags.length) {
+		return false;
+	}
+
+	for (let i = 0; i < dbTags.length; i++) {
+		if (dbTags[i] !== bodyTags[i]) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
 async function updateBlogData(
 	blog: Blog_Interface[],
 	blogTitle: string,
 	blogSummary: string,
 	blogContent: string,
+	blogTags: string[],
 	uploadingImage: boolean,
 	user_id: mongoose.Types.ObjectId,
 	image_type: string,
@@ -162,7 +177,8 @@ async function updateBlogData(
 						: slugify(blogTitle, {
 								lower: true,
 								remove: /[*+~.()'"!:@]/g
-						  })
+						  }),
+				tags: compareArrays(blog[0].tags, blogTags) ? blog[0].tags : blogTags
 			},
 			{ new: true } // returns the updated collection
 		)) as unknown as Blog_Interface;
@@ -186,7 +202,8 @@ async function updateBlogData(
 }
 
 router.put("/:blog_id/edit", upload.single("file"), (req, res) => {
-	const { image_type, blogTitle, blogSummary, blogContent } = req.body;
+	const { image_type, blogTitle, blogSummary, blogContent, blogTags } =
+		req.body;
 	const user_id = req.session.user_id;
 	const route_id = req.params.blog_id;
 
@@ -205,6 +222,7 @@ router.put("/:blog_id/edit", upload.single("file"), (req, res) => {
 						blogTitle,
 						blogSummary,
 						blogContent,
+						JSON.parse(blogTags),
 						false,
 						user_id,
 						image_type
@@ -226,6 +244,7 @@ router.put("/:blog_id/edit", upload.single("file"), (req, res) => {
 						blogTitle,
 						blogSummary,
 						blogContent,
+						blogTags,
 						true,
 						user_id,
 						image_type,
