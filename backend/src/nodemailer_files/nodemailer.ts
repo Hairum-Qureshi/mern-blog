@@ -90,7 +90,7 @@ async function sendBlogPostNotifEmail(
 			from: process.env.EMAIL,
 			to: email,
 			subject: `[DIGITAL DIALOGUE] ${author_name} just posted a new blog!`,
-			html: `Hello, ${receiver_name}! You've subscribed to receiving blog post notifications whenever ${author_name} makes a new post. They just posted a new blog titled "${blog_title}" and it's about: <br /> <br /> <i>${blog_summary}</i>. <br /> <br /> If you find this to be an interesting read, <a href = "${blog_link}">click here to read it</a>! <br /> <br /> <b><i>If you would like to stop receiving post notifications from this user, <a href = "${profile_link}">click here to visit their profile</a>. From there, re-click the bell icon to mute notifications for this user.</i></b>`
+			html: `Hello, ${receiver_name}! You've subscribed to receiving blog post notifications whenever ${author_name} makes a new post. They just posted a new blog titled "${blog_title}" and it's about: <br /> <br /> <i>${blog_summary}</i>. <br /> <br /> If you find this to be an interesting read, <a href = "${blog_link}">click here to read it</a>! <br /> <br /> Please note that if you attempt to read the linked blog and you're redirected to a 404 page, the blog may be archived, unpublished, or deleted. This is not an error on our end. <br /> <br /> <b><i>If you would like to stop receiving post notifications from this user, <a href = "${profile_link}">click here to visit their profile</a>. From there, re-click the bell icon to mute notifications from this user.</i></b>`
 		});
 		return 200;
 	} catch (error) {
