@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router-dom";
 
 export default function useBlogData(): BlogTools {
 	const [blogs, setBlogs] = useState<Blog[]>([]);
+	const [errorMessage, setErrorMessage] = useState<string | undefined>();
 	const [totalPages, setTotalPages] = useState(0);
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -19,11 +20,11 @@ export default function useBlogData(): BlogTools {
 					setBlogs(response.data.all_blogs);
 					setTotalPages(response.data.totalPages);
 				})
-				.catch(error => console.log(error));
+				.catch(error => setErrorMessage(error.response.data.message));
 		}
 
 		getBlogData();
 	}, [searchParams]);
 
-	return { blogs, totalPages };
+	return { blogs, totalPages, errorMessage };
 }

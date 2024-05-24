@@ -53,7 +53,6 @@ export default function Form() {
 	// TODO - [ ] need to update the edit blog form so it also has the option to showcase the user's tags for that blog
 	// 		  --> will also need to add a check to make sure the user has at least 1 tag provided before posting a blog and editing
 	//            a blog
-	// TODO - [ ] add feature where if you hit the back space, you can re-edit the previous tag/delete it
 	// TODO - [ ] add loading message when user makes edits to a blog
 	// TODO - [ ] maybe on the edit page, display the blog's current thumbnail image
 
@@ -72,8 +71,8 @@ export default function Form() {
 	}
 
 	function createTag(e: React.KeyboardEvent<HTMLInputElement>) {
+		const inputElement = e.target as HTMLInputElement;
 		if (e.key === "Enter") {
-			const inputElement = e.target as HTMLInputElement;
 			if (!inputElement.value.trim()) {
 				setShowPopUp(true);
 				setPopUpData({ symbol: "⚠️", message: "Please enter a tag" });
@@ -91,6 +90,14 @@ export default function Form() {
 						.replace(/\s+/g, "-")
 				]);
 				setTag("");
+			}
+		} else if (e.key === "Backspace") {
+			if (blogTags.length > 0 && !inputElement.value) {
+				const index = blogTags.length - 1;
+				const previousTag = blogTags[index];
+				const filteredTags = blogTags.slice(0, index); // Remove the last tag
+				setBlogTags(filteredTags); // Update the blogTags state with the filtered tags
+				setTag(previousTag + " "); // Set the previous tag in the input field with a space for editing
 			}
 		}
 	}
