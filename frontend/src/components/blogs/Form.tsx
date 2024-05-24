@@ -111,6 +111,50 @@ export default function Form() {
 		setBlogTags(filteredTags);
 	}
 
+	function verify(mode: string) {
+		switch (mode) {
+			case "post":
+				if (!blogSummary || !blogContent || thumbnail === undefined) {
+					setShowPopUp(true);
+					setPopUpData({
+						symbol: "⚠️",
+						message: "Please fill in the required fields"
+					});
+					resetPopUpState();
+				} else if (blogTags.length < 1) {
+					setShowPopUp(true);
+					setPopUpData({ symbol: "⚠️", message: "Please add at least 1 tag" });
+					resetPopUpState();
+				} else {
+					postBlog(blogTitle, blogSummary, thumbnail, blogContent, blogTags);
+				}
+				break;
+			case "edit":
+				if (!blogSummary || !blogContent) {
+					setShowPopUp(true);
+					setPopUpData({
+						symbol: "⚠️",
+						message: "Please fill in the required fields"
+					});
+					resetPopUpState();
+				} else if (blogTags.length < 1) {
+					setShowPopUp(true);
+					setPopUpData({ symbol: "⚠️", message: "Please add at least 1 tag" });
+					resetPopUpState();
+				} else {
+					editBlog(
+						blogTitle,
+						blogSummary,
+						thumbnail,
+						blogContent,
+						blog_id,
+						blogTags
+					);
+				}
+				break;
+		}
+	}
+
 	return userData &&
 		(userData.user_id === user_id ||
 			userData.message !== "user does not exist") ? (
@@ -143,7 +187,10 @@ export default function Form() {
 						/>
 					</div>
 					<div className={form_css.section}>
-						<label htmlFor="Blog Summary">BLOG SUMMARY</label>
+						<label htmlFor="Blog Summary">
+							BLOG SUMMARY&nbsp;
+							<span className={form_css.requiredAsterisk}>*</span>
+						</label>
 						<textarea
 							name="Blog Summary"
 							placeholder="Blog Summary"
@@ -156,6 +203,7 @@ export default function Form() {
 							{location.includes("edit")
 								? "UPLOAD A NEW THUMBNAIL (leaving this blank will keep your old thumbnail)"
 								: "UPLOAD THUMBNAIL"}
+							&nbsp;<span className={form_css.requiredAsterisk}>*</span>
 						</label>
 						<div className={form_css.input_container}>
 							<input
@@ -169,7 +217,8 @@ export default function Form() {
 					</div>
 					<div className={form_css.section}>
 						<label htmlFor="Blog Tags">
-							ENTER UP TO 5 TAGS (MINIMUM 1 TAG)
+							ENTER UP TO 5 TAGS (MINIMUM 1 TAG)&nbsp;
+							<span className={form_css.requiredAsterisk}>*</span>
 						</label>
 						<div className={form_css.tagInput}>
 							{blogTags.map((tag: string, index: number) => {
@@ -198,10 +247,11 @@ export default function Form() {
 						</div>
 					</div>
 					<div className={form_css.section}>
-						<label htmlFor="Blog Content">BLOG CONTENT</label>
+						<label htmlFor="Blog Content">
+							BLOG CONTENT <span className={form_css.requiredAsterisk}>*</span>
+						</label>
 						<Editor
 							apiKey="3yf5k1pk6g0p91zk31p0b21v6t866snm11z992jm62zc2cqb"
-							// initialValue="<p>This is the initial content of the editor.</p>"
 							init={{
 								plugins:
 									"anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker",
@@ -222,32 +272,14 @@ export default function Form() {
 						{location.includes("edit") ? (
 							<button
 								className={form_css.postBtn}
-								onClick={() =>
-									editBlog(
-										blogTitle,
-										blogSummary,
-										thumbnail,
-										blogContent,
-										blog_id,
-										blogTags
-									)
-								}
+								onClick={() => verify("edit")}
 							>
 								{loading ? "LOADING..." : "CONFIRM EDITS"}
 							</button>
 						) : (
 							<button
 								className={form_css.postBtn}
-								disabled={!blogSummary && !thumbnail}
-								onClick={() =>
-									postBlog(
-										blogTitle,
-										blogSummary,
-										thumbnail,
-										blogContent,
-										blogTags
-									)
-								}
+								onClick={() => verify("post")}
 							>
 								{loading ? "LOADING..." : "POST"}
 							</button>

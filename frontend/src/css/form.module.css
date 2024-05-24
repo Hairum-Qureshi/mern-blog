@@ -30,6 +30,10 @@
 	margin-top: 20px;
 }
 
+.mainContent .form .section .requiredAsterisk {
+	color: red;
+}
+
 .mainContent .form .section .tagInput {
 	border: 2px solid white;
 	display: flex; /* Use flexbox */

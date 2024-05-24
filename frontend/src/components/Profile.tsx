@@ -9,6 +9,7 @@ import profile_css from "../css/profile.module.css";
 import useProfileData from "../hooks/useProfileData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faBellSlash } from "@fortawesome/free-solid-svg-icons";
+import SavedBlogs from "./profile/SavedBlogs";
 
 // TODO - need to add a block button visible for users visiting other users' profile pages
 // TODO - add styling to the block button
@@ -157,9 +158,21 @@ export default function Profile() {
 					>
 						<h3>BLOG POSTS</h3>
 					</div>
+					<div
+						className={profile_css.navButton}
+						onClick={() => setSelectedTab("saved-blogs")}
+					>
+						<h3>SAVED BLOGS</h3>
+					</div>
 				</div>
 				<div className={profile_css.content}>
-					{selectedTab === "biography" ? <Biography /> : <Blogs />}
+					{selectedTab === "biography" ? (
+						<Biography />
+					) : selectedTab === "blogs" ? (
+						<Blogs />
+					) : "saved-blogs" ? (
+						<SavedBlogs />
+					) : null}
 				</div>
 			</div>
 		</div>

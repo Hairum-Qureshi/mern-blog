@@ -119,7 +119,7 @@
 	box-sizing: border-box;
 }
 
-.bottomSection .navigation .navButton:first-of-type {
+.bottomSection .navigation .navButton {
 	border-right: 2px solid rgb(74, 204, 255);
 }
 
