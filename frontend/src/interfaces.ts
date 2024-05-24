@@ -151,4 +151,5 @@ export interface ProfileTools {
 
 export interface BlogTools {
 	blogs: Blog[];
+	totalPages: number;
 }

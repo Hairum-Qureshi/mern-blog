@@ -55,6 +55,7 @@ export default function Form() {
 	//            a blog
 	// TODO - [ ] add feature where if you hit the back space, you can re-edit the previous tag/delete it
 	// TODO - [ ] add loading message when user makes edits to a blog
+	// TODO - [ ] maybe on the edit page, display the blog's current thumbnail image
 
 	function handleThumbnailUpload(event: ChangeEvent<HTMLInputElement>) {
 		if (event.target.files) {

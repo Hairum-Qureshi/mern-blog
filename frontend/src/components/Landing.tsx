@@ -7,13 +7,19 @@ import {
 	faTags,
 	faUser
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useBlogData from "../hooks/useBlogData";
 import { Blog } from "../interfaces";
 
 export default function Landing() {
 	const { userData } = useAuthContext()!;
-	const { blogs } = useBlogData();
+	const { blogs, totalPages } = useBlogData();
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const pageNumbers: string[] = [];
+	for (let i = 0; i < totalPages; i++) {
+		pageNumbers.push((i + 1).toString());
+	}
 
 	const navigate = useNavigate();
 	// ! When retrieving all the blogs, you'll need to do some pagination and you'll need to handle the case where there are no blogs. If there are no blogs posted, you'll get back '{ message: "no blogs" }'
@@ -30,7 +36,7 @@ export default function Landing() {
 	return userData && userData.message !== "user does not exist" ? (
 		<div className={landing_css.main}>
 			<h1>POSTED BLOGS</h1>
-			{/* <input type="text" placeholder="Search blog" /> */}
+			<input type="text" placeholder="Search blog by title, author, or tag" />
 			{blogs && blogs.length > 0
 				? blogs.map((blog: Blog) => {
 						return blog.published ? (
@@ -100,6 +106,51 @@ export default function Landing() {
 						) : null;
 				  })
 				: null}
+
+			<div className={landing_css.paginationButtonsContainer}>
+				<button
+					disabled={
+						!searchParams.get("page") || searchParams.get("page") === "0"
+					}
+					onClick={() =>
+						navigate(
+							`?page=${
+								Number(searchParams.get("page")) !== 0 ||
+								Number(searchParams.get("page")) !== totalPages
+									? Number(searchParams.get("page")) - 1
+									: Number(searchParams.get("page"))
+							}`
+						)
+					}
+				>
+					Prev
+				</button>
+				{pageNumbers.map((pageNumber: string) => {
+					return (
+						<button
+							onClick={() => navigate(`/?page=${pageNumber}`)}
+							key={pageNumber}
+						>
+							{pageNumber}
+						</button>
+					);
+				})}
+				<button
+					disabled={Number(searchParams.get("page")) === totalPages}
+					onClick={() =>
+						navigate(
+							`?page=${
+								Number(searchParams.get("page")) !== 0 ||
+								Number(searchParams.get("page")) !== totalPages
+									? Number(searchParams.get("page")) + 1
+									: Number(searchParams.get("page"))
+							}`
+						)
+					}
+				>
+					Next
+				</button>
+			</div>
 		</div>
 	) : (
 		<div className={landing_css.main}>User is not logged in</div>

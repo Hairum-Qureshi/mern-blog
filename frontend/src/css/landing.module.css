@@ -5,6 +5,11 @@
 	box-sizing: border-box;
 	min-height: 100vh;
 	max-height: inherit;
+	display: flex;
+	justify-content: center;
+	align-items: center; /* To center vertically */
+	flex-direction: column; /* To stack items vertically */
+	margin-top: -30px;
 }
 
 .main h1 {
@@ -15,10 +20,11 @@
 
 .main input[type="text"] {
 	width: 50%;
-	padding: 8px;
+	padding: 13px;
 	font-size: 16px;
 	outline: none;
 	border-radius: 5px;
+	margin-bottom: 25px;
 }
 
 .blogsContainer:nth-child(1) {
@@ -32,7 +38,6 @@
 .blogsContainer {
 	width: 70%;
 	box-sizing: border-box;
-	/* border: 2px solid white; */
 	height: inherit;
 	margin: 0 auto;
 	word-wrap: break-word;
@@ -166,4 +171,46 @@
 	button:active {
 	background-color: rgb(6, 78, 136);
 	transition: 0s;
+}
+
+.main .paginationButtonsContainer {
+	width: 50%;
+	box-sizing: border-box;
+	padding: 10px;
+	text-align: center;
+	margin-top: 150px;
+}
+
+.main .paginationButtonsContainer button:first-child {
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.main .paginationButtonsContainer button:last-child {
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.main .paginationButtonsContainer button {
+	padding: 5px;
+	text-align: center;
+	width: 50px;
+	font-size: 15px;
+	border: 2px solid rgb(20, 164, 236);
+	background-color: rgb(3, 98, 157);
+	color: white;
+	margin: -100px 0 100px 0;
+}
+
+.main .paginationButtonsContainer button:hover {
+	cursor: pointer;
+}
+
+.main .paginationButtonsContainer button:active {
+	background-color: rgb(20, 146, 224);
+}
+
+.main .paginationButtonsContainer button:disabled {
+	background-color: rgba(2, 72, 116, 0.5);
+	cursor: not-allowed;
 }
