@@ -17,7 +17,7 @@ export default function Landing() {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const pageNumbers: string[] = [];
-	for (let i = 0; i < totalPages; i++) {
+	for (let i = 0; i < totalPages - 1; i++) {
 		pageNumbers.push((i + 1).toString());
 	}
 
@@ -31,6 +31,7 @@ export default function Landing() {
 	// TODO - add a tag feature to the blog post form + collection
 	// TODO - need to implement pagination
 	// TODO - make it so that the newest blogs come first
+	// TODO - figure out how to implement logic to redirect user to the "/" route if "?page=0"
 	// ! FIX - the image's width for the blog thumbnails aren't the same for all images
 
 	return userData && userData.message !== "user does not exist" ? (
@@ -110,29 +111,13 @@ export default function Landing() {
 			<div className={landing_css.paginationButtonsContainer}>
 				<button
 					disabled={
-						!searchParams.get("page") || searchParams.get("page") === "0"
+						searchParams.get("page") === null ||
+						searchParams.get("page") === "0"
 					}
-					onClick={
-						() =>
-							navigate(
-								`?page=${Number(searchParams.get("page")) !== 0}` ||
-									Number(searchParams.get("page")) !== totalPages
-									? `${
-											Number(searchParams.get("page")) - 1
-												? `?page=${Number(searchParams.get("page")) - 1}`
-												: "/"
-									  }`
-									: `?page=${Number(searchParams.get("page"))}`
-							)
-						// navigate(
-						// 	`?page=${
-						// 		Number(searchParams.get("page")) !== 0 ||
-						// 		Number(searchParams.get("page")) !== totalPages
-						// 			? Number(searchParams.get("page")) - 1
-						// 			: Number(searchParams.get("page"))
-						// 	}`
-						// )
-					}
+					onClick={() => {
+						const currentPage = Number(searchParams.get("page"));
+						navigate(currentPage <= 1 ? "/" : `?page=${currentPage - 1}`);
+					}}
 				>
 					Prev
 				</button>
@@ -147,17 +132,10 @@ export default function Landing() {
 					);
 				})}
 				<button
-					disabled={Number(searchParams.get("page")) === totalPages}
-					onClick={() =>
-						navigate(
-							`?page=${
-								Number(searchParams.get("page")) !== 0 ||
-								Number(searchParams.get("page")) !== totalPages
-									? Number(searchParams.get("page")) + 1
-									: Number(searchParams.get("page"))
-							}`
-						)
-					}
+					disabled={Number(searchParams.get("page")) === totalPages - 1}
+					onClick={() => {
+						navigate(`?page=${Number(searchParams.get("page")) + 1}`);
+					}}
 				>
 					Next
 				</button>
