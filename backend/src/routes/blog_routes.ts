@@ -154,7 +154,8 @@ async function updateBlogData(
 		const updatedBlogData: Blog_Interface = (await Blog.findByIdAndUpdate(
 			{ _id: blog[0]._id },
 			{
-				blog_title: blog[0].title === blogTitle ? blog[0].title : blogTitle,
+				blog_title:
+					blog[0].blog_title === blogTitle ? blog[0].blog_title : blogTitle,
 				blog_summary:
 					blog[0].blog_summary === blogSummary
 						? blog[0].blog_summary
@@ -164,7 +165,7 @@ async function updateBlogData(
 						? blog[0].blog_content
 						: blogContent,
 				sanitized_title:
-					blog[0].title === blogTitle
+					blog[0].blog_title === blogTitle
 						? blog[0].sanitized_title
 						: slugify(blogTitle, {
 								lower: true,

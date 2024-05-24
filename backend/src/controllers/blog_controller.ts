@@ -35,7 +35,17 @@ const getAllUserBlogs = async (req: Request, res: Response) => {
 };
 
 const getAllBlogs = async (req: Request, res: Response) => {
-	const all_blogs: Blog_Interface[] | null = await Blog.find({});
+	const page: number = Number(req.query.page) || 0;
+	const blogsPerPage = 10;
+
+	const totalBlogs: number = await Blog.countDocuments({});
+	const totalPages: number = Math.ceil(totalBlogs / blogsPerPage);
+
+	const all_blogs = await Blog.find({})
+		.sort({ posted_date: -1 })
+		.skip(page * blogsPerPage)
+		.limit(blogsPerPage);
+
 	if (all_blogs && all_blogs.length > 0) {
 		res.status(200).json(all_blogs);
 	} else {
