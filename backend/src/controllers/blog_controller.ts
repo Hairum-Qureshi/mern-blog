@@ -41,15 +41,19 @@ const getAllBlogs = async (req: Request, res: Response) => {
 	const totalBlogs: number = await Blog.countDocuments({});
 	const totalPages: number = Math.ceil(totalBlogs / blogsPerPage);
 
-	const all_blogs = await Blog.find({})
-		.sort({ posted_date: -1 })
-		.skip(page * blogsPerPage)
-		.limit(blogsPerPage);
-
-	if (all_blogs && all_blogs.length > 0) {
-		res.status(200).json(all_blogs);
-	} else {
+	if (page < 0 || page > totalPages) {
 		res.status(404).json({ message: "no blogs" });
+	} else {
+		const all_blogs = await Blog.find({})
+			.sort({ posted_date: -1 })
+			.skip(page * blogsPerPage)
+			.limit(blogsPerPage);
+
+		if (all_blogs && all_blogs.length > 0) {
+			res.status(200).send({ all_blogs, totalPages });
+		} else {
+			res.status(404).json({ message: "no blogs" });
+		}
 	}
 };
 

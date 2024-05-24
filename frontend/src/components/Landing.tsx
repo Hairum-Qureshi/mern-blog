@@ -21,6 +21,9 @@ export default function Landing() {
 		pageNumbers.push((i + 1).toString());
 	}
 
+	console.log(blogs);
+	console.log(totalPages);
+
 	const navigate = useNavigate();
 	// ! When retrieving all the blogs, you'll need to do some pagination and you'll need to handle the case where there are no blogs. If there are no blogs posted, you'll get back '{ message: "no blogs" }'
 
@@ -31,7 +34,7 @@ export default function Landing() {
 	// TODO - add a tag feature to the blog post form + collection
 	// TODO - need to implement pagination
 	// TODO - make it so that the newest blogs come first
-	// TODO - figure out how to implement logic to redirect user to the "/" route if "?page=0"
+	// TODO - add color to the button representing the current page on the pagination
 	// ! FIX - the image's width for the blog thumbnails aren't the same for all images
 
 	return userData && userData.message !== "user does not exist" ? (
@@ -108,38 +111,40 @@ export default function Landing() {
 				  })
 				: null}
 
-			<div className={landing_css.paginationButtonsContainer}>
-				<button
-					disabled={
-						searchParams.get("page") === null ||
-						searchParams.get("page") === "0"
-					}
-					onClick={() => {
-						const currentPage = Number(searchParams.get("page"));
-						navigate(currentPage <= 1 ? "/" : `?page=${currentPage - 1}`);
-					}}
-				>
-					Prev
-				</button>
-				{pageNumbers.map((pageNumber: string) => {
-					return (
-						<button
-							onClick={() => navigate(`/?page=${pageNumber}`)}
-							key={pageNumber}
-						>
-							{pageNumber}
-						</button>
-					);
-				})}
-				<button
-					disabled={Number(searchParams.get("page")) === totalPages - 1}
-					onClick={() => {
-						navigate(`?page=${Number(searchParams.get("page")) + 1}`);
-					}}
-				>
-					Next
-				</button>
-			</div>
+			{totalPages > 1 ? (
+				<div className={landing_css.paginationButtonsContainer}>
+					<button
+						disabled={
+							searchParams.get("page") === null ||
+							searchParams.get("page") === "0"
+						}
+						onClick={() => {
+							const currentPage = Number(searchParams.get("page"));
+							navigate(currentPage <= 1 ? "/" : `?page=${currentPage - 1}`);
+						}}
+					>
+						Prev
+					</button>
+					{pageNumbers.map((pageNumber: string) => {
+						return (
+							<button
+								onClick={() => navigate(`/?page=${pageNumber}`)}
+								key={pageNumber}
+							>
+								{pageNumber}
+							</button>
+						);
+					})}
+					<button
+						disabled={Number(searchParams.get("page")) === totalPages - 1}
+						onClick={() => {
+							navigate(`?page=${Number(searchParams.get("page")) + 1}`);
+						}}
+					>
+						Next
+					</button>
+				</div>
+			) : null}
 		</div>
 	) : (
 		<div className={landing_css.main}>User is not logged in</div>

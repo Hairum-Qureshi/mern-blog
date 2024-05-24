@@ -35,3 +35,7 @@
 17. Style the blogs' delete and edit buttons
 
 18. Modify the logic to handle blog post notification emails where if a user X has blog post notifications enabled for user Y, but block user Y, remove user X's email from user Y's array containing notification subscribers and vice versa if user Y blocks user X.
+
+19. Consider if you want to allow non-logged in users from viewing user profiles. If yes, fix the logic so that unauthenticated users can view user profiles and the blogs listed on the landing page. If not, fix the logic so that you're unable to view the blog if unauthenticated. If you take this route, you will also need to update the email text notification message (in blog_routes.ts) to let the user know that they may also be redirected to a 404 page if they're not logged in.
+
+20. Add a new property to the user model called "isAdmin" and set it to false by default. Implement logic where if you are an admin, you're allowed to delete a user's posts. However, when the admin goes to delete a blog post or account, they're prompted to send an email to that user where they need to add an explanation as to why their blog/account has been deleted.

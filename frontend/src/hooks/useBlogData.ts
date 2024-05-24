@@ -17,8 +17,7 @@ export default function useBlogData(): BlogTools {
 				)
 				.then(response => {
 					setBlogs(response.data.all_blogs);
-					console.log(response.data.all_blogs);
-					setTotalPages(response.data.totalBlogs);
+					setTotalPages(response.data.totalPages);
 				})
 				.catch(error => console.log(error));
 		}
