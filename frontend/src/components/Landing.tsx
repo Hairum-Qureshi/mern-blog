@@ -112,15 +112,26 @@ export default function Landing() {
 					disabled={
 						!searchParams.get("page") || searchParams.get("page") === "0"
 					}
-					onClick={() =>
-						navigate(
-							`?page=${
-								Number(searchParams.get("page")) !== 0 ||
-								Number(searchParams.get("page")) !== totalPages
-									? Number(searchParams.get("page")) - 1
-									: Number(searchParams.get("page"))
-							}`
-						)
+					onClick={
+						() =>
+							navigate(
+								`?page=${Number(searchParams.get("page")) !== 0}` ||
+									Number(searchParams.get("page")) !== totalPages
+									? `${
+											Number(searchParams.get("page")) - 1
+												? `?page=${Number(searchParams.get("page")) - 1}`
+												: "/"
+									  }`
+									: `?page=${Number(searchParams.get("page"))}`
+							)
+						// navigate(
+						// 	`?page=${
+						// 		Number(searchParams.get("page")) !== 0 ||
+						// 		Number(searchParams.get("page")) !== totalPages
+						// 			? Number(searchParams.get("page")) - 1
+						// 			: Number(searchParams.get("page"))
+						// 	}`
+						// )
 					}
 				>
 					Prev
