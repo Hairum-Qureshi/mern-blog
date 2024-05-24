@@ -70,17 +70,19 @@ export default function Form() {
 		}, 1000);
 	}
 
+	function createAlert(symbol: string, message: string) {
+		setShowPopUp(true);
+		setPopUpData({ symbol, message });
+		resetPopUpState();
+	}
+
 	function createTag(e: React.KeyboardEvent<HTMLInputElement>) {
 		const inputElement = e.target as HTMLInputElement;
 		if (e.key === "Enter") {
 			if (!inputElement.value.trim()) {
-				setShowPopUp(true);
-				setPopUpData({ symbol: "⚠️", message: "Please enter a tag" });
-				resetPopUpState();
+				createAlert("⚠️", "Please enter a tag");
 			} else if (blogTags.includes(inputElement.value.trim())) {
-				setShowPopUp(true);
-				setPopUpData({ symbol: "⚠️", message: "No duplicate tags" });
-				resetPopUpState();
+				createAlert("⚠️", "No duplicate tags");
 			} else {
 				setBlogTags([
 					...blogTags,
@@ -115,32 +117,24 @@ export default function Form() {
 		switch (mode) {
 			case "post":
 				if (!blogSummary || !blogContent || thumbnail === undefined) {
-					setShowPopUp(true);
-					setPopUpData({
-						symbol: "⚠️",
-						message: "Please fill in the required fields"
-					});
-					resetPopUpState();
+					createAlert(
+						"⚠️",
+						"Please make sure all required fields are filled in"
+					);
 				} else if (blogTags.length < 1) {
-					setShowPopUp(true);
-					setPopUpData({ symbol: "⚠️", message: "Please add at least 1 tag" });
-					resetPopUpState();
+					createAlert("⚠️", "Please add at least 1 tag");
 				} else {
 					postBlog(blogTitle, blogSummary, thumbnail, blogContent, blogTags);
 				}
 				break;
 			case "edit":
 				if (!blogSummary || !blogContent) {
-					setShowPopUp(true);
-					setPopUpData({
-						symbol: "⚠️",
-						message: "Please fill in the required fields"
-					});
-					resetPopUpState();
+					createAlert(
+						"⚠️",
+						"Please make sure all required fields are filled in"
+					);
 				} else if (blogTags.length < 1) {
-					setShowPopUp(true);
-					setPopUpData({ symbol: "⚠️", message: "Please add at least 1 tag" });
-					resetPopUpState();
+					createAlert("⚠️", "Please add at least 1 tag");
 				} else {
 					editBlog(
 						blogTitle,
