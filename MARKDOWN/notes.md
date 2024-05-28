@@ -4,7 +4,7 @@
 
 ## Nodemailer:
 
-## Font Awesome installation:
+## Font Awesome installation (make sure you're in the frontend folder):
 
     -> https://docs.fontawesome.com/web/use-with/react
 
