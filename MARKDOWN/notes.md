@@ -28,7 +28,7 @@
 
 - Make sure that your axios request in the frontend is a GET request
 
-# Accessing `req.session.user_id` when the user is signed in
+## Accessing `req.session.user_id` when the user is signed in
 
 - If you're doing a POST request, make sure you have `{ withCredentials: true }`in the axios frontend code because otherwise, `req.session.user_id` will be undefined
 
